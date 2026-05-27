@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://rw_codingbot"]
+
+[ext_resource type="Script" path="res://scripts/npcs/CodingBot.gd" id="1_codingbot"]
+
+; ──────────────────────────────────────────────────────────────
+; Coding Bot NPC
+; A StaticBody2D — it doesn't move, but the player can collide
+; with it and interact with it.
+; ──────────────────────────────────────────────────────────────
+
+[node name="CodingBot" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_codingbot")
+
+; The NPC's body blocks the player from walking through
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = CapsuleShape2D.new()
+
+; Visual placeholder — a colored rectangle representing the NPC
+; Replace this with a real sprite later!
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = PlaceholderTexture2D.new()
+modulate = Color(0.4, 0.8, 1.0, 1)
+
+; Name tag floating above the NPC
+[node name="NameLabel" type="Label" parent="."]
+position = Vector2(-50, -56)
+custom_minimum_size = Vector2(100, 0)
+text = "Coding Bot"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+modulate = Color(0.8, 1.0, 1.0, 1)
+
+; Exclamation mark — shows when the NPC has a mission available
+[node name="QuestMarker" type="Label" parent="."]
+position = Vector2(-6, -72)
+text = "❓"
+theme_override_font_sizes/font_size = 20
+
+; Interact area — the player detects this to know they're near an NPC
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+monitoring = true
+monitorable = true
+
+[node name="InteractCollision" type="CollisionShape2D" parent="InteractArea"]
+shape = CircleShape2D.new()

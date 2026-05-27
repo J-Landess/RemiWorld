@@ -1,0 +1,123 @@
+[gd_scene load_steps=6 format=3 uid="uid://rw_startarea"]
+
+[ext_resource type="Script" path="res://scripts/systems/game_state/StartAreaManager.gd" id="1_manager"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/CodingBot.tscn" id="3_codingbot"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/ShopkeeperRose.tscn" id="4_rose"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="5_hud"]
+
+; ──────────────────────────────────────────────────────────────
+; Remi's Start Area — Version 1.1
+;
+; Layout:
+;   - Simple grass/ground area (placeholder colors)
+;   - Boundary walls so the player can't walk off-screen
+;   - A spawn point where the player starts
+;   - Coding Bot NPC near the top-left
+;   - Shopkeeper Rose NPC near the top-right
+;   - HUD for all in-game UI
+; ──────────────────────────────────────────────────────────────
+
+[node name="StartArea" type="Node2D"]
+script = ExtResource("1_manager")
+
+; ── BACKGROUND & GROUND ─────────────────────────────────────────
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="GrassBase" type="ColorRect" parent="Ground"]
+position = Vector2(-800, -450)
+size = Vector2(1600, 900)
+color = Color(0.35, 0.65, 0.25, 1)
+
+[node name="PathStrip" type="ColorRect" parent="Ground"]
+position = Vector2(-40, -450)
+size = Vector2(80, 900)
+color = Color(0.55, 0.45, 0.30, 1)
+
+[node name="SchoolBuilding" type="ColorRect" parent="Ground"]
+position = Vector2(-300, -440)
+size = Vector2(200, 180)
+color = Color(0.85, 0.80, 0.65, 1)
+
+[node name="SchoolLabel" type="Label" parent="Ground"]
+position = Vector2(-290, -380)
+text = "🏫 School"
+theme_override_font_sizes/font_size = 14
+
+[node name="TreeLeft" type="Label" parent="Ground"]
+position = Vector2(-700, -300)
+text = "🌳"
+theme_override_font_sizes/font_size = 64
+
+[node name="TreeRight" type="Label" parent="Ground"]
+position = Vector2(600, -250)
+text = "🌳"
+theme_override_font_sizes/font_size = 64
+
+[node name="FlowerPatch" type="Label" parent="Ground"]
+position = Vector2(200, 100)
+text = "🌸🌺🌸"
+theme_override_font_sizes/font_size = 24
+
+[node name="AreaTitle" type="Label" parent="Ground"]
+position = Vector2(-180, -430)
+text = "✨ Remi's Start Area ✨"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+modulate = Color(1.0, 1.0, 0.6, 1)
+
+; ── BOUNDARY WALLS ───────────────────────────────────────────────
+; These invisible walls stop the player from walking off the edge.
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, -460)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallTop"]
+shape = WorldBoundaryShape2D.new()
+
+[node name="WallLeft" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(-810, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallLeft"]
+shape = WorldBoundaryShape2D.new()
+
+[node name="WallRight" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(810, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
+shape = WorldBoundaryShape2D.new()
+
+[node name="WallBottom" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, 460)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallBottom"]
+shape = WorldBoundaryShape2D.new()
+
+; ── NPCS ─────────────────────────────────────────────────────────
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="CodingBot" type="StaticBody2D" parent="NPCs"]
+position = Vector2(-200, -180)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ShopkeeperRose" type="StaticBody2D" parent="NPCs"]
+position = Vector2(200, -180)
+collision_layer = 4
+collision_mask = 0
+
+; ── PLAYER SPAWN ─────────────────────────────────────────────────
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(0, 100)
+
+; ── HUD ──────────────────────────────────────────────────────────
+[node name="HUD" type="CanvasLayer" parent="."]

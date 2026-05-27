@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#2D1B6B"/>
+  <!-- Star shape for Remi's World icon -->
+  <polygon points="64,20 74,50 106,50 80,68 90,98 64,80 38,98 48,68 22,50 54,50"
+           fill="#FFD700" stroke="#FF9800" stroke-width="2"/>
+  <!-- Letter R in center -->
+  <text x="64" y="75" font-family="Arial, sans-serif" font-size="28"
+        font-weight="bold" fill="#2D1B6B" text-anchor="middle">RW</text>
+</svg>

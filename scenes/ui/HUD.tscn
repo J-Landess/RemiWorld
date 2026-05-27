@@ -1,0 +1,596 @@
+[gd_scene load_steps=8 format=3 uid="uid://rw_hud"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/ui/DialogueBox.gd" id="2_dialogue"]
+[ext_resource type="Script" path="res://scripts/ui/BackpackUI.gd" id="3_backpack"]
+[ext_resource type="Script" path="res://scripts/ui/StoreUI.gd" id="4_store"]
+[ext_resource type="Script" path="res://scripts/ui/AvatarCloset.gd" id="5_closet"]
+[ext_resource type="Script" path="res://scripts/ui/RewardPopup.gd" id="6_reward"]
+[ext_resource type="Script" path="res://scripts/ui/PuzzlePanel.gd" id="7_puzzle"]
+[ext_resource type="Script" path="res://scripts/ui/PauseMenu.gd" id="8_pause"]
+
+; ──────────────────────────────────────────────────────────────
+; HUD - Heads Up Display
+; A CanvasLayer sits "above" the game world — UI drawn here is
+; always visible regardless of camera position.
+; ──────────────────────────────────────────────────────────────
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+; ── TOP BAR ───────────────────────────────────────────────────
+[node name="TopBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_right = 0.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 1
+theme_override_constants/separation = 16
+
+[node name="PlayerNameLabel" type="Label" parent="TopBar"]
+layout_mode = 2
+text = "Remi"
+theme_override_font_sizes/font_size = 16
+vertical_alignment = 1
+modulate = Color(1.0, 1.0, 0.7, 1)
+
+[node name="Spacer" type="Control" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TokenLabel" type="Label" parent="TopBar"]
+layout_mode = 2
+text = "⭐ 0 VIBE"
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+modulate = Color(1.0, 0.9, 0.2, 1)
+
+[node name="LevelLabel" type="Label" parent="TopBar"]
+layout_mode = 2
+text = "Lv.1"
+theme_override_font_sizes/font_size = 16
+vertical_alignment = 1
+modulate = Color(0.7, 1.0, 0.7, 1)
+
+[node name="XPBar" type="ProgressBar" parent="TopBar"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 20)
+value = 0
+size_flags_vertical = 4
+
+; ── DIALOGUE BOX (at bottom of screen) ─────────────────────────
+[node name="DialogueBox" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+visible = false
+script = ExtResource("2_dialogue")
+
+[node name="Panel" type="PanelContainer" parent="DialogueBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = StyleBoxFlat.new()
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueBox/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SpeakerLabel" type="Label" parent="DialogueBox/Panel/VBoxContainer"]
+layout_mode = 2
+text = "NPC Name"
+theme_override_font_sizes/font_size = 16
+modulate = Color(1.0, 0.9, 0.3, 1)
+
+[node name="TextLabel" type="RichTextLabel" parent="DialogueBox/Panel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+bbcode_enabled = true
+fit_content = true
+theme_override_font_sizes/normal_font_size = 16
+
+[node name="ContinueLabel" type="Label" parent="DialogueBox/Panel/VBoxContainer"]
+layout_mode = 2
+text = "[ Press Space or Click to continue ]"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 12
+modulate = Color(0.7, 0.7, 0.7, 1)
+visible = false
+
+; ── BACKPACK UI ────────────────────────────────────────────────
+[node name="BackpackUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("3_backpack")
+
+[node name="Panel" type="PanelContainer" parent="BackpackUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -280.0
+offset_right = 380.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BackpackUI/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TopBar" type="HBoxContainer" parent="BackpackUI/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackpackTitle" type="Label" parent="BackpackUI/Panel/VBoxContainer/TopBar"]
+layout_mode = 2
+text = "🎒 Backpack"
+theme_override_font_sizes/font_size = 24
+size_flags_horizontal = 3
+modulate = Color(1.0, 0.9, 0.3, 1)
+
+[node name="TokenDisplay" type="Label" parent="BackpackUI/Panel/VBoxContainer/TopBar"]
+layout_mode = 2
+text = "⭐ 0 VIBE"
+theme_override_font_sizes/font_size = 16
+vertical_alignment = 1
+modulate = Color(1.0, 0.85, 0.0, 1)
+
+[node name="CloseButton" type="Button" parent="BackpackUI/Panel/VBoxContainer/TopBar"]
+layout_mode = 2
+text = "✕"
+custom_minimum_size = Vector2(40, 40)
+theme_override_font_sizes/font_size = 18
+
+[node name="TabContainer" type="TabContainer" parent="BackpackUI/Panel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 400)
+size_flags_vertical = 3
+
+[node name="Tokens" type="ScrollContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="NFTs" type="ScrollContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="Clothes" type="ScrollContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="ItemGrid" type="GridContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer/Clothes"]
+layout_mode = 2
+columns = 4
+
+[node name="Accessories" type="ScrollContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="Quest Items" type="ScrollContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="Badges" type="ScrollContainer" parent="BackpackUI/Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+; ── STORE UI ────────────────────────────────────────────────────
+[node name="StoreUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("4_store")
+
+[node name="Panel" type="PanelContainer" parent="StoreUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -290.0
+offset_right = 400.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StoreUI/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TopBar" type="HBoxContainer" parent="StoreUI/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="StoreTitle" type="Label" parent="StoreUI/Panel/VBoxContainer/TopBar"]
+layout_mode = 2
+text = "🛍️ Rose's Shop"
+theme_override_font_sizes/font_size = 26
+size_flags_horizontal = 3
+modulate = Color(1.0, 0.8, 0.9, 1)
+
+[node name="TokenLabel" type="Label" parent="StoreUI/Panel/VBoxContainer/TopBar"]
+layout_mode = 2
+text = "⭐ 0 VIBE"
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+modulate = Color(1.0, 0.85, 0.0, 1)
+
+[node name="CloseButton" type="Button" parent="StoreUI/Panel/VBoxContainer/TopBar"]
+layout_mode = 2
+text = "✕"
+custom_minimum_size = Vector2(40, 40)
+theme_override_font_sizes/font_size = 18
+
+[node name="ScrollContainer" type="ScrollContainer" parent="StoreUI/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 380)
+
+[node name="ItemsGrid" type="GridContainer" parent="StoreUI/Panel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+columns = 4
+
+[node name="StatusLabel" type="Label" parent="StoreUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="BottomBar" type="HBoxContainer" parent="StoreUI/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="OpenClosetButton" type="Button" parent="StoreUI/Panel/VBoxContainer/BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "👗 Open Avatar Closet"
+theme_override_font_sizes/font_size = 16
+
+; ── AVATAR CLOSET UI ───────────────────────────────────────────
+[node name="AvatarCloset" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("5_closet")
+
+[node name="Panel" type="PanelContainer" parent="AvatarCloset"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -430.0
+offset_top = -290.0
+offset_right = 430.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AvatarCloset/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LeftPanel" type="VBoxContainer" parent="AvatarCloset/Panel/HBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 0)
+size_flags_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="PreviewTitle" type="Label" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel"]
+layout_mode = 2
+text = "Avatar Preview"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="AvatarPreview" type="Control" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 240)
+
+[node name="BodyRect" type="ColorRect" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel/AvatarPreview"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -50.0
+offset_right = 35.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.6, 0.35, 1)
+
+[node name="HeadRect" type="ColorRect" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel/AvatarPreview"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -100.0
+offset_right = 28.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.6, 0.35, 1)
+
+[node name="OutfitRect" type="ColorRect" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel/AvatarPreview"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -40.0
+offset_right = 32.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.5, 0.9, 1)
+
+[node name="SkinToneTitle" type="Label" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel"]
+layout_mode = 2
+text = "Skin Tone:"
+theme_override_font_sizes/font_size = 13
+
+[node name="SkinToneRow" type="HBoxContainer" parent="AvatarCloset/Panel/HBoxContainer/LeftPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="RightPanel" type="VBoxContainer" parent="AvatarCloset/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="TopBar" type="HBoxContainer" parent="AvatarCloset/Panel/HBoxContainer/RightPanel"]
+layout_mode = 2
+
+[node name="ClosetTitle" type="Label" parent="AvatarCloset/Panel/HBoxContainer/RightPanel/TopBar"]
+layout_mode = 2
+text = "👗 Avatar Closet"
+theme_override_font_sizes/font_size = 24
+size_flags_horizontal = 3
+modulate = Color(1.0, 0.8, 1.0, 1)
+
+[node name="CloseButton" type="Button" parent="AvatarCloset/Panel/HBoxContainer/RightPanel/TopBar"]
+layout_mode = 2
+text = "✕"
+custom_minimum_size = Vector2(40, 40)
+theme_override_font_sizes/font_size = 18
+
+[node name="TabContainer" type="TabContainer" parent="AvatarCloset/Panel/HBoxContainer/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Outfits" type="ScrollContainer" parent="AvatarCloset/Panel/HBoxContainer/RightPanel/TabContainer"]
+layout_mode = 2
+
+[node name="ItemGrid" type="GridContainer" parent="AvatarCloset/Panel/HBoxContainer/RightPanel/TabContainer/Outfits"]
+layout_mode = 2
+columns = 3
+
+[node name="Accessories" type="ScrollContainer" parent="AvatarCloset/Panel/HBoxContainer/RightPanel/TabContainer"]
+layout_mode = 2
+
+[node name="ItemGrid" type="GridContainer" parent="AvatarCloset/Panel/HBoxContainer/RightPanel/TabContainer/Accessories"]
+layout_mode = 2
+columns = 3
+
+[node name="StatusLabel" type="Label" parent="AvatarCloset/Panel/HBoxContainer/RightPanel"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+modulate = Color(0.5, 1.0, 0.5, 1)
+
+; ── REWARD POPUP ────────────────────────────────────────────────
+[node name="RewardPopup" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -160.0
+offset_right = 180.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+script = ExtResource("6_reward")
+
+[node name="Panel" type="PanelContainer" parent="RewardPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RewardPopup/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="RewardPopup/Panel/VBoxContainer"]
+layout_mode = 2
+text = "🎉 Reward Earned!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+modulate = Color(1.0, 0.9, 0.2, 1)
+
+[node name="RewardLabel" type="Label" parent="RewardPopup/Panel/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+
+[node name="CloseButton" type="Button" parent="RewardPopup/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Awesome! ✨"
+custom_minimum_size = Vector2(0, 44)
+theme_override_font_sizes/font_size = 16
+
+; ── PUZZLE PANEL ────────────────────────────────────────────────
+[node name="PuzzlePanel" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -260.0
+offset_right = 280.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+script = ExtResource("7_puzzle")
+
+[node name="Panel" type="PanelContainer" parent="PuzzlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PuzzlePanel/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="PuzzleTitle" type="Label" parent="PuzzlePanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = "🧩 Logic Puzzle"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+modulate = Color(0.8, 0.9, 1.0, 1)
+
+[node name="QuestionLabel" type="Label" parent="PuzzlePanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = "What comes next?"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="PatternLabel" type="Label" parent="PuzzlePanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+modulate = Color(1.0, 0.9, 0.3, 1)
+
+[node name="ChoicesContainer" type="VBoxContainer" parent="PuzzlePanel/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="FeedbackLabel" type="Label" parent="PuzzlePanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+visible = false
+
+[node name="CloseButton" type="Button" parent="PuzzlePanel/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Continue"
+custom_minimum_size = Vector2(0, 44)
+theme_override_font_sizes/font_size = 16
+visible = false
+
+; ── PAUSE MENU ──────────────────────────────────────────────────
+[node name="PauseMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("8_pause")
+
+[node name="Backdrop" type="ColorRect" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/CenterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 0)
+theme_override_constants/separation = 14
+
+[node name="PauseTitle" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "⏸ Paused"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 36
+modulate = Color(1.0, 1.0, 0.7, 1)
+
+[node name="BtnResume" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 52)
+text = "▶ Resume"
+theme_override_font_sizes/font_size = 20
+
+[node name="BtnBackpack" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "🎒 Backpack"
+theme_override_font_sizes/font_size = 18
+
+[node name="BtnCloset" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "👗 Avatar Closet"
+theme_override_font_sizes/font_size = 18
+
+[node name="BtnSave" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "💾 Save Game"
+theme_override_font_sizes/font_size = 18
+
+[node name="SaveLabel" type="Label" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+modulate = Color(0.5, 1.0, 0.5, 1)
+
+[node name="BtnSettings" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "⚙️ Settings"
+theme_override_font_sizes/font_size = 16
+
+[node name="BtnMainMenu" type="Button" parent="PauseMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "🏠 Main Menu"
+theme_override_font_sizes/font_size = 16
+modulate = Color(0.8, 0.8, 0.8, 1)

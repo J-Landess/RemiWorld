@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3 uid="uid://rw_welcome"]
+
+[ext_resource type="Script" path="res://scripts/ui/WelcomeScreen.gd" id="1_welcome"]
+
+[node name="WelcomeScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_welcome")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.15, 0.35, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(500, 0)
+theme_override_constants/separation = 20
+
+[node name="EmojiLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "🌟"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 72
+
+[node name="WelcomeLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Welcome to Remi's World!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 42
+modulate = Color(1.0, 0.9, 0.3, 1)
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "A magical place where learning is an adventure!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+modulate = Color(0.85, 0.85, 1.0, 1)
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="NameContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="NameLabel" type="Label" parent="CenterContainer/VBoxContainer/NameContainer"]
+layout_mode = 2
+text = "Your name:"
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+
+[node name="PlayerNameField" type="LineEdit" parent="CenterContainer/VBoxContainer/NameContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 44)
+placeholder_text = "Enter your name..."
+theme_override_font_sizes/font_size = 18
+
+[node name="BtnEnterWorld" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 65)
+text = "🚀  Enter the World!"
+theme_override_font_sizes/font_size = 24
+
+[node name="TipLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "💡 Tip: Press E to talk to characters!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+modulate = Color(0.7, 1.0, 0.7, 1)
+autowrap_mode = 3
+
+[node name="BtnBack" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+text = "← Back to Menu"
+theme_override_font_sizes/font_size = 16
+modulate = Color(0.7, 0.7, 0.7, 1)

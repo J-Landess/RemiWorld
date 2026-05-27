@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://rw_player"]
+
+[ext_resource type="Script" path="res://scripts/player/Player.gd" id="1_player"]
+
+; ──────────────────────────────────────────────────────────────
+; Player Scene
+; The player is a CharacterBody2D — this lets Godot handle
+; collision detection automatically with move_and_slide().
+; ──────────────────────────────────────────────────────────────
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+; The collision shape defines the player's physical hitbox.
+; It's a small capsule at the player's feet.
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = CapsuleShape2D.new()
+
+; AnimatedSprite2D holds all of the player's animations.
+; For now it uses a placeholder colored rectangle.
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
+
+; The camera follows the player around the level.
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.0, 2.0)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+; InteractArea detects nearby NPCs and objects.
+; When the player presses E, we interact with what's in this area.
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="InteractCollision" type="CollisionShape2D" parent="InteractArea"]
+shape = CircleShape2D.new()
+
+; Shows "Press E to talk" when near an NPC
+[node name="InteractionLabel" type="Label" parent="."]
+position = Vector2(-40, -48)
+text = "[E] Talk"
+theme_override_font_sizes/font_size = 12
+modulate = Color(1, 1, 0.5, 1)
+visible = false
