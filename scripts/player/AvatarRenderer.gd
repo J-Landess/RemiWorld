@@ -5,10 +5,10 @@
 ##   1. AvatarCreation screen — live preview as you customise
 ##   2. In-game Player node — so the avatar you built appears in the world
 ##
-## The character is drawn from the node's local origin (0, 0),
-## which sits at roughly the character's centre-waist.
-## All measurements are in pixels.
+## class_name lets AvatarCreation.gd reference AvatarRenderer.OUTFIT_COLORS
+## without loading or instantiating this file first.
 ## =============================================================
+class_name AvatarRenderer
 extends Node2D
 
 # ─────────────────────────────────────────────────────────────

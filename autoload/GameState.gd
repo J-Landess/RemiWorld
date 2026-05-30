@@ -16,7 +16,6 @@ extends Node
 # ─────────────────────────────────────────────────────────────
 signal tokens_changed(new_amount: int)
 signal xp_changed(new_xp: int, new_level: int)
-signal player_name_changed(new_name: String)
 signal game_state_ready()
 
 # ─────────────────────────────────────────────────────────────

@@ -110,11 +110,11 @@ func grant_nft(nft: Dictionary) -> void:
 # PRE-DEFINED ITEM/NFT CREATORS
 # These are convenience functions to build common reward objects.
 # ─────────────────────────────────────────────────────────────
-func make_nft(nft_id: String, name: String, description: String,
+func make_nft(nft_id: String, display_name: String, description: String,
 		rarity: String, discovered_from: String, token_value: int = 5) -> Dictionary:
 	return {
 		"nft_id": nft_id,
-		"name": name,
+		"name": display_name,
 		"description": description,
 		"rarity": rarity,
 		"image_path": "res://assets/icons/nfts/%s.png" % nft_id,
@@ -125,12 +125,12 @@ func make_nft(nft_id: String, name: String, description: String,
 	}
 
 
-func make_item(item_id: String, name: String, description: String,
+func make_item(item_id: String, display_name: String, description: String,
 		category: String, rarity: String = "common",
 		token_value: int = 0, is_equippable: bool = false) -> Dictionary:
 	return {
 		"item_id": item_id,
-		"name": name,
+		"name": display_name,
 		"description": description,
 		"category": category,
 		"rarity": rarity,

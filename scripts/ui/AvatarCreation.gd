@@ -52,25 +52,25 @@ const HAIR_STYLES: Array = [
 ]
 
 const OUTFIT_OPTIONS: Array = [
-	{"name": "Blue",   "color_id": "blue"},
-	{"name": "Red",    "color_id": "red"},
-	{"name": "Green",  "color_id": "green"},
-	{"name": "Yellow", "color_id": "yellow"},
-	{"name": "Purple", "color_id": "purple"},
-	{"name": "Pink",   "color_id": "pink"},
-	{"name": "Teal",   "color_id": "teal"},
-	{"name": "Orange", "color_id": "orange"},
-	{"name": "White",  "color_id": "white"},
-	{"name": "Black",  "color_id": "black"},
+	{"name": "Blue",   "color_id": "blue",   "color": Color(0.25, 0.45, 0.85)},
+	{"name": "Red",    "color_id": "red",    "color": Color(0.85, 0.22, 0.28)},
+	{"name": "Green",  "color_id": "green",  "color": Color(0.22, 0.70, 0.32)},
+	{"name": "Yellow", "color_id": "yellow", "color": Color(0.90, 0.75, 0.15)},
+	{"name": "Purple", "color_id": "purple", "color": Color(0.60, 0.22, 0.75)},
+	{"name": "Pink",   "color_id": "pink",   "color": Color(0.95, 0.45, 0.70)},
+	{"name": "Teal",   "color_id": "teal",   "color": Color(0.15, 0.65, 0.65)},
+	{"name": "Orange", "color_id": "orange", "color": Color(0.95, 0.50, 0.15)},
+	{"name": "White",  "color_id": "white",  "color": Color(0.92, 0.92, 0.92)},
+	{"name": "Black",  "color_id": "black",  "color": Color(0.18, 0.18, 0.18)},
 ]
 
 const SHOE_OPTIONS: Array = [
-	{"name": "Black",  "color_id": "black"},
-	{"name": "White",  "color_id": "white"},
-	{"name": "Red",    "color_id": "red"},
-	{"name": "Blue",   "color_id": "blue"},
-	{"name": "Pink",   "color_id": "pink"},
-	{"name": "Brown",  "color_id": "orange"},
+	{"name": "Black",  "color_id": "black",  "color": Color(0.18, 0.18, 0.18)},
+	{"name": "White",  "color_id": "white",  "color": Color(0.92, 0.92, 0.92)},
+	{"name": "Red",    "color_id": "red",    "color": Color(0.85, 0.22, 0.28)},
+	{"name": "Blue",   "color_id": "blue",   "color": Color(0.25, 0.45, 0.85)},
+	{"name": "Pink",   "color_id": "pink",   "color": Color(0.95, 0.45, 0.70)},
+	{"name": "Brown",  "color_id": "orange", "color": Color(0.55, 0.30, 0.10)},
 ]
 
 # ─────────────────────────────────────────────────────────────
@@ -174,11 +174,11 @@ func _build_ui() -> void:
 	scroll.add_child(options_vbox)
 
 	# Build each section
-	_add_section(options_vbox, "🎨 Skin Tone",    SKIN_OPTIONS,       _build_color_swatch.bind(true),  "_on_skin_selected")
-	_add_section(options_vbox, "💇 Hair Style",   HAIR_STYLES,        _build_text_button,              "_on_hair_style_selected")
-	_add_section(options_vbox, "🎨 Hair Colour",  HAIR_COLOR_OPTIONS, _build_color_swatch.bind(false), "_on_hair_color_selected")
-	_add_section(options_vbox, "👕 Outfit Colour",OUTFIT_OPTIONS,     _build_color_swatch.bind(false), "_on_outfit_selected")
-	_add_section(options_vbox, "👟 Shoe Colour",  SHOE_OPTIONS,       _build_color_swatch.bind(false), "_on_shoe_selected")
+	_add_section(options_vbox, "🎨 Skin Tone",     SKIN_OPTIONS,       _build_color_swatch, "_on_skin_selected")
+	_add_section(options_vbox, "💇 Hair Style",    HAIR_STYLES,        _build_text_button,  "_on_hair_style_selected")
+	_add_section(options_vbox, "🎨 Hair Colour",   HAIR_COLOR_OPTIONS, _build_color_swatch, "_on_hair_color_selected")
+	_add_section(options_vbox, "👕 Outfit Colour", OUTFIT_OPTIONS,     _build_color_swatch, "_on_outfit_selected")
+	_add_section(options_vbox, "👟 Shoe Colour",   SHOE_OPTIONS,       _build_color_swatch, "_on_shoe_selected")
 
 	# ── BOTTOM BUTTONS ──────────────────────────────────────
 	var bottom := HBoxContainer.new()
@@ -235,20 +235,18 @@ func _add_section(parent: Control, label_text: String, options: Array,
 		flow.add_child(btn)
 
 
-func _build_color_swatch(_is_skin: bool, option: Dictionary) -> Button:
+func _build_color_swatch(option: Dictionary) -> Button:
 	var btn := Button.new()
 	btn.custom_minimum_size = Vector2(38, 38)
 	btn.tooltip_text = option.get("name", "")
-	# Colour the button face using modulate
-	var hex_or_id = option.get("hex", option.get("color_id", ""))
-	if hex_or_id is Color:
-		btn.modulate = hex_or_id
-	elif option.has("color"):
+	# Every option now has either "color" (Color) or "hex" (String).
+	# No cross-script lookup needed.
+	if option.has("color"):
 		btn.modulate = option["color"]
-	elif hex_or_id is String and (hex_or_id as String).is_valid_html_color():
-		btn.modulate = Color(hex_or_id)
-	elif hex_or_id is String and hex_or_id in AvatarRenderer.OUTFIT_COLORS:
-		btn.modulate = AvatarRenderer.OUTFIT_COLORS[hex_or_id]
+	elif option.has("hex"):
+		var hex: String = option["hex"]
+		if hex.is_valid_html_color():
+			btn.modulate = Color(hex)
 	return btn
 
 
