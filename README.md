@@ -113,19 +113,19 @@ RemiWorld/
 
 ```
 GameState  ←──── stores player data (tokens, XP, name)
-    │
-    ├── SaveManager   ←── reads/writes all managers to JSON
-    ├── InventoryManager ←── manages items and NFT collectibles
-    ├── MissionManager   ←── tracks mission status
-    ├── RewardManager    ←── grants tokens/XP/items to player
-    └── AvatarManager    ←── stores avatar customization config
+	│
+	├── SaveManager   ←── reads/writes all managers to JSON
+	├── InventoryManager ←── manages items and NFT collectibles
+	├── MissionManager   ←── tracks mission status
+	├── RewardManager    ←── grants tokens/XP/items to player
+	└── AvatarManager    ←── stores avatar customization config
 
 Player → presses E near NPC → NPC.on_player_interact()
-       → MissionManager.start_mission()
-       → PuzzlePanel.show_puzzle()
-       → Player answers → RewardManager.grant_reward()
-       → InventoryManager.add_item() + add_nft()
-       → SaveManager.save_game()
+	   → MissionManager.start_mission()
+	   → PuzzlePanel.show_puzzle()
+	   → Player answers → RewardManager.grant_reward()
+	   → InventoryManager.add_item() + add_nft()
+	   → SaveManager.save_game()
 ```
 
 ---

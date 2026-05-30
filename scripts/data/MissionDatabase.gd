@@ -6,8 +6,12 @@
 ##
 ## Usage:
 ##   var mission = MissionDatabase.get_mission("pattern_power")
+##
+## class_name lets any script call MissionDatabase.get_mission()
+## without needing to load or instantiate this file first.
 ## =============================================================
-extends Node
+class_name MissionDatabase
+extends RefCounted
 
 # ─────────────────────────────────────────────────────────────
 # ALL MISSIONS

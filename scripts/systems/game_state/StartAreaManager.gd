@@ -82,7 +82,7 @@ func _spawn_npcs() -> void:
 	if coding_bot_node:
 		# Attach the CodingBot script to the existing node
 		var bot_scene := CodingBotScene.instantiate()
-		var bot_pos := coding_bot_node.global_position
+		var bot_pos: Vector2 = coding_bot_node.global_position
 		coding_bot_node.queue_free()  # Remove placeholder
 		bot_scene.global_position = bot_pos
 		get_node("NPCs").add_child(bot_scene)
@@ -92,7 +92,7 @@ func _spawn_npcs() -> void:
 	var rose_node := get_node_or_null("NPCs/ShopkeeperRose")
 	if rose_node:
 		var rose_scene := RoseScene.instantiate()
-		var rose_pos := rose_node.global_position
+		var rose_pos: Vector2 = rose_node.global_position
 		rose_node.queue_free()
 		rose_scene.global_position = rose_pos
 		get_node("NPCs").add_child(rose_scene)

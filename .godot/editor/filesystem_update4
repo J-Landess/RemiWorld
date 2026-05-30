@@ -1,0 +1,11 @@
+res://scripts/data/ItemDatabase.gd
+res://scripts/data/MissionDatabase.gd
+res://scripts/systems/game_state/StartAreaManager.gd
+res://scripts/ui/HUD.gd
+res://autoload/GameState.gd
+res://scenes/player/Player.tscn
+res://scripts/player/Player.gd
+res://scripts/ui/BackpackUI.gd
+res://scripts/ui/PuzzlePanel.gd
+res://scripts/ui/StoreUI.gd
+res://scripts/ui/WelcomeScreen.gd

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://rw_startarea"]
+[gd_scene load_steps=8 format=3 uid="uid://rw_startarea"]
 
 [ext_resource type="Script" path="res://scripts/systems/game_state/StartAreaManager.gd" id="1_manager"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -6,22 +6,29 @@
 [ext_resource type="PackedScene" path="res://scenes/npcs/ShopkeeperRose.tscn" id="4_rose"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="5_hud"]
 
+; Sub-resources for the boundary walls.
+; Two shapes cover all four walls: one wide (top/bottom) and one tall (left/right).
+[sub_resource type="RectangleShape2D" id="RectShape_H"]
+size = Vector2(1700, 20)
+
+[sub_resource type="RectangleShape2D" id="RectShape_V"]
+size = Vector2(20, 960)
+
 ; ──────────────────────────────────────────────────────────────
 ; Remi's Start Area — Version 1.1
 ;
 ; Layout:
-;   - Simple grass/ground area (placeholder colors)
-;   - Boundary walls so the player can't walk off-screen
-;   - A spawn point where the player starts
-;   - Coding Bot NPC near the top-left
-;   - Shopkeeper Rose NPC near the top-right
-;   - HUD for all in-game UI
+;   - Colourful 2D ground (placeholder ColorRects + emoji)
+;   - Four invisible boundary walls (player can't walk off-screen)
+;   - Marker2D spawn point
+;   - Placeholder NPC positions (StartAreaManager replaces them at runtime)
+;   - HUD CanvasLayer (populated by StartAreaManager)
 ; ──────────────────────────────────────────────────────────────
 
 [node name="StartArea" type="Node2D"]
 script = ExtResource("1_manager")
 
-; ── BACKGROUND & GROUND ─────────────────────────────────────────
+; ── BACKGROUND & GROUND ──────────────────────────────────────
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="GrassBase" type="ColorRect" parent="Ground"]
@@ -66,8 +73,8 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
 modulate = Color(1.0, 1.0, 0.6, 1)
 
-; ── BOUNDARY WALLS ───────────────────────────────────────────────
-; These invisible walls stop the player from walking off the edge.
+; ── BOUNDARY WALLS ───────────────────────────────────────────
+; Invisible RectangleShape2D walls that keep the player inside the area.
 [node name="Boundaries" type="Node2D" parent="."]
 
 [node name="WallTop" type="StaticBody2D" parent="Boundaries"]
@@ -76,23 +83,7 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallTop"]
-shape = WorldBoundaryShape2D.new()
-
-[node name="WallLeft" type="StaticBody2D" parent="Boundaries"]
-position = Vector2(-810, 0)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallLeft"]
-shape = WorldBoundaryShape2D.new()
-
-[node name="WallRight" type="StaticBody2D" parent="Boundaries"]
-position = Vector2(810, 0)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
-shape = WorldBoundaryShape2D.new()
+shape = SubResource("RectShape_H")
 
 [node name="WallBottom" type="StaticBody2D" parent="Boundaries"]
 position = Vector2(0, 460)
@@ -100,9 +91,26 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallBottom"]
-shape = WorldBoundaryShape2D.new()
+shape = SubResource("RectShape_H")
 
-; ── NPCS ─────────────────────────────────────────────────────────
+[node name="WallLeft" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(-810, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallLeft"]
+shape = SubResource("RectShape_V")
+
+[node name="WallRight" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(810, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
+shape = SubResource("RectShape_V")
+
+; ── NPC PLACEHOLDER POSITIONS ────────────────────────────────
+; StartAreaManager replaces these with the real NPC scenes at runtime.
 [node name="NPCs" type="Node2D" parent="."]
 
 [node name="CodingBot" type="StaticBody2D" parent="NPCs"]
@@ -115,9 +123,9 @@ position = Vector2(200, -180)
 collision_layer = 4
 collision_mask = 0
 
-; ── PLAYER SPAWN ─────────────────────────────────────────────────
+; ── PLAYER SPAWN POINT ───────────────────────────────────────
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(0, 100)
 
-; ── HUD ──────────────────────────────────────────────────────────
+; ── HUD (populated by StartAreaManager) ─────────────────────
 [node name="HUD" type="CanvasLayer" parent="."]

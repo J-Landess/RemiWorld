@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://rw_avatar_create"]
+
+[ext_resource type="Script" path="res://scripts/ui/AvatarCreation.gd" id="1_avscript"]
+
+; Avatar Creation scene — the entire UI is built in code by AvatarCreation.gd.
+; This scene just provides the root Control node.
+
+[node name="AvatarCreation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_avscript")

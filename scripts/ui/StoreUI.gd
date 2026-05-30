@@ -187,6 +187,15 @@ func _on_close_pressed() -> void:
 		visible = false
 
 
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.is_echo():
+		if event.keycode == KEY_ESCAPE:
+			get_viewport().set_input_as_handled()
+			_on_close_pressed()
+
+
 func _on_open_closet_pressed() -> void:
 	var hud := get_parent()
 	if hud and hud.has_method("open_avatar_closet"):

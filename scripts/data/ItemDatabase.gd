@@ -6,8 +6,12 @@
 ## Usage:
 ##   var item = ItemDatabase.get_item("pink_sneakers")
 ##   var store_items = ItemDatabase.get_store_items()
+##
+## class_name lets any script call ItemDatabase.get_store_items()
+## without needing to load or instantiate this file first.
 ## =============================================================
-extends Node
+class_name ItemDatabase
+extends RefCounted
 
 # ─────────────────────────────────────────────────────────────
 # ALL ITEMS IN THE GAME

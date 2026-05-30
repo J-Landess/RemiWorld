@@ -29,9 +29,12 @@ const XP_PER_LEVEL: int = 100  # How much XP needed to level up
 # PLAYER DATA — these are the values that get saved/loaded
 # ─────────────────────────────────────────────────────────────
 var player_name: String = "Remi"
+var player_age: int = 0          # Set on the welcome screen
+var player_sex: String = ""      # "boy" or "girl" — used for avatar defaults
 var player_level: int = 1
 var player_xp: int = 0
 var vibe_tokens: int = 0     # In-game currency (like coins)
+var avatar_created: bool = false # True once the player has built their avatar
 var current_scene: String = ""
 var player_position: Vector2 = Vector2.ZERO
 
@@ -126,9 +129,12 @@ func get_xp_progress() -> float:
 # ─────────────────────────────────────────────────────────────
 func reset_for_new_game(new_player_name: String = "Remi") -> void:
 	player_name = new_player_name
+	player_age = 0
+	player_sex = ""
 	player_level = 1
 	player_xp = 0
 	vibe_tokens = 0
+	avatar_created = false
 	current_scene = "res://scenes/levels/v1_start_area/StartArea.tscn"
 	player_position = Vector2.ZERO
 	has_active_game = true
@@ -141,9 +147,12 @@ func reset_for_new_game(new_player_name: String = "Remi") -> void:
 func to_dict() -> Dictionary:
 	return {
 		"player_name": player_name,
+		"player_age": player_age,
+		"player_sex": player_sex,
 		"player_level": player_level,
 		"player_xp": player_xp,
 		"vibe_tokens": vibe_tokens,
+		"avatar_created": avatar_created,
 		"current_scene": current_scene,
 		"player_position_x": player_position.x,
 		"player_position_y": player_position.y,
@@ -158,9 +167,12 @@ func to_dict() -> Dictionary:
 
 func from_dict(data: Dictionary) -> void:
 	player_name = data.get("player_name", "Remi")
+	player_age = data.get("player_age", 0)
+	player_sex = data.get("player_sex", "")
 	player_level = data.get("player_level", 1)
 	player_xp = data.get("player_xp", 0)
 	vibe_tokens = data.get("vibe_tokens", 0)
+	avatar_created = data.get("avatar_created", false)
 	current_scene = data.get("current_scene", "")
 	player_position = Vector2(
 		data.get("player_position_x", 0.0),

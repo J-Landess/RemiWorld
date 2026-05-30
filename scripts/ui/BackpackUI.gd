@@ -270,3 +270,12 @@ func _on_close_pressed() -> void:
 		hud.close_all_panels()
 	else:
 		visible = false
+
+
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.is_echo():
+		if event.keycode == KEY_ESCAPE or event.keycode == KEY_B:
+			get_viewport().set_input_as_handled()
+			_on_close_pressed()

@@ -5,7 +5,7 @@
 ## the dialogue box, backpack, store, and avatar closet as children.
 ##
 ## The HUD is always visible during gameplay and acts as the
-## central controller for all in-game UI panels.
+# central controller for all in-game UI panels.
 ##
 ## Attached to: scenes/ui/HUD.tscn
 ## Node type: CanvasLayer
@@ -34,7 +34,13 @@ extends CanvasLayer
 # CALLED WHEN HUD LOADS
 # ─────────────────────────────────────────────────────────────
 func _ready() -> void:
-	add_to_group("hud")  # So other nodes can find us with get_first_node_in_group("hud")
+	add_to_group("hud")
+
+	# ── CRITICAL: make all HUD nodes work even when the game tree is paused.
+	# When get_tree().paused = true, nodes default to PROCESS_MODE_INHERIT and
+	# stop responding to input. Setting ALWAYS on the HUD and all children
+	# ensures every button click / keyboard press still registers.
+	_set_process_mode_always(self)
 
 	# Connect to GameState signals so HUD updates automatically
 	GameState.tokens_changed.connect(_on_tokens_changed)
@@ -50,11 +56,20 @@ func _ready() -> void:
 	print("[HUD] HUD ready.")
 
 
+func _set_process_mode_always(node: Node) -> void:
+	node.process_mode = Node.PROCESS_MODE_ALWAYS
+	for child in node.get_children():
+		_set_process_mode_always(child)
+
+
 # ─────────────────────────────────────────────────────────────
 # KEYBOARD INPUT — handle Esc for pause
 # ─────────────────────────────────────────────────────────────
 func _input(event: InputEvent) -> void:
-	if event.is_action_just_pressed("pause"):
+	# Guard against motion events — only key/button events carry action state.
+	if not (event is InputEventKey or event is InputEventJoypadButton):
+		return
+	if event.is_action_pressed("pause") and not event.is_echo():
 		_toggle_pause()
 
 
@@ -80,7 +95,7 @@ func _on_tokens_changed(new_amount: int) -> void:
 		token_label.text = "⭐ %d VIBE" % new_amount
 
 
-func _on_xp_changed(new_xp: int, new_level: int) -> void:
+func _on_xp_changed(_new_xp: int, new_level: int) -> void:
 	if level_label:
 		level_label.text = "Lv.%d" % new_level
 	if xp_bar:
