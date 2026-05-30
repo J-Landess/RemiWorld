@@ -72,7 +72,11 @@ func _spawn_hud() -> void:
 # ─────────────────────────────────────────────────────────────
 func _spawn_player() -> void:
 	_player = PlayerScene.instantiate()
-	add_child(_player)
+	var sort_layer := get_node_or_null("SortLayer")
+	if sort_layer:
+		sort_layer.add_child(_player)
+	else:
+		add_child(_player)
 
 	var spawn_point := get_node_or_null("PlayerSpawn")
 	if spawn_point:
@@ -90,24 +94,31 @@ func _spawn_player() -> void:
 # SPAWN NPCs WITH THEIR SCRIPTS
 # ─────────────────────────────────────────────────────────────
 func _spawn_npcs() -> void:
+	var npc_parent := get_node_or_null("SortLayer/NPCs")
+	if not npc_parent:
+		npc_parent = get_node_or_null("NPCs")
+	if not npc_parent:
+		push_warning("[StartArea] NPCs container not found.")
+		return
+
 	# Coding Bot — positioned left of centre
-	var coding_bot_node := get_node_or_null("NPCs/CodingBot")
+	var coding_bot_node := npc_parent.get_node_or_null("CodingBot")
 	if coding_bot_node:
 		var bot_scene := CodingBotScene.instantiate()
 		var bot_pos: Vector2 = coding_bot_node.global_position
 		coding_bot_node.queue_free()
 		bot_scene.global_position = bot_pos
-		get_node("NPCs").add_child(bot_scene)
+		npc_parent.add_child(bot_scene)
 		print("[StartArea] Coding Bot spawned at: ", bot_pos)
 
 	# Shopkeeper Rose — positioned right of centre
-	var rose_node := get_node_or_null("NPCs/ShopkeeperRose")
+	var rose_node := npc_parent.get_node_or_null("ShopkeeperRose")
 	if rose_node:
 		var rose_scene := RoseScene.instantiate()
 		var rose_pos: Vector2 = rose_node.global_position
 		rose_node.queue_free()
 		rose_scene.global_position = rose_pos
-		get_node("NPCs").add_child(rose_scene)
+		npc_parent.add_child(rose_scene)
 		print("[StartArea] Shopkeeper Rose spawned at: ", rose_pos)
 
 
@@ -119,8 +130,12 @@ func _spawn_daisy() -> void:
 	# Spawn Daisy there; her HIDING state keeps her invisible until
 	# the player walks close enough.
 	_daisy_node = DaisyScene.instantiate()
-	_daisy_node.global_position = Vector2(210, 110)
-	add_child(_daisy_node)
+	_daisy_node.global_position = Vector2(200, 125)
+	var sort_layer := get_node_or_null("SortLayer")
+	if sort_layer:
+		sort_layer.add_child(_daisy_node)
+	else:
+		add_child(_daisy_node)
 	print("[StartArea] Daisy Doodles spawned near the flower patch.")
 
 
@@ -140,7 +155,7 @@ func _setup_school_entrance() -> void:
 	shape.radius = 52.0
 	shape_node.shape = shape
 	entrance.add_child(shape_node)
-	entrance.global_position = Vector2(-200, -268)
+	entrance.global_position = Vector2(-200, -262)
 	add_child(entrance)
 
 	entrance.body_entered.connect(_on_school_entered)

@@ -27,6 +27,8 @@ signal dialogue_ended()
 @export var default_dialogue: Array = [] # What the NPC says when not on a mission
 @export var sprite_color: Color = Color.WHITE  # Tint for placeholder colored sprites
 
+const CharacterShadowScene := preload("res://scenes/effects/CharacterShadow.tscn")
+
 # ─────────────────────────────────────────────────────────────
 # NODE REFERENCES
 # ─────────────────────────────────────────────────────────────
@@ -55,6 +57,11 @@ func _ready() -> void:
 	# Add to groups so the player's interact zone can find us
 	add_to_group("interactable")
 	add_to_group("npc")
+
+	if not get_node_or_null("CharacterShadow"):
+		var shadow := CharacterShadowScene.instantiate()
+		add_child(shadow)
+		move_child(shadow, 0)
 
 	print("[NPC] %s is ready." % npc_name)
 

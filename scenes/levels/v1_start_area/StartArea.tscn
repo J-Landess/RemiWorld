@@ -1,97 +1,146 @@
-[gd_scene load_steps=8 format=3 uid="uid://rw_startarea"]
+[gd_scene load_steps=7 format=3 uid="uid://rw_startarea"]
 
 [ext_resource type="Script" path="res://scripts/systems/game_state/StartAreaManager.gd" id="1_manager"]
-[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://scenes/npcs/CodingBot.tscn" id="3_codingbot"]
-[ext_resource type="PackedScene" path="res://scenes/npcs/ShopkeeperRose.tscn" id="4_rose"]
-[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewGround.gd" id="2_ground"]
+[ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewParallaxLayer.gd" id="3_parallax"]
+[ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewProp.gd" id="4_prop"]
 
-; Sub-resources for the boundary walls.
-; Two shapes cover all four walls: one wide (top/bottom) and one tall (left/right).
 [sub_resource type="RectangleShape2D" id="RectShape_H"]
 size = Vector2(1700, 20)
 
 [sub_resource type="RectangleShape2D" id="RectShape_V"]
 size = Vector2(20, 960)
 
-; ──────────────────────────────────────────────────────────────
-; Remi's Start Area — Version 1.1
-;
-; Layout:
-;   - Colourful 2D ground (placeholder ColorRects + emoji)
-;   - Four invisible boundary walls (player can't walk off-screen)
-;   - Marker2D spawn point
-;   - Placeholder NPC positions (StartAreaManager replaces them at runtime)
-;   - HUD CanvasLayer (populated by StartAreaManager)
-; ──────────────────────────────────────────────────────────────
+; Remi's Start Area — soft ¾-view environment (v2 visuals)
+; Feet positions on props/NPCs use Y-sort on SortLayer.
 
 [node name="StartArea" type="Node2D"]
 script = ExtResource("1_manager")
 
-; ── BACKGROUND & GROUND ──────────────────────────────────────
-[node name="Ground" type="Node2D" parent="."]
+[node name="Ambience" type="CanvasModulate" parent="."]
+color = Color(1, 0.98, 0.94, 1)
 
-[node name="GrassBase" type="ColorRect" parent="Ground"]
-position = Vector2(-800, -450)
-size = Vector2(1600, 900)
-color = Color(0.35, 0.65, 0.25, 1)
+[node name="BackDrop" type="Node2D" parent="."]
 
-[node name="PathStrip" type="ColorRect" parent="Ground"]
-position = Vector2(-40, -450)
-size = Vector2(80, 900)
-color = Color(0.55, 0.45, 0.30, 1)
+[node name="ParallaxBackground" type="ParallaxBackground" parent="BackDrop"]
+scroll_ignore_camera_zoom = true
 
-[node name="SchoolBuilding" type="ColorRect" parent="Ground"]
-position = Vector2(-300, -440)
-size = Vector2(200, 180)
-color = Color(0.85, 0.80, 0.65, 1)
+[node name="SkyLayer" type="ParallaxLayer" parent="BackDrop/ParallaxBackground"]
+motion_scale = Vector2(0.15, 0.15)
 
-[node name="SchoolLabel" type="Label" parent="Ground"]
-position = Vector2(-290, -380)
-text = "🏫 School"
-theme_override_font_sizes/font_size = 14
+[node name="SkyArt" type="Node2D" parent="BackDrop/ParallaxBackground/SkyLayer"]
+script = ExtResource("3_parallax")
+layer_kind = "sky"
 
-[node name="SchoolDoor" type="Label" parent="Ground"]
-position = Vector2(-220, -285)
-text = "🚪"
-theme_override_font_sizes/font_size = 26
+[node name="HillsLayer" type="ParallaxLayer" parent="BackDrop/ParallaxBackground"]
+motion_scale = Vector2(0.35, 0.35)
 
-[node name="SneakTip" type="Label" parent="Ground"]
-position = Vector2(-370, -250)
-text = "💡 Tiptoe past\nthe librarian!"
-theme_override_font_sizes/font_size = 10
-modulate = Color(0.5, 0.5, 0.5, 0.7)
+[node name="HillsArt" type="Node2D" parent="BackDrop/ParallaxBackground/HillsLayer"]
+script = ExtResource("3_parallax")
+layer_kind = "hills"
 
-[node name="TreeLeft" type="Label" parent="Ground"]
-position = Vector2(-700, -300)
-text = "🌳"
-theme_override_font_sizes/font_size = 64
+[node name="Ground" type="Node2D" parent="BackDrop"]
+z_index = -50
+script = ExtResource("2_ground")
 
-[node name="TreeRight" type="Label" parent="Ground"]
-position = Vector2(600, -250)
-text = "🌳"
-theme_override_font_sizes/font_size = 64
+[node name="SortLayer" type="Node2D" parent="."]
+y_sort_enabled = true
 
-[node name="FlowerPatch" type="Label" parent="Ground"]
-position = Vector2(175, 85)
-text = "🌸🌺🌸\n🌼🌸🌺"
-theme_override_font_sizes/font_size = 24
+[node name="Props" type="Node2D" parent="SortLayer"]
 
-[node name="FlowerPatchHint" type="Label" parent="Ground"]
-position = Vector2(172, 140)
-text = "🐾 A dog was spotted here..."
-theme_override_font_sizes/font_size = 10
-modulate = Color(0.6, 0.5, 0.4, 0.85)
+[node name="School" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-200, -270)
+script = ExtResource("4_prop")
+prop_type = "school"
+prop_scale = 1.0
 
-[node name="AreaTitle" type="Label" parent="Ground"]
-position = Vector2(-180, -430)
+[node name="TreeLeft" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-620, -150)
+script = ExtResource("4_prop")
+prop_type = "tree"
+prop_scale = 1.15
+
+[node name="TreeRight" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(580, -120)
+script = ExtResource("4_prop")
+prop_type = "tree"
+prop_scale = 1.05
+
+[node name="FlowerPatch" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(200, 125)
+script = ExtResource("4_prop")
+prop_type = "flowers"
+
+[node name="BenchPath" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-90, 55)
+script = ExtResource("4_prop")
+prop_type = "bench"
+
+[node name="BenchPlaza" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(120, -60)
+script = ExtResource("4_prop")
+prop_type = "bench"
+prop_scale = 0.9
+
+[node name="BushSchool" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-380, -190)
+script = ExtResource("4_prop")
+prop_type = "bush"
+
+[node name="BushRose" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(350, -100)
+script = ExtResource("4_prop")
+prop_type = "bush"
+prop_scale = 0.85
+
+[node name="WelcomeSign" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(0, -320)
+script = ExtResource("4_prop")
+prop_type = "sign_post"
+
+[node name="Signs" type="Node2D" parent="SortLayer"]
+
+[node name="AreaTitle" type="Label" parent="SortLayer/Signs"]
+offset_left = -120.0
+offset_top = -378.0
+offset_right = 120.0
+offset_bottom = -352.0
 text = "✨ Remi's Start Area ✨"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
-modulate = Color(1.0, 1.0, 0.6, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.35, 0.28, 0.12, 1)
 
-; ── BOUNDARY WALLS ───────────────────────────────────────────
-; Invisible RectangleShape2D walls that keep the player inside the area.
+[node name="SneakTip" type="Label" parent="SortLayer/Signs"]
+offset_left = -420.0
+offset_top = -220.0
+offset_right = -280.0
+offset_bottom = -190.0
+text = "💡 Tiptoe past
+the librarian!"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.4, 0.38, 0.35, 0.85)
+
+[node name="FlowerPatchHint" type="Label" parent="SortLayer/Signs"]
+offset_left = 155.0
+offset_top = 155.0
+offset_right = 320.0
+offset_bottom = 175.0
+text = "🐾 A dog was spotted here..."
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.45, 0.38, 0.32, 0.9)
+
+[node name="NPCs" type="Node2D" parent="SortLayer"]
+
+[node name="CodingBot" type="StaticBody2D" parent="SortLayer/NPCs"]
+position = Vector2(-200, -180)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ShopkeeperRose" type="StaticBody2D" parent="SortLayer/NPCs"]
+position = Vector2(200, -180)
+collision_layer = 4
+collision_mask = 0
+
 [node name="Boundaries" type="Node2D" parent="."]
 
 [node name="WallTop" type="StaticBody2D" parent="Boundaries"]
@@ -126,23 +175,7 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
 shape = SubResource("RectShape_V")
 
-; ── NPC PLACEHOLDER POSITIONS ────────────────────────────────
-; StartAreaManager replaces these with the real NPC scenes at runtime.
-[node name="NPCs" type="Node2D" parent="."]
-
-[node name="CodingBot" type="StaticBody2D" parent="NPCs"]
-position = Vector2(-200, -180)
-collision_layer = 4
-collision_mask = 0
-
-[node name="ShopkeeperRose" type="StaticBody2D" parent="NPCs"]
-position = Vector2(200, -180)
-collision_layer = 4
-collision_mask = 0
-
-; ── PLAYER SPAWN POINT ───────────────────────────────────────
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(0, 100)
 
-; ── HUD (populated by StartAreaManager) ─────────────────────
 [node name="HUD" type="CanvasLayer" parent="."]

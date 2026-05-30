@@ -16,6 +16,8 @@
 ## =============================================================
 extends CharacterBody2D
 
+const CharacterShadowScene := preload("res://scenes/effects/CharacterShadow.tscn")
+
 # ─────────────────────────────────────────────────────────────
 # CONSTANTS
 # ─────────────────────────────────────────────────────────────
@@ -52,6 +54,13 @@ const C_COLLAR := Color(1.00, 0.45, 0.10)       # Orange collar (when companion)
 # ─────────────────────────────────────────────────────────────
 func _ready() -> void:
 	add_to_group("daisy")
+
+	if not get_node_or_null("CharacterShadow"):
+		var shadow := CharacterShadowScene.instantiate()
+		shadow.position = Vector2(0, 10)
+		shadow.scale = Vector2(0.65, 0.65)
+		add_child(shadow)
+		move_child(shadow, 0)
 
 	# If Daisy was already caught in a previous session, skip straight to companion
 	if GameState.daisy_captured:

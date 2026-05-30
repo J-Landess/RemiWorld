@@ -15,10 +15,13 @@
 
 ## Placeholder Assets
 
-All current visuals in Version 0.1–1.5 are **placeholder art** generated programmatically
-using Godot's built-in drawing tools (ColorRect, Label with emoji, etc.).
+Most gameplay visuals in Version 0.1–1.5+ are **placeholder art** generated programmatically
+using Godot's `_draw()` API (soft ¾-view props, parallax sky/hills, character shadows).
 
-**No external art assets are currently included.**
+The **Start Area** (v2 visuals) uses `SoftViewGround`, `SoftViewProp`, and `SoftViewParallaxLayer`
+under `scripts/levels/visuals/`. Replace these with licensed sprite/tile packs when ready.
+
+**No external image assets are currently included** (except `assets/ui/icon.svg`).
 
 ---
 
