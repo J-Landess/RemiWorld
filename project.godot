@@ -31,6 +31,7 @@ InventoryManager="*res://autoload/InventoryManager.gd"
 MissionManager="*res://autoload/MissionManager.gd"
 RewardManager="*res://autoload/RewardManager.gd"
 AvatarManager="*res://autoload/AvatarManager.gd"
+CheckpointManager="*res://autoload/CheckpointManager.gd"
 
 [display]
 

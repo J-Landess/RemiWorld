@@ -1,0 +1,200 @@
+[gd_scene load_steps=10 format=3 uid="uid://rw_school"]
+
+[ext_resource type="Script" path="res://scripts/systems/game_state/SchoolInteriorManager.gd" id="1_manager"]
+
+; ── Boundary walls ────────────────────────────────────────────
+[sub_resource type="RectangleShape2D" id="WallH"]
+size = Vector2(960, 20)
+
+[sub_resource type="RectangleShape2D" id="WallV"]
+size = Vector2(20, 660)
+
+; ── Locker interaction zone ───────────────────────────────────
+[sub_resource type="CircleShape2D" id="LockerShape"]
+radius = 32.0
+
+; ── Exit door trigger ────────────────────────────────────────
+[sub_resource type="RectangleShape2D" id="ExitShape"]
+size = Vector2(80, 24)
+
+; ──────────────────────────────────────────────────────────────
+; School Library — Interior
+;
+; Layout (all positions relative to centre of the 960×660 room):
+;   Top-left / right   : bookshelves
+;   Centre-back        : Ms. Huffy's desk
+;   Back-right         : locker with Daisy's leash
+;   Bottom-centre      : exit door to Start Area
+;   PlayerSpawn        : just inside the entrance (bottom)
+;
+; Run SchoolInteriorManager.gd to spawn player + Ms. Huffy
+; and wire up the locker & exit interactions.
+; ──────────────────────────────────────────────────────────────
+
+[node name="SchoolInterior" type="Node2D"]
+script = ExtResource("1_manager")
+
+; ── BACKGROUND ───────────────────────────────────────────────
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Floor" type="ColorRect" parent="Ground"]
+position = Vector2(-480, -330)
+size = Vector2(960, 660)
+color = Color(0.88, 0.82, 0.68, 1)
+
+; Back wall slightly darker
+[node name="BackWall" type="ColorRect" parent="Ground"]
+position = Vector2(-480, -330)
+size = Vector2(960, 50)
+color = Color(0.78, 0.70, 0.55, 1)
+
+; Ms. Huffy's desk (brown rectangle)
+[node name="Desk" type="ColorRect" parent="Ground"]
+position = Vector2(-65, -200)
+size = Vector2(130, 55)
+color = Color(0.52, 0.35, 0.16, 1)
+
+[node name="DeskLabel" type="Label" parent="Ground"]
+position = Vector2(-58, -195)
+text = "📋 Librarian's Desk"
+theme_override_font_sizes/font_size = 11
+modulate = Color(1, 1, 1, 0.8)
+
+; Bookshelves (left)
+[node name="BookshelfL" type="ColorRect" parent="Ground"]
+position = Vector2(-440, -310)
+size = Vector2(28, 240)
+color = Color(0.50, 0.32, 0.14, 1)
+
+[node name="BooksL" type="Label" parent="Ground"]
+position = Vector2(-448, -300)
+text = "📚\n📚\n📚\n📚"
+theme_override_font_sizes/font_size = 20
+
+; Bookshelves (right)
+[node name="BookshelfR" type="ColorRect" parent="Ground"]
+position = Vector2(412, -310)
+size = Vector2(28, 240)
+color = Color(0.50, 0.32, 0.14, 1)
+
+[node name="BooksR" type="Label" parent="Ground"]
+position = Vector2(406, -300)
+text = "📚\n📚\n📚\n📚"
+theme_override_font_sizes/font_size = 20
+
+; Locker at back-right
+[node name="Locker" type="ColorRect" parent="Ground"]
+position = Vector2(330, -290)
+size = Vector2(50, 80)
+color = Color(0.45, 0.55, 0.65, 1)
+
+[node name="LockerDoor" type="Label" parent="Ground"]
+position = Vector2(333, -280)
+text = "🔒"
+theme_override_font_sizes/font_size = 26
+
+; Room title
+[node name="RoomTitle" type="Label" parent="Ground"]
+position = Vector2(-120, -325)
+text = "📖  Remi's School Library  📖"
+theme_override_font_sizes/font_size = 16
+modulate = Color(0.30, 0.18, 0.06, 1)
+
+; Sneak reminder tip near entrance
+[node name="SneakTip" type="Label" parent="Ground"]
+position = Vector2(-185, 250)
+text = "💡 Tip: Hold [Shift] to tiptoe quietly!"
+theme_override_font_sizes/font_size = 11
+modulate = Color(0.3, 0.3, 0.3, 0.8)
+
+; ── BOUNDARY WALLS ───────────────────────────────────────────
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, -340)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallTop"]
+shape = SubResource("WallH")
+
+[node name="WallBottom" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, 340)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallBottom"]
+shape = SubResource("WallH")
+
+[node name="WallLeft" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(-490, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallLeft"]
+shape = SubResource("WallV")
+
+[node name="WallRight" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(490, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
+shape = SubResource("WallV")
+
+; ── NPC SPAWN MARKERS ────────────────────────────────────────
+[node name="NPCSpawns" type="Node2D" parent="."]
+
+; Ms. Huffy sleeps at the desk
+[node name="MsHuffySpawn" type="Marker2D" parent="NPCSpawns"]
+position = Vector2(0, -155)
+
+; ── INTERACTIVE OBJECTS ──────────────────────────────────────
+[node name="Objects" type="Node2D" parent="."]
+
+; Locker zone — player stands near to pick up the leash
+[node name="LockerZone" type="Area2D" parent="Objects"]
+position = Vector2(355, -250)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/LockerZone"]
+shape = SubResource("LockerShape")
+
+; Hint label shown when player is in range
+[node name="HintLabel" type="Label" parent="Objects/LockerZone"]
+position = Vector2(-48, -38)
+text = "[E] Open Locker"
+theme_override_font_sizes/font_size = 12
+modulate = Color(1, 1, 0.4, 1)
+visible = false
+
+; ── EXIT ZONE ────────────────────────────────────────────────
+; Player walks here then presses [E] to leave the school
+[node name="ExitZone" type="Area2D" parent="."]
+position = Vector2(0, 295)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitZone"]
+shape = SubResource("ExitShape")
+
+[node name="HintLabel" type="Label" parent="ExitZone"]
+position = Vector2(-52, -28)
+text = "[E] Leave School"
+theme_override_font_sizes/font_size = 13
+modulate = Color(1, 1, 0.4, 1)
+visible = false
+
+[node name="ExitArrow" type="Label" parent="ExitZone"]
+position = Vector2(-10, 4)
+text = "🚪"
+theme_override_font_sizes/font_size = 28
+
+; ── PLAYER SPAWN ─────────────────────────────────────────────
+; Just inside the front door — near the exit zone
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(0, 255)
+
+; ── HUD ──────────────────────────────────────────────────────
+[node name="HUD" type="CanvasLayer" parent="."]

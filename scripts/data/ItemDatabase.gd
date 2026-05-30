@@ -98,6 +98,22 @@ const ALL_ITEMS: Dictionary = {
 		"token_value": 3,
 		"owned": false,
 	},
+
+	# ── QUEST / KEY ITEMS ─────────────────────────────────────
+	"daisys_leash": {
+		"item_id": "daisys_leash",
+		"name": "Daisy's Leash",
+		"description": "A colourful dog leash hidden in the school locker. "
+			+ "Maybe it belongs to that white dog near the flowers?",
+		"category": "Quest Items",
+		"rarity": "uncommon",
+		"icon_path": "res://assets/icons/items/daisys_leash.png",
+		"quantity": 1,
+		"is_equippable": false,
+		"is_nft": false,
+		"token_value": 0,
+		"owned": false,
+	},
 }
 
 # ─────────────────────────────────────────────────────────────

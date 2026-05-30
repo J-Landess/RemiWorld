@@ -61,7 +61,7 @@ func _get_dialogue_lines() -> Array:
 # ─────────────────────────────────────────────────────────────
 # OVERRIDE: Custom interaction triggers the puzzle
 # ─────────────────────────────────────────────────────────────
-func on_player_interact(player: Node) -> void:
+func on_player_interact(_player: Node) -> void:
 	if _is_talking:
 		return
 

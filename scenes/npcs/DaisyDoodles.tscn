@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://rw_daisy"]
+
+[ext_resource type="Script" path="res://scripts/npcs/DaisyDoodles.gd" id="1_daisy"]
+
+; Small rectangle collision — roughly matches the dog's body footprint
+[sub_resource type="RectangleShape2D" id="BodyShape"]
+size = Vector2(26, 12)
+
+; ──────────────────────────────────────────────────────────────
+; Daisy Doodles — white fluffy dog
+;
+; DaisyDoodles.gd draws the dog using _draw().
+; Collision is a small rectangle matching her body.
+; ──────────────────────────────────────────────────────────────
+
+[node name="DaisyDoodles" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_daisy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+; Offset slightly up so the shape aligns with the drawn body
+position = Vector2(2, -4)
+shape = SubResource("BodyShape")

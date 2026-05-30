@@ -1,4 +1,0 @@
-res://autoload/GameState.gd
-res://autoload/RewardManager.gd
-res://scripts/player/AvatarRenderer.gd
-res://scripts/ui/AvatarCreation.gd

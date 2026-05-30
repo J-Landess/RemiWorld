@@ -75,6 +75,7 @@ layout_mode = 2
 [node name="BtnNewGame" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1851936095]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_font_sizes/font_size = 22
 text = "🌟  Start New Game"
 

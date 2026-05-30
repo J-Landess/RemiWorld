@@ -51,6 +51,17 @@ position = Vector2(-290, -380)
 text = "🏫 School"
 theme_override_font_sizes/font_size = 14
 
+[node name="SchoolDoor" type="Label" parent="Ground"]
+position = Vector2(-220, -285)
+text = "🚪"
+theme_override_font_sizes/font_size = 26
+
+[node name="SneakTip" type="Label" parent="Ground"]
+position = Vector2(-370, -250)
+text = "💡 Tiptoe past\nthe librarian!"
+theme_override_font_sizes/font_size = 10
+modulate = Color(0.5, 0.5, 0.5, 0.7)
+
 [node name="TreeLeft" type="Label" parent="Ground"]
 position = Vector2(-700, -300)
 text = "🌳"
@@ -62,9 +73,15 @@ text = "🌳"
 theme_override_font_sizes/font_size = 64
 
 [node name="FlowerPatch" type="Label" parent="Ground"]
-position = Vector2(200, 100)
-text = "🌸🌺🌸"
+position = Vector2(175, 85)
+text = "🌸🌺🌸\n🌼🌸🌺"
 theme_override_font_sizes/font_size = 24
+
+[node name="FlowerPatchHint" type="Label" parent="Ground"]
+position = Vector2(172, 140)
+text = "🐾 A dog was spotted here..."
+theme_override_font_sizes/font_size = 10
+modulate = Color(0.6, 0.5, 0.4, 0.85)
 
 [node name="AreaTitle" type="Label" parent="Ground"]
 position = Vector2(-180, -430)

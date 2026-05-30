@@ -175,3 +175,54 @@ func _toggle_pause() -> void:
 func _set_game_paused(paused: bool) -> void:
 	# Pause the physics/process of the game world (not the UI)
 	get_tree().paused = paused
+
+
+# ─────────────────────────────────────────────────────────────
+# NOTIFICATION TOAST
+# Displays a brief message at the bottom of the screen.
+# ─────────────────────────────────────────────────────────────
+var _notification_label: Label = null
+var _notification_timer: float = 0.0
+
+func show_notification(text: String, duration: float = 3.5) -> void:
+	if not _notification_label:
+		_notification_label = Label.new()
+		_notification_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+		_notification_label.offset_top    = -80
+		_notification_label.offset_bottom = -20
+		_notification_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_notification_label.add_theme_font_size_override("font_size", 16)
+		_notification_label.modulate = Color(1, 1, 0.6, 1)
+		_notification_label.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_notification_label)
+
+	_notification_label.text = text
+	_notification_label.visible = true
+	_notification_timer = duration
+
+
+func _process(delta: float) -> void:
+	if _notification_label and _notification_label.visible:
+		_notification_timer -= delta
+		if _notification_timer <= 0.0:
+			_notification_label.visible = false
+
+
+# ─────────────────────────────────────────────────────────────
+# GAME OVER OVERLAY
+# Instantiated when an NPC catches the player.
+# ─────────────────────────────────────────────────────────────
+const GameOverScreenScene := preload("res://scenes/ui/GameOverScreen.tscn")
+var _game_over_screen: Node = null
+
+func show_game_over(catcher_name: String) -> void:
+	# Only show once at a time
+	if _game_over_screen and is_instance_valid(_game_over_screen):
+		return
+
+	_game_over_screen = GameOverScreenScene.instantiate()
+	add_child(_game_over_screen)
+	_set_process_mode_always(_game_over_screen)
+
+	if _game_over_screen.has_method("show_game_over"):
+		_game_over_screen.show_game_over(catcher_name)

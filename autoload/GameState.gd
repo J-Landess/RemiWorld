@@ -37,6 +37,10 @@ var avatar_created: bool = false # True once the player has built their avatar
 var current_scene: String = ""
 var player_position: Vector2 = Vector2.ZERO
 
+# ── DAISY / SCHOOL FLAGS ──────────────────────────────────────
+var has_leash: bool = false        # Player picked up Daisy's leash from the school
+var daisy_captured: bool = false   # Daisy has been caught and is now a companion
+
 # Whether a game has been started (vs. first launch)
 var has_active_game: bool = false
 
@@ -72,6 +76,7 @@ func _setup_input_actions() -> void:
 	_add_key_action("interact",   [KEY_E])       # Talk to NPCs, examine objects
 	_add_key_action("open_backpack", [KEY_B])    # Open the backpack/inventory
 	_add_key_action("pause",      [KEY_ESCAPE])  # Pause / Settings
+	_add_key_action("sneak",      [KEY_SHIFT])   # Tiptoe quietly past Ms. Huffy
 
 
 func _add_key_action(action_name: String, keys: Array) -> void:
@@ -134,6 +139,8 @@ func reset_for_new_game(new_player_name: String = "Remi") -> void:
 	player_xp = 0
 	vibe_tokens = 0
 	avatar_created = false
+	has_leash = false
+	daisy_captured = false
 	current_scene = "res://scenes/levels/v1_start_area/StartArea.tscn"
 	player_position = Vector2.ZERO
 	has_active_game = true
@@ -152,6 +159,8 @@ func to_dict() -> Dictionary:
 		"player_xp": player_xp,
 		"vibe_tokens": vibe_tokens,
 		"avatar_created": avatar_created,
+		"has_leash": has_leash,
+		"daisy_captured": daisy_captured,
 		"current_scene": current_scene,
 		"player_position_x": player_position.x,
 		"player_position_y": player_position.y,
@@ -172,6 +181,8 @@ func from_dict(data: Dictionary) -> void:
 	player_xp = data.get("player_xp", 0)
 	vibe_tokens = data.get("vibe_tokens", 0)
 	avatar_created = data.get("avatar_created", false)
+	has_leash = data.get("has_leash", false)
+	daisy_captured = data.get("daisy_captured", false)
 	current_scene = data.get("current_scene", "")
 	player_position = Vector2(
 		data.get("player_position_x", 0.0),

@@ -5,6 +5,7 @@
 ## Movement: WASD / Arrow keys
 ## Interact:  E  (talk to NPCs)
 ## Backpack:  B
+## Sneak:     Shift  (tiptoe — smaller detection radius for Ms. Huffy)
 ## Pause:     Esc
 ##
 ## The player's visual is an AvatarRenderer child node that draws
@@ -22,6 +23,9 @@ signal player_interacted(target: Node)
 # ─────────────────────────────────────────────────────────────
 @export var move_speed: float = 150.0
 
+# Sneak (Shift key) slows the player but shrinks Ms. Huffy's detection radius
+const SNEAK_SPEED_MULT: float = 0.40
+
 # ─────────────────────────────────────────────────────────────
 # NODE REFERENCES
 # ─────────────────────────────────────────────────────────────
@@ -35,12 +39,14 @@ signal player_interacted(target: Node)
 var _nearby_interactable: Node = null
 var _can_move: bool = true
 var _facing_direction: Vector2 = Vector2.DOWN
+var is_sneaking: bool = false  # True while Shift is held
 
 
 # ─────────────────────────────────────────────────────────────
 # READY
 # ─────────────────────────────────────────────────────────────
 func _ready() -> void:
+	add_to_group("player")   # Lets NPCs find the player with get_first_node_in_group("player")
 	interact_area.body_entered.connect(_on_interactable_entered)
 	interact_area.body_exited.connect(_on_interactable_exited)
 	interact_area.area_entered.connect(_on_interact_area_entered)
@@ -91,10 +97,23 @@ func _handle_movement() -> void:
 	if direction.length() > 1.0:
 		direction = direction.normalized()
 
-	velocity = direction * move_speed
+	is_sneaking = Input.is_action_pressed("sneak")
+	velocity = direction * get_current_speed()
 	move_and_slide()
 
 	_update_facing(direction)
+
+
+# Returns the player's current effective speed (used by DaisyDoodles and MsHuffy).
+func get_current_speed() -> float:
+	if is_sneaking:
+		return move_speed * SNEAK_SPEED_MULT
+	return move_speed
+
+
+# Lets MsHuffy check whether the player is tiptoeing.
+func is_player_sneaking() -> bool:
+	return is_sneaking
 
 
 func _update_facing(direction: Vector2) -> void:

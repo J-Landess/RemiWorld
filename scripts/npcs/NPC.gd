@@ -63,7 +63,7 @@ func _ready() -> void:
 # CALLED BY THE PLAYER WHEN THEY PRESS E NEAR THIS NPC
 # Child NPCs should override this to add mission logic.
 # ─────────────────────────────────────────────────────────────
-func on_player_interact(player: Node) -> void:
+func on_player_interact(_player: Node) -> void:
 	if _is_talking:
 		return  # Prevent double-interaction
 

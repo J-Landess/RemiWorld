@@ -301,7 +301,7 @@ func _on_enter_world_pressed() -> void:
 	# Persist to AvatarManager
 	AvatarManager.set_skin_tone(config["skin_tone"])
 	AvatarManager.set_hair_color(config["hair_color"])
-	AvatarManager.equip_item("hairstyle", config["hairstyle"])
+	AvatarManager._config["hairstyle"]    = config["hairstyle"]
 	AvatarManager._config["outfit_color"] = config["outfit_color"]
 	AvatarManager._config["shoe_color"]   = config["shoe_color"]
 

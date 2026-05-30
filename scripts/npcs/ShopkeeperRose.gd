@@ -28,7 +28,7 @@ func _ready() -> void:
 # ─────────────────────────────────────────────────────────────
 # OVERRIDE: Opens the store instead of just showing dialogue
 # ─────────────────────────────────────────────────────────────
-func on_player_interact(player: Node) -> void:
+func on_player_interact(_player: Node) -> void:
 	if _is_talking:
 		return
 
