@@ -32,6 +32,11 @@ MissionManager="*res://autoload/MissionManager.gd"
 RewardManager="*res://autoload/RewardManager.gd"
 AvatarManager="*res://autoload/AvatarManager.gd"
 CheckpointManager="*res://autoload/CheckpointManager.gd"
+AudioManager="*res://autoload/AudioManager.gd"
+
+[audio]
+
+buses/default_bus_layout="res://assets/audio/default_bus_layout.tres"
 
 [display]
 

@@ -33,7 +33,8 @@ const CharacterShadowScene := preload("res://scenes/effects/CharacterShadow.tscn
 # NODE REFERENCES
 # ─────────────────────────────────────────────────────────────
 @onready var name_label: Label = $NameLabel
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
+@onready var figure: Node2D = get_node_or_null("Figure")
 @onready var interact_area: Area2D = $InteractArea
 
 # ─────────────────────────────────────────────────────────────
@@ -50,8 +51,10 @@ func _ready() -> void:
 	if name_label:
 		name_label.text = npc_name
 
-	# Apply color tint to sprite (for placeholder art)
-	if sprite:
+	if figure:
+		if sprite:
+			sprite.visible = false
+	elif sprite:
 		sprite.modulate = sprite_color
 
 	# Add to groups so the player's interact zone can find us

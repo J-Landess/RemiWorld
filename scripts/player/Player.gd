@@ -40,6 +40,7 @@ var _nearby_interactable: Node = null
 var _can_move: bool = true
 var _facing_direction: Vector2 = Vector2.DOWN
 var is_sneaking: bool = false  # True while Shift is held
+var _step_timer: float = 0.0   # Throttles footstep SFX
 
 
 # ─────────────────────────────────────────────────────────────
@@ -102,6 +103,19 @@ func _handle_movement() -> void:
 	move_and_slide()
 
 	_update_facing(direction)
+	_tick_footstep(direction)
+
+
+# Plays a quiet footstep SFX every ~0.35s while the player is moving.
+func _tick_footstep(direction: Vector2) -> void:
+	var delta := get_physics_process_delta_time()
+	if direction == Vector2.ZERO:
+		_step_timer = 0.0
+		return
+	_step_timer -= delta
+	if _step_timer <= 0.0:
+		AudioManager.play_sfx("step", 0.1)
+		_step_timer = 0.55 if is_sneaking else 0.35
 
 
 # Returns the player's current effective speed (used by DaisyDoodles and MsHuffy).

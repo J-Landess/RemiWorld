@@ -19,7 +19,8 @@ Most gameplay visuals in Version 0.1–1.5+ are **placeholder art** generated pr
 using Godot's `_draw()` API (soft ¾-view props, parallax sky/hills, character shadows).
 
 The **Start Area** (v2 visuals) uses `SoftViewGround`, `SoftViewProp`, and `SoftViewParallaxLayer`
-under `scripts/levels/visuals/`. Replace these with licensed sprite/tile packs when ready.
+under `scripts/levels/visuals/`. NPCs use `SoftNpcFigure` and `NpcOverheadBadge` under `scripts/npcs/visuals/`.
+Replace these with licensed sprite/tile packs when ready.
 
 **No external image assets are currently included** (except `assets/ui/icon.svg`).
 
@@ -57,10 +58,40 @@ free, open-source game assets:
 
 ## Audio
 
-No audio is currently implemented (planned for v2.0).
+A small SFX system was added in v1.7 (Playground Challenges + SFX). At the
+moment no audio files ship with the repo — `AudioManager` (autoload) loads
+every `.ogg` / `.wav` it finds in `assets/audio/sfx/` and ignores any sound
+that's missing, so the game still works in silence.
 
-**Free audio sources for future use:**
-- Freesound: https://freesound.org (Creative Commons)
+To enable real sound, drop the files listed in
+[assets/audio/sfx/README.md](assets/audio/sfx/README.md) into that folder.
+
+**Recommended free packs (all CC0):**
+- Kenney UI Audio — https://kenney.nl/assets/ui-audio
+- Kenney Interface Sounds — https://kenney.nl/assets/interface-sounds
+- Kenney Digital Audio — https://kenney.nl/assets/digital-audio
+- Kenney Casino Audio — https://kenney.nl/assets/casino-audio (bonus FX)
+
+The following Kenney packs are included under CC0 (no attribution required,
+credited here as a courtesy):
+
+**Kenney UI Audio** (kenney_ui-audio)
+- Source: https://kenney.nl/assets/ui-audio
+- License: Creative Commons Zero v1.0 (CC0)
+- Files used (renamed): `click.ogg`, `chess_move.ogg`, `paint_brush.ogg`,
+  `slider_tick.ogg`, `step.ogg`
+
+**Kenney Digital Audio** (kenney_digital-audio)
+- Source: https://kenney.nl/assets/digital-audio
+- License: Creative Commons Zero v1.0 (CC0)
+- Files used (renamed): `correct.ogg`, `wrong.ogg`, `reward.ogg`,
+  `dialogue_blip.ogg`, `bark.ogg`, `whistle.ogg`, `kick.ogg`,
+  `goal_cheer.ogg`, `goal_miss.ogg`, `dog_pant.ogg`
+
+> Sound effects by Kenney (kenney.nl) — released under CC0.
+
+**Other free audio sources:**
+- Freesound: https://freesound.org (Creative Commons — check per-clip licence)
 - OpenGameArt Music: https://opengameart.org/?field_art_type_tid=12
 - Pixabay Music: https://pixabay.com/music/
 
@@ -108,4 +139,4 @@ All game code in this project is original and written specifically for Remi's Wo
 
 ---
 
-*Last updated: v0.1.0*
+*Last updated: v1.7 (Playground Challenges + SFX)*

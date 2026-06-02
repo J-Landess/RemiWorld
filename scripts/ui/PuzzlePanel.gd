@@ -124,6 +124,7 @@ func _on_choice_pressed(index: int) -> void:
 	if _answered:
 		return
 	_answered = true
+	AudioManager.play_sfx("click")
 
 	var correct_index: int = _puzzle_data.get("correct_index", 0)
 	var correct: bool = (index == correct_index)
@@ -136,6 +137,8 @@ func _on_choice_pressed(index: int) -> void:
 			btn.modulate = Color(0.3, 1.0, 0.4)   # green = correct
 		elif i == index and not correct:
 			btn.modulate = Color(1.0, 0.35, 0.35)  # red = wrong selection
+
+	AudioManager.play_sfx("correct" if correct else "wrong")
 
 	# Show feedback text
 	if feedback_label:

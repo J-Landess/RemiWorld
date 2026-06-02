@@ -127,6 +127,45 @@
 
 ---
 
+## Version 1.7 — Playground Challenges + SFX ✅ DONE
+
+A new Playground/Park scene is reachable from the Start Area, packed with
+four themed challenges plus a sound-effects system.
+
+**New scene:**
+- `scenes/levels/v1_playground/Playground.tscn` — park with 4 activity zones,
+  a central bench, flower patches, trees, and an exit back to the Start Area.
+
+**New NPCs (all use `SoftNpcFigure` for placeholder visuals):**
+- **Chess Tutor** — wise owl scholar who runs the "Knight's Jump" puzzle
+- **Coach Kick** — soccer coach with whistle and ball, runs "Goal Kicker"
+- **Artist Pip** — painter in a beret, runs "Rainbow Maker"
+
+**New mini-games (`scenes/ui/challenges/`):**
+- **Knight's Jump** (chess) — a 4×4 board mini-game where the player picks
+  the legal knight move that lands on the treasure. 3 rounds, 2 to win.
+- **Goal Kicker** (soccer) — oscillating POWER and AIM bars, ball tweens
+  toward a goalkeeper-guarded net. 3 shots, 2 goals to win.
+- **Rainbow Maker** (art) — match a named target color by sliding R/G/B
+  sliders within tolerance. 3 rounds, 2 to win.
+- **Daisy's Fetch Game** (Daisy) — throw 3 sticks for Daisy to fetch.
+  Only playable once Daisy is your companion.
+
+**New rewards:** 4 new badge NFTs (`knight_star`, `golden_cleats`,
+`palette_badge`, `best_friend`).
+
+**Audio system:**
+- `AudioManager` autoload (sits on its own audio pool, routed to the SFX bus)
+- New `default_bus_layout.tres` with Master / Music / SFX buses
+- Volume sliders in [SettingsScreen.gd](scripts/ui/SettingsScreen.gd) now actually
+  set bus volume in dB
+- SFX hooks added to: button presses, puzzle correct/wrong, dialogue advance,
+  reward popup, player footstep, Daisy bark
+- Drops in CC0 audio from Kenney's free packs — see [CREDITS.md](CREDITS.md)
+  and [assets/audio/sfx/README.md](assets/audio/sfx/README.md)
+
+---
+
 ## Version 2.0 — Expanded Game Loop 🔜 PLANNED
 
 **New Worlds:**
@@ -205,4 +244,4 @@ Game (Godot)
 
 ---
 
-*Last updated: v0.1.0 — Vertical Slice (v0.1 through v1.5)*
+*Last updated: v1.7 — Playground Challenges + SFX*

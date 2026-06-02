@@ -115,6 +115,11 @@ func _hide_all_panels() -> void:
 	for panel in [dialogue_box, backpack_ui, store_ui, avatar_closet, reward_popup, puzzle_panel, pause_menu]:
 		if panel:
 			panel.visible = false
+	# Hide any dynamically-added challenge panel ending in "Panel"
+	# (chess, soccer, art, daisy fetch) without listing each one
+	for child in get_children():
+		if child is Control and child.name.ends_with("Panel") and child.name != "PuzzlePanel":
+			child.visible = false
 
 
 func toggle_backpack() -> void:
@@ -159,11 +164,44 @@ func show_puzzle(puzzle_data: Dictionary, caller: Node) -> void:
 		_set_game_paused(true)
 
 
+# ─────────────────────────────────────────────────────────────
+# GENERIC CHALLENGE OPENER
+# Looks up a challenge panel by its node name (e.g.
+# "ChessPuzzlePanel") and calls .show_challenge(mission_data, caller).
+# Each challenge panel must:
+#   - Be a child of the HUD CanvasLayer with the matching name.
+#   - Implement show_challenge(mission_data: Dictionary, caller: Node).
+#   - Call caller.on_challenge_finished(success: bool) when done.
+# ─────────────────────────────────────────────────────────────
+func show_challenge(panel_name: String, mission_data: Dictionary, caller: Node) -> void:
+	var panel := get_node_or_null(panel_name)
+	if not panel:
+		push_warning("[HUD] No challenge panel named '%s' found." % panel_name)
+		return
+	if not panel.has_method("show_challenge"):
+		push_warning("[HUD] Panel '%s' has no show_challenge() method." % panel_name)
+		return
+	_hide_all_panels()
+	panel.visible = true
+	panel.show_challenge(mission_data, caller)
+	_set_game_paused(true)
+
+
 func _toggle_pause() -> void:
 	# If any panel is open, close it instead of pausing
 	for panel in [backpack_ui, store_ui, avatar_closet, puzzle_panel]:
 		if panel and panel.visible:
 			close_all_panels()
+			return
+	# Also catch the dynamically-added challenge panels. They each
+	# expose a "_on_close_pressed" helper that notifies their NPC
+	# caller of an early give-up, so route through that.
+	for child in get_children():
+		if child is Control and child.name.ends_with("Panel") and child.name != "PuzzlePanel" and child.visible:
+			if child.has_method("_on_close_pressed"):
+				child._on_close_pressed()
+			else:
+				close_all_panels()
 			return
 
 	# Toggle pause menu

@@ -83,6 +83,7 @@ func grant_reward(reward: Dictionary) -> Dictionary:
 		emit_signal("nft_rewarded", nft)
 
 	emit_signal("reward_granted", summary)
+	AudioManager.play_sfx("reward")
 	print("[RewardManager] Reward granted! Summary: ", summary)
 	return summary
 

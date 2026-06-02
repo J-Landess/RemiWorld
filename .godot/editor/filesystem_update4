@@ -1,4 +1,0 @@
-res://scenes/player/Player.tscn
-res://scripts/npcs/DaisyDoodles.gd
-res://scripts/npcs/NPC.gd
-res://scripts/systems/game_state/StartAreaManager.gd

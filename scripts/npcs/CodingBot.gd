@@ -42,6 +42,7 @@ func _ready() -> void:
 
 	# Call the parent ready (sets up name tag, groups, etc.)
 	super._ready()
+	_update_quest_marker()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -125,6 +126,7 @@ func on_puzzle_answered(answer_index: int) -> void:
 		RewardManager.grant_reward(rewards)
 		MissionManager.complete_mission(MISSION_ID, rewards)
 		SaveManager.save_game()
+		_update_quest_marker()
 
 		if dialogue_box:
 			dialogue_box.show_dialogue(
@@ -148,3 +150,9 @@ func on_puzzle_answered(answer_index: int) -> void:
 func on_dialogue_finished() -> void:
 	_is_talking = false
 	emit_signal("dialogue_ended")
+
+
+func _update_quest_marker() -> void:
+	var marker := get_node_or_null("QuestMarker")
+	if marker:
+		marker.visible = not MissionManager.is_mission_complete(MISSION_ID)

@@ -142,6 +142,7 @@ func _input(event: InputEvent) -> void:
 		return
 
 	# Move to the next line
+	AudioManager.play_sfx("dialogue_blip", 0.1)
 	_current_line += 1
 	_show_current_line()
 

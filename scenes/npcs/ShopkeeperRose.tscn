@@ -1,6 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://rw_rose"]
 
 [ext_resource type="Script" path="res://scripts/npcs/ShopkeeperRose.gd" id="1_rose"]
+[ext_resource type="Script" path="res://scripts/npcs/visuals/SoftNpcFigure.gd" id="2_figure"]
+[ext_resource type="Script" path="res://scripts/npcs/visuals/NpcOverheadBadge.gd" id="3_badge"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
 radius = 12.0
@@ -9,35 +11,37 @@ height = 32.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 50.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1"]
-size = Vector2(36, 52)
-
 [node name="ShopkeeperRose" type="StaticBody2D"]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_rose")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_1")
 
-; Pink-tinted placeholder sprite. Replace with real art later!
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_1")
-modulate = Color(1.0, 0.6, 0.8, 1)
+[node name="Figure" type="Node2D" parent="."]
+position = Vector2(0, -4)
+script = ExtResource("2_figure")
+figure_id = "shopkeeper_rose"
+figure_scale = 1.05
 
 [node name="NameLabel" type="Label" parent="."]
-position = Vector2(-60, -56)
-custom_minimum_size = Vector2(120, 0)
+offset_left = -64.0
+offset_top = -62.0
+offset_right = 64.0
+offset_bottom = -44.0
 text = "Shopkeeper Rose"
 horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.55, 0.22, 0.38, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 11
-modulate = Color(1.0, 0.85, 0.9, 1)
 
-[node name="ShopMarker" type="Label" parent="."]
-position = Vector2(-6, -72)
-text = "🛍️"
-theme_override_font_sizes/font_size = 20
+[node name="ShopMarker" type="Node2D" parent="."]
+position = Vector2(0, -72)
+script = ExtResource("3_badge")
+badge_kind = "shop"
 
 [node name="InteractArea" type="Area2D" parent="."]
 collision_layer = 0

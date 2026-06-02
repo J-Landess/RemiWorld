@@ -86,9 +86,9 @@ RemiWorld/
 ### What's implemented:
 - ✅ **Main Menu** — Start New Game, Load Game, Settings, Exit
 - ✅ **Welcome Screen** — Name entry, tips, fade-in animation
-- ✅ **Settings Screen** — Music/SFX volume, text speed, accessibility
+- ✅ **Settings Screen** — Music/SFX volume sliders wired to audio buses
 - ✅ **Start Area** — 2D playable level with placeholder art
-- ✅ **Player** — WASD/arrow movement, camera follow, interact system
+- ✅ **Player** — WASD/arrow movement, camera follow, interact system, footstep SFX
 - ✅ **Coding Bot NPC** — First logic puzzle: "Pattern Power"
 - ✅ **Pattern Puzzle** — Multiple choice question with feedback
 - ✅ **Reward System** — Earn VIBE tokens + XP + NFT collectibles
@@ -98,6 +98,14 @@ RemiWorld/
 - ✅ **Avatar Closet** — Equip purchased items, change skin tone
 - ✅ **Save/Load** — JSON save file persists all progress
 - ✅ **Pause Menu** — Resume, save, main menu, settings
+- ✅ **School Interior** — Ms. Huffy the chasing librarian + leash locker
+- ✅ **Daisy Doodles** — Hidden dog who becomes your companion and barks at chasers
+- ✅ **Playground** — Park scene with 4 themed challenges, reachable from Start Area
+  - ♞ **Chess Tutor** — "Knight's Jump" mini-game on a 4×4 board
+  - ⚽ **Coach Kick** — "Goal Kicker" power+aim soccer kick mini-game
+  - 🎨 **Artist Pip** — "Rainbow Maker" RGB color-mixing challenge
+  - 🐾 **Daisy's Fetch Game** — Throw sticks for Daisy to fetch (companion-only)
+- ✅ **Audio system** — `AudioManager` autoload + Music/SFX buses, drop-in CC0 sounds
 
 ### What uses placeholder art:
 - Player character (solid colored rectangle)

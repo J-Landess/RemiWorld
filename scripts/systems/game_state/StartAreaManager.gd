@@ -29,6 +29,10 @@ var _hud: Node = null
 var _near_school: bool = false
 var _school_hint_label: Label = null
 
+# Playground entrance interaction state
+var _near_playground: bool = false
+var _playground_hint_label: Label = null
+
 # Daisy companion follow-slot (set after she's caught)
 var _daisy_node: Node = null
 
@@ -45,6 +49,7 @@ func _ready() -> void:
 	_spawn_npcs()
 	_spawn_daisy()
 	_setup_school_entrance()
+	_setup_playground_entrance()
 	_setup_checkpoint_zones()
 
 	print("[StartArea] Start Area ready! Welcome, %s!" % GameState.player_name)
@@ -56,6 +61,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _near_school and Input.is_action_just_pressed("interact"):
 		_enter_school()
+	elif _near_playground and Input.is_action_just_pressed("interact"):
+		_enter_playground()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -192,6 +199,78 @@ func _enter_school() -> void:
 		CheckpointManager.save_checkpoint(_player.global_position)
 		GameState.player_position = Vector2.ZERO   # Reset so school uses its own spawn
 	get_tree().change_scene_to_file("res://scenes/levels/v1_school_interior/SchoolInterior.tscn")
+
+
+# ─────────────────────────────────────────────────────────────
+# PLAYGROUND ENTRANCE — mirror of the school entrance, on the
+# right side of the Start Area (opposite the school).
+# ─────────────────────────────────────────────────────────────
+func _setup_playground_entrance() -> void:
+	var entrance := Area2D.new()
+	entrance.name = "PlaygroundEntranceZone"
+	entrance.collision_layer = 4
+	entrance.collision_mask = 2   # Detects player layer
+
+	var shape_node := CollisionShape2D.new()
+	var shape := CircleShape2D.new()
+	shape.radius = 60.0
+	shape_node.shape = shape
+	entrance.add_child(shape_node)
+	entrance.global_position = Vector2(560, -100)
+	add_child(entrance)
+
+	entrance.body_entered.connect(_on_playground_entered)
+	entrance.body_exited.connect(_on_playground_exited)
+
+	# Sign-post visual — small ColorRect + label
+	var post := ColorRect.new()
+	post.color = Color(0.55, 0.38, 0.22, 1)
+	post.size = Vector2(8, 50)
+	post.position = Vector2(-4, -50)
+	entrance.add_child(post)
+
+	var board := ColorRect.new()
+	board.color = Color(0.95, 0.88, 0.55, 1)
+	board.size = Vector2(110, 30)
+	board.position = Vector2(-55, -70)
+	entrance.add_child(board)
+
+	var board_label := Label.new()
+	board_label.text = "🎪 Playground"
+	board_label.position = Vector2(-48, -68)
+	board_label.add_theme_font_size_override("font_size", 13)
+	board_label.modulate = Color(0.35, 0.22, 0.10, 1)
+	entrance.add_child(board_label)
+
+	var hint := Label.new()
+	hint.text = "[E] Enter Playground"
+	hint.position = Vector2(-66, -94)
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.modulate = Color(1, 1, 0.4, 1)
+	hint.visible = false
+	entrance.add_child(hint)
+	_playground_hint_label = hint
+
+
+func _on_playground_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		_near_playground = true
+		if _playground_hint_label:
+			_playground_hint_label.visible = true
+
+
+func _on_playground_exited(body: Node) -> void:
+	if body.is_in_group("player"):
+		_near_playground = false
+		if _playground_hint_label:
+			_playground_hint_label.visible = false
+
+
+func _enter_playground() -> void:
+	if _player:
+		CheckpointManager.save_checkpoint(_player.global_position)
+		GameState.player_position = Vector2.ZERO
+	get_tree().change_scene_to_file("res://scenes/levels/v1_playground/Playground.tscn")
 
 
 # ─────────────────────────────────────────────────────────────

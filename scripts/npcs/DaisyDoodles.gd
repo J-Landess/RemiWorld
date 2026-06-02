@@ -38,6 +38,9 @@ enum State { HIDING, FLEEING, CAPTURED, COMPANION }
 var _state: State = State.HIDING
 var _player: Node = null
 var _bark_cooldown_timer: float = 0.0
+var _is_talking: bool = false   # Prevents double-interaction during fetch dialogue
+
+const FETCH_MISSION_ID: String = "daisy_fetch_game"
 
 # ─────────────────────────────────────────────────────────────
 # DRAWING COLORS
@@ -66,10 +69,20 @@ func _ready() -> void:
 	if GameState.daisy_captured:
 		_state = State.COMPANION
 		visible = true
+		_become_interactable()
 	else:
 		visible = false   # Hidden inside the flowers until triggered
 
 	print("[DaisyDoodles] Daisy Doodles ready. State: ", State.keys()[_state])
+
+
+# Marks Daisy as a talk-target for the player's [E] interact key
+# (only used after she becomes a companion).
+func _become_interactable() -> void:
+	if not is_in_group("interactable"):
+		add_to_group("interactable")
+	if not is_in_group("npc"):
+		add_to_group("npc")
 
 
 # ─────────────────────────────────────────────────────────────
@@ -142,16 +155,18 @@ func _be_caught() -> void:
 	velocity = Vector2.ZERO
 
 	print("[DaisyDoodles] 🐾 Daisy caught! She's your best friend now!")
+	AudioManager.play_sfx("bark", 0.1)
 
 	var hud := get_tree().get_first_node_in_group("hud")
 	if hud and hud.has_method("show_notification"):
-		hud.show_notification("🐾 Daisy is your friend now! She'll protect you!")
+		hud.show_notification("🐾 Daisy is your friend now! Press [E] to play fetch!")
 
 	# Save checkpoint right after catching her
 	CheckpointManager.save_checkpoint(global_position)
 
 	queue_redraw()
 	_state = State.COMPANION
+	_become_interactable()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -196,12 +211,81 @@ func _scan_for_threats() -> void:
 
 func _bark_at(chaser: Node) -> void:
 	print("[DaisyDoodles] 🐶 WOOF! Daisy barks at ", chaser.name)
+	AudioManager.play_sfx("bark", 0.05)
 	if chaser.has_method("freeze"):
 		chaser.freeze(BARK_FREEZE_DURATION)
 
 	var hud := get_tree().get_first_node_in_group("hud")
 	if hud and hud.has_method("show_notification"):
 		hud.show_notification("🐶 Woof! Daisy scared them off! Run!")
+
+
+# ─────────────────────────────────────────────────────────────
+# INTERACT — opens the fetch mini-game (only when companion).
+# Called by Player.gd when the player presses [E] near Daisy.
+# ─────────────────────────────────────────────────────────────
+func on_player_interact(_player_node: Node) -> void:
+	if _is_talking:
+		return
+	if _state != State.COMPANION:
+		return
+
+	_is_talking = true
+	AudioManager.play_sfx("bark", 0.1)
+	var mission: Dictionary = MissionDatabase.get_mission(FETCH_MISSION_ID)
+	var dialogue_box := _find_dialogue_box()
+
+	if MissionManager.is_mission_complete(FETCH_MISSION_ID):
+		if dialogue_box:
+			dialogue_box.show_dialogue("Daisy", mission.get("dialogue_complete", []), self)
+		else:
+			_is_talking = false
+		return
+
+	MissionManager.start_mission(FETCH_MISSION_ID)
+	if dialogue_box:
+		dialogue_box.show_dialogue("Daisy", mission.get("dialogue_intro", []), self, true)
+	else:
+		_present_puzzle()
+
+
+# Called by DialogueBox when intro dialogue finishes (show_puzzle_after flag).
+func _present_puzzle() -> void:
+	var hud := get_tree().get_first_node_in_group("hud")
+	if hud and hud.has_method("show_challenge"):
+		var mission: Dictionary = MissionDatabase.get_mission(FETCH_MISSION_ID)
+		hud.show_challenge("DaisyFetchPanel", mission, self)
+
+
+# Called when the fetch panel finishes.
+func on_challenge_finished(success: bool) -> void:
+	var mission: Dictionary = MissionDatabase.get_mission(FETCH_MISSION_ID)
+	var dialogue_box := _find_dialogue_box()
+
+	if success:
+		var rewards: Dictionary = mission.get("rewards", {})
+		RewardManager.grant_reward(rewards)
+		MissionManager.complete_mission(FETCH_MISSION_ID, rewards)
+		SaveManager.save_game()
+		if dialogue_box:
+			dialogue_box.show_dialogue("Daisy", mission.get("dialogue_success", []), self)
+	else:
+		if dialogue_box:
+			dialogue_box.show_dialogue("Daisy", mission.get("dialogue_failure", []), self)
+		await get_tree().create_timer(0.5).timeout
+		_is_talking = false
+
+
+func on_dialogue_finished() -> void:
+	_is_talking = false
+
+
+# Reuses the same dialogue-box lookup used by NPC.gd.
+func _find_dialogue_box() -> Node:
+	var hud := get_tree().get_first_node_in_group("hud")
+	if hud:
+		return hud.get_node_or_null("DialogueBox")
+	return null
 
 
 # ─────────────────────────────────────────────────────────────

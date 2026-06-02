@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://rw_hud"]
+[gd_scene load_steps=12 format=3 uid="uid://rw_hud"]
 
 [ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/DialogueBox.gd" id="2_dialogue"]
@@ -8,6 +8,10 @@
 [ext_resource type="Script" path="res://scripts/ui/RewardPopup.gd" id="6_reward"]
 [ext_resource type="Script" path="res://scripts/ui/PuzzlePanel.gd" id="7_puzzle"]
 [ext_resource type="Script" path="res://scripts/ui/PauseMenu.gd" id="8_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/ChessPuzzlePanel.tscn" id="9_chess"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/SoccerKickPanel.tscn" id="10_soccer"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/ArtPalettePanel.tscn" id="11_art"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/DaisyFetchPanel.tscn" id="12_daisy"]
 
 ; ──────────────────────────────────────────────────────────────
 ; HUD - Heads Up Display
@@ -593,3 +597,19 @@ custom_minimum_size = Vector2(0, 44)
 text = "🏠 Main Menu"
 theme_override_font_sizes/font_size = 16
 modulate = Color(0.8, 0.8, 0.8, 1)
+
+; ── CHALLENGE PANELS ────────────────────────────────────────────
+; Instantiated as children so HUD.show_challenge(name, ...) can
+; find them by node name. Each starts hidden.
+
+[node name="ChessPuzzlePanel" parent="." instance=ExtResource("9_chess")]
+visible = false
+
+[node name="SoccerKickPanel" parent="." instance=ExtResource("10_soccer")]
+visible = false
+
+[node name="ArtPalettePanel" parent="." instance=ExtResource("11_art")]
+visible = false
+
+[node name="DaisyFetchPanel" parent="." instance=ExtResource("12_daisy")]
+visible = false

@@ -115,13 +115,16 @@ func _build_text_speed_buttons() -> void:
 func _on_music_volume_changed(value: float) -> void:
 	GameState.music_volume = value
 	_update_volume_label(music_value_label, value)
-	# Future: AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
+	AudioManager.apply_volume_settings()
 	_show_saved()
 
 
 func _on_sfx_volume_changed(value: float) -> void:
 	GameState.sfx_volume = value
 	_update_volume_label(sfx_value_label, value)
+	AudioManager.apply_volume_settings()
+	# Play a quick blip so the player can hear the new level
+	AudioManager.play_sfx("click")
 	_show_saved()
 
 
