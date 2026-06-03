@@ -47,6 +47,12 @@ func _ready() -> void:
 func _register_default_missions() -> void:
 	# All missions start as "available" unless they require prerequisites
 	_set_mission_status("pattern_power", STATUS_AVAILABLE)
+	_set_mission_status("chess_knight_jump", STATUS_AVAILABLE)
+	_set_mission_status("soccer_goal_kicker", STATUS_AVAILABLE)
+	_set_mission_status("art_rainbow_maker", STATUS_AVAILABLE)
+	_set_mission_status("daisy_fetch_game", STATUS_AVAILABLE)
+	_set_mission_status("daisy_dog_pit", STATUS_AVAILABLE)
+	_set_mission_status("daisy_obedience_course", STATUS_AVAILABLE)
 	# Future missions can be added here and set to STATUS_LOCKED until unlocked
 
 
@@ -146,3 +152,15 @@ func from_dict(data: Dictionary) -> void:
 	# Make sure default missions exist even in old saves
 	if not _mission_states.has("pattern_power"):
 		_mission_states["pattern_power"] = STATUS_AVAILABLE
+	if not _mission_states.has("chess_knight_jump"):
+		_mission_states["chess_knight_jump"] = STATUS_AVAILABLE
+	if not _mission_states.has("soccer_goal_kicker"):
+		_mission_states["soccer_goal_kicker"] = STATUS_AVAILABLE
+	if not _mission_states.has("art_rainbow_maker"):
+		_mission_states["art_rainbow_maker"] = STATUS_AVAILABLE
+	if not _mission_states.has("daisy_fetch_game"):
+		_mission_states["daisy_fetch_game"] = STATUS_AVAILABLE
+	if not _mission_states.has("daisy_dog_pit"):
+		_mission_states["daisy_dog_pit"] = STATUS_AVAILABLE
+	if not _mission_states.has("daisy_obedience_course"):
+		_mission_states["daisy_obedience_course"] = STATUS_AVAILABLE

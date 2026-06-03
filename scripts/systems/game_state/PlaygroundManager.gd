@@ -20,6 +20,7 @@ const ArtistPipScene  := preload("res://scenes/npcs/ArtistPip.tscn")
 const DaisyScene      := preload("res://scenes/npcs/DaisyDoodles.tscn")
 
 const START_AREA_PATH := "res://scenes/levels/v1_start_area/StartArea.tscn"
+const DOG_PIT_PATH := "res://scenes/levels/v1_dog_fighting_pit/DogFightingPit.tscn"
 
 # ─────────────────────────────────────────────────────────────
 # INTERNAL REFERENCES
@@ -28,9 +29,12 @@ var _player: Node = null
 var _hud: Node = null
 var _near_exit: bool = false
 var _exit_hint_label: Label = null
+var _near_dog_pit: bool = false
+var _dog_pit_hint_label: Label = null
 
 
 func _ready() -> void:
+	get_tree().paused = false   # Safety: ensure no paused state leaks from previous scene
 	print("[Playground] Loading Remi's Playground...")
 	GameState.current_scene = "res://scenes/levels/v1_playground/Playground.tscn"
 
@@ -39,6 +43,7 @@ func _ready() -> void:
 	_spawn_npcs()
 	_spawn_daisy_if_companion()
 	_setup_exit_zone()
+	_setup_dog_pit_entrance()
 	_setup_checkpoint_zone()
 
 	print("[Playground] Playground ready!")
@@ -50,6 +55,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _near_exit and Input.is_action_just_pressed("interact"):
 		_exit_to_start_area()
+	elif _near_dog_pit and Input.is_action_just_pressed("interact"):
+		_enter_dog_pit()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -166,6 +173,33 @@ func _setup_exit_zone() -> void:
 	_exit_hint_label = hint
 
 
+func _setup_dog_pit_entrance() -> void:
+	var entrance := Area2D.new()
+	entrance.name = "DogPitEntranceZone"
+	entrance.collision_layer = 4
+	entrance.collision_mask = 2
+
+	var shape_node := CollisionShape2D.new()
+	var shape := CircleShape2D.new()
+	shape.radius = 62.0
+	shape_node.shape = shape
+	entrance.add_child(shape_node)
+	entrance.global_position = Vector2(0, -380)
+	add_child(entrance)
+
+	entrance.body_entered.connect(_on_dog_pit_entered)
+	entrance.body_exited.connect(_on_dog_pit_exited)
+
+	var hint := Label.new()
+	hint.text = "[E] Enter Dog Pit"
+	hint.position = Vector2(-62, -44)
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.modulate = Color(1, 0.86, 0.5, 1)
+	hint.visible = false
+	entrance.add_child(hint)
+	_dog_pit_hint_label = hint
+
+
 func _on_exit_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		_near_exit = true
@@ -180,10 +214,30 @@ func _on_exit_exited(body: Node) -> void:
 			_exit_hint_label.visible = false
 
 
+func _on_dog_pit_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		_near_dog_pit = true
+		if _dog_pit_hint_label:
+			_dog_pit_hint_label.visible = true
+
+
+func _on_dog_pit_exited(body: Node) -> void:
+	if body.is_in_group("player"):
+		_near_dog_pit = false
+		if _dog_pit_hint_label:
+			_dog_pit_hint_label.visible = false
+
+
 func _exit_to_start_area() -> void:
 	if _player:
 		GameState.player_position = Vector2.ZERO   # Let Start Area use its own spawn
 	get_tree().change_scene_to_file(START_AREA_PATH)
+
+
+func _enter_dog_pit() -> void:
+	if _player:
+		GameState.player_position = Vector2.ZERO
+	get_tree().change_scene_to_file(DOG_PIT_PATH)
 
 
 # ─────────────────────────────────────────────────────────────

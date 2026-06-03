@@ -1,0 +1,122 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/challenges/DaisyDogFightPanel.gd" id="1_panel"]
+
+[node name="DaisyDogFightPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -295.0
+offset_top = -255.0
+offset_right = 295.0
+offset_bottom = 255.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+script = ExtResource("1_panel")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "🥊 Dog Pit Bouts"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+modulate = Color(1, 0.82, 0.45, 1)
+
+[node name="WagerLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Entry: 0 VIBE"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+modulate = Color(1, 0.95, 0.6, 1)
+
+; ── HP BARS ───────────────────────────────────────────────────
+[node name="HPBars" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DaisyLabel" type="Label" parent="Panel/VBoxContainer/HPBars"]
+layout_mode = 2
+text = "Daisy 🐾"
+theme_override_font_sizes/font_size = 13
+vertical_alignment = 1
+modulate = Color(0.7, 1, 0.7, 1)
+
+[node name="DaisyHP" type="ProgressBar" parent="Panel/VBoxContainer/HPBars"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 18)
+size_flags_horizontal = 3
+max_value = 100
+value = 100
+show_percentage = false
+
+[node name="VSLabel" type="Label" parent="Panel/VBoxContainer/HPBars"]
+layout_mode = 2
+text = " vs "
+theme_override_font_sizes/font_size = 13
+vertical_alignment = 1
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="OppHP" type="ProgressBar" parent="Panel/VBoxContainer/HPBars"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 18)
+size_flags_horizontal = 3
+max_value = 100
+value = 100
+show_percentage = false
+
+[node name="OppLabel" type="Label" parent="Panel/VBoxContainer/HPBars"]
+layout_mode = 2
+text = "🐶 Opp"
+theme_override_font_sizes/font_size = 13
+vertical_alignment = 1
+modulate = Color(1, 0.7, 0.7, 1)
+
+; ── ARENA ─────────────────────────────────────────────────────
+[node name="ArenaWrap" type="CenterContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Arena" type="Control" parent="Panel/VBoxContainer/ArenaWrap"]
+custom_minimum_size = Vector2(540, 265)
+layout_mode = 2
+mouse_filter = 0
+
+; ── LABELS ────────────────────────────────────────────────────
+[node name="OwnerLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Owner: ..."
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+
+[node name="StatusLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "A/D Move  ·  SPACE Bite  ·  SHIFT Stand"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.9, 0.9, 1, 1)
+
+[node name="ScoreLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Wins: 0 / 0"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.85, 0.85, 0.85, 1)
+
+[node name="CloseButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Forfeit"
+custom_minimum_size = Vector2(0, 38)
+theme_override_font_sizes/font_size = 15

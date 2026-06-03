@@ -178,8 +178,8 @@ func _on_cell_pressed(cell_idx: int) -> void:
 		return
 	_answered_this_round = true
 
-	var r := cell_idx / _grid_size
-	var c := cell_idx % _grid_size
+	var r: int = cell_idx / _grid_size
+	var c: int = cell_idx % _grid_size
 	var clicked := Vector2i(c, r)
 
 	# Clicking the knight or an obvious bad square is just wrong

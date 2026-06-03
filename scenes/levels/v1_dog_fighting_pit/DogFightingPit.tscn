@@ -1,0 +1,153 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/game_state/DogFightingPitManager.gd" id="1_manager"]
+[ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewGround.gd" id="2_ground"]
+[ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewProp.gd" id="3_prop"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_H"]
+size = Vector2(1400, 20)
+
+[sub_resource type="RectangleShape2D" id="RectShape_V"]
+size = Vector2(20, 840)
+
+[node name="DogFightingPit" type="Node2D"]
+script = ExtResource("1_manager")
+
+[node name="Ambience" type="CanvasModulate" parent="."]
+color = Color(0.98, 0.92, 0.86, 1)
+
+[node name="BackDrop" type="Node2D" parent="."]
+
+[node name="Ground" type="Node2D" parent="BackDrop"]
+z_index = -50
+script = ExtResource("2_ground")
+
+[node name="SortLayer" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Props" type="Node2D" parent="SortLayer"]
+
+[node name="FenceTop" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(0, -300)
+script = ExtResource("3_prop")
+prop_type = "fence"
+prop_scale = 1.2
+
+[node name="FenceBottom" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(0, 260)
+script = ExtResource("3_prop")
+prop_type = "fence"
+prop_scale = 1.2
+
+[node name="TreeLeft" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-520, -300)
+script = ExtResource("3_prop")
+prop_type = "tree"
+
+[node name="TreeRight" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(520, -300)
+script = ExtResource("3_prop")
+prop_type = "tree"
+
+[node name="NPCs" type="Node2D" parent="SortLayer"]
+
+[node name="Zones" type="Node2D" parent="."]
+
+[node name="PitSign" type="Label" parent="Zones"]
+offset_left = -170.0
+offset_top = -340.0
+offset_right = 170.0
+offset_bottom = -300.0
+text = "🥊 Daisy's Dog Pit"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.45, 0.16, 0.14, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 4
+
+[node name="RingFloor" type="ColorRect" parent="Zones"]
+offset_left = -230.0
+offset_top = -180.0
+offset_right = 230.0
+offset_bottom = 120.0
+color = Color(0.68, 0.42, 0.32, 0.35)
+
+[node name="RingRopeTop" type="ColorRect" parent="Zones"]
+offset_left = -240.0
+offset_top = -190.0
+offset_right = 240.0
+offset_bottom = -184.0
+color = Color(0.82, 0.16, 0.12, 1)
+
+[node name="PitBossMarker" type="Marker2D" parent="Zones"]
+position = Vector2(0, -10)
+
+[node name="DaisyMarker" type="Marker2D" parent="Zones"]
+position = Vector2(-120, 30)
+
+[node name="CourseMarker" type="Marker2D" parent="Zones"]
+position = Vector2(-420, 30)
+
+[node name="GroomerMarker" type="Marker2D" parent="Zones"]
+position = Vector2(420, 30)
+
+[node name="CourseSign" type="Label" parent="Zones"]
+offset_left = -540.0
+offset_top = -80.0
+offset_right = -300.0
+offset_bottom = -50.0
+text = "🏋️ Obedience Course"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.22, 0.55, 0.22, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 3
+
+[node name="GroomerSign" type="Label" parent="Zones"]
+offset_left = 300.0
+offset_top = -80.0
+offset_right = 540.0
+offset_bottom = -50.0
+text = "✂️ Daisy's Groomer"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.62, 0.22, 0.70, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 3
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(0, 280)
+
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, -400)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallTop"]
+shape = SubResource("RectShape_H")
+
+[node name="WallBottom" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, 420)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallBottom"]
+shape = SubResource("RectShape_H")
+
+[node name="WallLeft" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(-680, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallLeft"]
+shape = SubResource("RectShape_V")
+
+[node name="WallRight" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(680, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
+shape = SubResource("RectShape_V")

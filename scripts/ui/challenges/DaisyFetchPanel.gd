@@ -87,8 +87,8 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 # LAYOUT
 # ─────────────────────────────────────────────────────────────
 func _layout_positions() -> void:
-	var size: Vector2 = field.size if field.size != Vector2.ZERO else FIELD_SIZE
-	_player_pos = Vector2(size.x * 0.5, size.y - 24.0)
+	var field_size: Vector2 = field.size if field.size != Vector2.ZERO else FIELD_SIZE
+	_player_pos = Vector2(field_size.x * 0.5, field_size.y - 24.0)
 	_daisy_home = _player_pos + DAISY_HOME_OFFSET
 	_daisy_pos = _daisy_home
 

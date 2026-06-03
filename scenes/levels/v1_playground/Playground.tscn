@@ -59,6 +59,12 @@ position = Vector2(0, -360)
 script = ExtResource("3_prop")
 prop_type = "sign_post"
 
+[node name="DogPitSignPost" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(0, -420)
+script = ExtResource("3_prop")
+prop_type = "sign_post"
+prop_scale = 1.1
+
 [node name="Flowers1" type="Node2D" parent="SortLayer/Props"]
 position = Vector2(-180, 30)
 script = ExtResource("3_prop")
@@ -232,6 +238,18 @@ theme_override_font_sizes/font_size = 22
 
 [node name="DaisyMarker" type="Marker2D" parent="Zones"]
 position = Vector2(490, 200)
+
+[node name="DogPitSign" type="Label" parent="Zones"]
+offset_left = -160.0
+offset_top = -430.0
+offset_right = 160.0
+offset_bottom = -400.0
+text = "🥊 Dog Pit Entrance"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.56, 0.2, 0.18, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 3
 
 [node name="NPCs" type="Node2D" parent="SortLayer"]
 

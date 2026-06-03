@@ -293,6 +293,124 @@ const ALL_MISSIONS: Dictionary = {
 			"[Daisy] Woof! 🐾",
 		],
 	},
+
+	# ──────────────────────────────────────────────────────────
+	# DAISY — "Dog Pit Bouts"
+	# ──────────────────────────────────────────────────────────
+	"daisy_dog_pit": {
+		"mission_id": "daisy_dog_pit",
+		"title": "Dog Pit Bouts",
+		"description": "Wager VIBE and help Daisy survive 3 high-pressure bouts.",
+		"npc_id": "pit_boss_mara",
+		"npc_name": "Pit Boss Mara",
+
+		"challenge": {
+			"panel": "DaisyDogFightPanel",
+			"rounds": 3,
+			"required_wins": 2,
+			"wager_cost": 6,
+			"payout_bonus": 14,
+			"owners": [
+				{
+					"name": "Rex's Owner",
+					"taunt": "My bulldog Rex only needs one clean hit."
+				},
+				{
+					"name": "Nova's Owner",
+					"taunt": "Nova is faster than lightning. Daisy won't touch her."
+				},
+				{
+					"name": "Brutus's Owner",
+					"taunt": "This is the final round. Brutus never loses."
+				},
+			],
+		},
+
+		"rewards": {
+			"tokens": 10,
+			"xp": 50,
+			"nft": {
+				"nft_id": "pit_champion_nft",
+				"name": "Pit Champion Badge",
+				"description": "Awarded for guiding Daisy through the dog pit bouts.",
+				"rarity": "uncommon",
+				"image_path": "res://assets/icons/nfts/pit_champion_nft.png",
+				"discovered_from": "Dog Pit Bouts",
+				"tradeable": false,
+				"equipped": false,
+				"token_value": 10,
+			},
+		},
+		"repeatable": false,
+
+		"dialogue_intro": [
+			"[Pit Boss Mara] Welcome to the Dog Pit. You can wager VIBE on Daisy's run.",
+			"[Pit Boss Mara] It'll be a three-bout ladder, and each owner's got something to say.",
+			"[Pit Boss Mara] Win at least 2 rounds and cash out. Lose, and your entry stays in the pot.",
+		],
+		"dialogue_success": [
+			"[Pit Boss Mara] Daisy made it through the ladder! That's champion energy.",
+			"[Pit Boss Mara] Your payout is settled. Come back when you want another showdown.",
+		],
+		"dialogue_failure": [
+			"[Pit Boss Mara] Tough break. The pit is unforgiving.",
+			"[Pit Boss Mara] Build up your VIBE and timing, then challenge the ladder again.",
+		],
+		"dialogue_complete": [
+			"[Pit Boss Mara] You already cleared the pit once.",
+			"[Pit Boss Mara] Online player-versus-player bouts are coming soon.",
+		],
+	},
+
+	# ──────────────────────────────────────────────────────────
+	# DAISY — "Obedience Course"
+	# ──────────────────────────────────────────────────────────
+	"daisy_obedience_course": {
+		"mission_id":   "daisy_obedience_course",
+		"title":        "Obedience Course",
+		"description":  "Guide Daisy through five training obstacles in the right order.",
+		"npc_id":       "course_coach",
+		"npc_name":     "Coach Bolt",
+
+		"challenge": {
+			"panel": "ObstacleCoursePanel",
+		},
+
+		"rewards": {
+			"tokens": 8,
+			"xp": 40,
+			"nft": {
+				"nft_id":         "good_girl_nft",
+				"name":           "Good Girl Badge",
+				"description":    "Daisy completed the obedience course with flying colors.",
+				"rarity":         "common",
+				"image_path":     "res://assets/icons/nfts/good_girl_nft.png",
+				"discovered_from":"Obedience Course",
+				"tradeable":      false,
+				"equipped":       false,
+				"token_value":    8,
+			},
+		},
+		"repeatable": false,
+
+		"dialogue_intro": [
+			"[Coach Bolt] Welcome to the obedience course!",
+			"[Coach Bolt] Five obstacles, five commands. Watch the prompt and press the right key fast.",
+			"[Coach Bolt] Get at least 3 out of 5 and Daisy graduates. Ready?",
+		],
+		"dialogue_success": [
+			"[Coach Bolt] Outstanding! Daisy is a natural!",
+			"[Coach Bolt] Come back any time to practise more.",
+		],
+		"dialogue_failure": [
+			"[Coach Bolt] Not quite — Daisy needs a bit more practice.",
+			"[Coach Bolt] Talk to me again to run the course.",
+		],
+		"dialogue_complete": [
+			"[Coach Bolt] Daisy already earned her certificate!",
+			"[Coach Bolt] Feel free to chat, but the course record stands.",
+		],
+	},
 }
 
 

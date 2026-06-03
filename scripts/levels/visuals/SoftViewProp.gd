@@ -1,7 +1,7 @@
 ## SoftViewProp.gd — soft ¾-view placeholder props (replace with sprites later).
 extends Node2D
 
-@export_enum("tree", "school", "flowers", "bench", "bush", "sign_post") var prop_type: String = "tree"
+@export_enum("tree", "school", "flowers", "bench", "bush", "sign_post", "fence") var prop_type: String = "tree"
 @export var prop_scale: float = 1.0
 @export var tint: Color = Color(1, 1, 1, 1)
 
@@ -25,6 +25,8 @@ func _draw() -> void:
 			_draw_bush(s)
 		"sign_post":
 			_draw_sign_post(s)
+		"fence":
+			_draw_fence(s)
 
 
 func _shadow_oval(rx: float, ry: float, alpha: float = 0.22) -> void:
@@ -194,3 +196,24 @@ func _draw_sign_post(s: float) -> void:
 		Color(0.92, 0.88, 0.55) * tint,
 	)
 	draw_rect(Rect2(-34 * s, -58 * s, 68 * s, 22 * s), Color(0.65, 0.45, 0.22), false, 2.0)
+
+
+func _draw_fence(s: float) -> void:
+	_shadow_oval(36 * s, 8 * s)
+	var wood := Color(0.52, 0.36, 0.22) * tint
+	var wood_light := wood.lightened(0.12)
+	# Posts
+	for px: float in [-28.0, 0.0, 28.0]:
+		draw_colored_polygon(PackedVector2Array([
+			Vector2((px - 3) * s, 8 * s),  Vector2((px + 3) * s, 8 * s),
+			Vector2((px + 2) * s, -30 * s), Vector2((px - 2) * s, -30 * s),
+		]), wood)
+	# Rails
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-32 * s, -21 * s), Vector2(32 * s, -21 * s),
+		Vector2(32 * s, -15 * s), Vector2(-32 * s, -15 * s),
+	]), wood_light)
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-32 * s, -8 * s), Vector2(32 * s, -8 * s),
+		Vector2(32 * s, -2 * s), Vector2(-32 * s, -2 * s),
+	]), wood_light)

@@ -101,7 +101,7 @@ func _start_round() -> void:
 	_current_round += 1
 
 	var pick: Array = TARGETS[randi() % TARGETS.size()]
-	var name: String = pick[0]
+	var color_name: String = pick[0]
 	_target_color = pick[1]
 
 	if target_swatch:
@@ -118,7 +118,7 @@ func _start_round() -> void:
 	_refresh_your_swatch()
 
 	if prompt_label:
-		prompt_label.text = 'Mix "%s" — slide R, G, and B until the swatches match!' % name
+		prompt_label.text = 'Mix "%s" — slide R, G, and B until the swatches match!' % color_name
 		prompt_label.modulate = Color(1, 1, 1, 1)
 	if feedback_label:
 		feedback_label.text = ""

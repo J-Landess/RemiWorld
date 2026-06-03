@@ -173,6 +173,18 @@ func show_puzzle(puzzle_data: Dictionary, caller: Node) -> void:
 #   - Implement show_challenge(mission_data: Dictionary, caller: Node).
 #   - Call caller.on_challenge_finished(success: bool) when done.
 # ─────────────────────────────────────────────────────────────
+func show_groomer(caller: Node) -> void:
+	var panel := get_node_or_null("GroomerPanel")
+	if not panel:
+		push_warning("[HUD] GroomerPanel not found.")
+		return
+	_hide_all_panels()
+	panel.visible = true
+	if panel.has_method("show_groomer"):
+		panel.show_groomer(caller)
+	_set_game_paused(true)
+
+
 func show_challenge(panel_name: String, mission_data: Dictionary, caller: Node) -> void:
 	var panel := get_node_or_null(panel_name)
 	if not panel:

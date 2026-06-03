@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://rw_hud"]
+[gd_scene load_steps=15 format=3 uid="uid://rw_hud"]
 
 [ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/DialogueBox.gd" id="2_dialogue"]
@@ -12,6 +12,9 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/SoccerKickPanel.tscn" id="10_soccer"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/ArtPalettePanel.tscn" id="11_art"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/DaisyFetchPanel.tscn" id="12_daisy"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/DaisyDogFightPanel.tscn" id="13_dogpit"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/ObstacleCoursePanel.tscn" id="14_course"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/GroomerPanel.tscn" id="15_groomer"]
 
 ; ──────────────────────────────────────────────────────────────
 ; HUD - Heads Up Display
@@ -612,4 +615,13 @@ visible = false
 visible = false
 
 [node name="DaisyFetchPanel" parent="." instance=ExtResource("12_daisy")]
+visible = false
+
+[node name="DaisyDogFightPanel" parent="." instance=ExtResource("13_dogpit")]
+visible = false
+
+[node name="ObstacleCoursePanel" parent="." instance=ExtResource("14_course")]
+visible = false
+
+[node name="GroomerPanel" parent="." instance=ExtResource("15_groomer")]
 visible = false

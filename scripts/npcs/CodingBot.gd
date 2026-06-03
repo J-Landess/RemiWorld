@@ -68,17 +68,16 @@ func on_player_interact(_player: Node) -> void:
 
 	_is_talking = true
 
+	var dialogue_box := _find_dialogue_box()
+
 	# If the mission is already complete, just show completion dialogue
 	if MissionManager.is_mission_complete(MISSION_ID):
-		var dialogue_box := _find_dialogue_box()
 		if dialogue_box:
 			dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self)
 		return
 
 	# Otherwise, start the mission and show intro dialogue
 	MissionManager.start_mission(MISSION_ID)
-
-	var dialogue_box := _find_dialogue_box()
 	if dialogue_box:
 		# Show intro dialogue, then trigger the puzzle when it's done
 		dialogue_box.show_dialogue(
