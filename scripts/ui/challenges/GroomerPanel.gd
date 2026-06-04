@@ -109,7 +109,7 @@ func _rebuild_items() -> void:
 
 	for item: Dictionary in catalogue:
 		var row := HBoxContainer.new()
-		row.theme_override_constants_separation = 6
+		row.add_theme_constant_override("separation", 6)
 
 		var lbl := Label.new()
 		lbl.text = "%s  (%d VIBE)" % [item.label, item.cost]

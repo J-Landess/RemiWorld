@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1780515908
+::res://::1780556389
 CREDITS.md::TextFile::-1::1780367511::0::1::::<><><>0<>0<><>::
 README.md::TextFile::-1::1780365302::0::1::::<><><>0<>0<><>::
 ROADMAP.md::TextFile::-1::1780365321::0::1::::<><><>0<>0<><>::
@@ -110,7 +110,7 @@ SoftViewProp.gd::GDScript::5331422802191530987::1780513804::0::1::::<>Node2D<><>
 ArtistPip.gd::GDScript::926143822876193004::1780365021::0::1::::<>StaticBody2D<><>0<>0<><>::
 ChessTutor.gd::GDScript::3695593142418225404::1780364802::0::1::::<>StaticBody2D<><>0<>0<><>::
 CoachKick.gd::GDScript::6380963138094120104::1780364904::0::1::::<>StaticBody2D<><>0<>0<><>::
-CodingBot.gd::GDScript::1704523300817851990::1780363768::0::1::::<>StaticBody2D<><>0<>0<><>::
+CodingBot.gd::GDScript::1704523300817851990::1780516288::0::1::::<>StaticBody2D<><>0<>0<><>::
 CourseCoach.gd::GDScript::3424765023798827470::1780515425::0::1::::<>StaticBody2D<><>0<>0<><>::
 DaisyDoodles.gd::GDScript::7313554400336346500::1780365142::0::1::::<>CharacterBody2D<><>0<>0<><>::
 GroomerGreta.gd::GDScript::1956799087312731832::1780515524::0::1::::<>StaticBody2D<><>0<>0<><>::
@@ -152,10 +152,10 @@ SettingsScreen.gd::GDScript::5264992803742796541::1780364471::0::1::::<>Control<
 StoreUI.gd::GDScript::9146848976332311848::1780105125::0::1::::<>Control<><>0<>0<><>::
 WelcomeScreen.gd::GDScript::1563010982174759108::1780104906::0::1::::<>Control<><>0<>0<><>::
 ::res://scripts/ui/challenges/::1780515733
-ArtPalettePanel.gd::GDScript::1479846349455144138::1780365064::0::1::::<>Control<><>0<>0<><>::
-ChessPuzzlePanel.gd::GDScript::4266981774230536408::1780364853::0::1::::<>Control<><>0<>0<><>::
-DaisyDogFightPanel.gd::GDScript::7698739584186624365::1780515262::0::1::::<>Control<><>0<>0<><>::
-DaisyFetchPanel.gd::GDScript::507722576036648701::1780365194::0::1::::<>Control<><>0<>0<><>::
-GroomerPanel.gd::GDScript::8438901640781966289::1780515852::0::1::::<>Control<><>0<>0<><>::
+ArtPalettePanel.gd::GDScript::1479846349455144138::1780516311::0::1::::<>Control<><>0<>0<><>::
+ChessPuzzlePanel.gd::GDScript::4266981774230536408::1780516322::0::1::::<>Control<><>0<>0<><>::
+DaisyDogFightPanel.gd::GDScript::7698739584186624365::1780516282::0::1::::<>Control<><>0<>0<><>::
+DaisyFetchPanel.gd::GDScript::507722576036648701::1780516317::0::1::::<>Control<><>0<>0<><>::
+GroomerPanel.gd::GDScript::8438901640781966289::1780530135::0::1::::<>Control<><>0<>0<><>::
 ObstacleCoursePanel.gd::GDScript::1013431913221703795::1780515397::0::1::::<>Control<><>0<>0<><>::
 SoccerKickPanel.gd::GDScript::1044296864533438674::1780365233::0::1::::<>Control<><>0<>0<><>::
