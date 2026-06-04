@@ -1,151 +1,133 @@
 ## CodingBot.gd
 ## =============================================================
-## The first NPC the player meets in Remi's Start Area.
-## Coding Bot teaches logic patterns and gives the first mission.
-##
-## Mission: "Pattern Power"
-## Reward:  10 VIBE + 25 XP + Pattern Star Badge NFT
-##
-## Inherits from NPC.gd (which handles basic interaction logic)
+## Teaches patterns first, then a ladder of math & coding puzzles.
 ## =============================================================
 extends "res://scripts/npcs/NPC.gd"
 
-# ─────────────────────────────────────────────────────────────
-# SIGNALS (mission-specific)
-# ─────────────────────────────────────────────────────────────
 signal puzzle_presented()
 signal puzzle_answered(correct: bool)
 
-# ─────────────────────────────────────────────────────────────
-# MISSION DATA
-# ─────────────────────────────────────────────────────────────
 const MISSION_ID: String = "pattern_power"
+const PuzzleBank := preload("res://scripts/data/CodingPuzzleBank.gd")
 
-# ─────────────────────────────────────────────────────────────
-# INTERNAL STATE
-# ─────────────────────────────────────────────────────────────
 var _in_puzzle_mode: bool = false
 var _mission_data: Dictionary = {}
+var _training_mode: bool = false
 
 
-# ─────────────────────────────────────────────────────────────
-# SETUP
-# ─────────────────────────────────────────────────────────────
 func _ready() -> void:
-	# Set default NPC properties
 	npc_name = "Coding Bot"
 	npc_id = "coding_bot"
-	sprite_color = Color(0.4, 0.8, 1.0)  # Light blue placeholder color
-
-	# Load mission data from the database
+	sprite_color = Color(0.4, 0.8, 1.0)
 	_mission_data = MissionDatabase.get_mission(MISSION_ID)
-
-	# Call the parent ready (sets up name tag, groups, etc.)
 	super._ready()
 	_update_quest_marker()
 
 
-# ─────────────────────────────────────────────────────────────
-# OVERRIDE: Return the right dialogue based on mission state
-# ─────────────────────────────────────────────────────────────
 func _get_dialogue_lines() -> Array:
-	if MissionManager.is_mission_complete(MISSION_ID):
-		return _mission_data.get("dialogue_complete", [
-			"[Coding Bot] You already solved my pattern! Great work! 🌟"
-		])
-	else:
-		return _mission_data.get("dialogue_intro", [
-			"[Coding Bot] Hi! I'm Coding Bot! Can you solve my pattern puzzle?"
-		])
+	if not MissionManager.is_mission_complete(MISSION_ID):
+		return _mission_data.get("dialogue_intro", [])
+	var lvl: int = GameState.coding_bot_level
+	var tier: String = PuzzleBank.tier_label(lvl)
+	return [
+		"[Coding Bot] You're on training level %d — %s puzzles!" % [lvl + 1, tier],
+		"[Coding Bot] Each win levels you up. Ready?",
+	]
 
 
-# ─────────────────────────────────────────────────────────────
-# OVERRIDE: Custom interaction triggers the puzzle
-# ─────────────────────────────────────────────────────────────
 func on_player_interact(_player: Node) -> void:
 	if _is_talking:
 		return
-
 	_is_talking = true
 
 	var dialogue_box := _find_dialogue_box()
 
-	# If the mission is already complete, just show completion dialogue
 	if MissionManager.is_mission_complete(MISSION_ID):
+		_training_mode = true
 		if dialogue_box:
-			dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self)
+			dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self, true)
+		else:
+			_present_puzzle()
 		return
 
-	# Otherwise, start the mission and show intro dialogue
+	_training_mode = false
 	MissionManager.start_mission(MISSION_ID)
 	if dialogue_box:
-		# Show intro dialogue, then trigger the puzzle when it's done
-		dialogue_box.show_dialogue(
-			npc_name,
-			_get_dialogue_lines(),
-			self,
-			true  # "show_puzzle_after" flag
-		)
+		dialogue_box.show_dialogue(npc_name, _mission_data.get("dialogue_intro", []), self, true)
 	else:
-		# No dialogue box — show puzzle directly (fallback)
 		_present_puzzle()
 
 
-# ─────────────────────────────────────────────────────────────
-# PUZZLE — show the logic challenge
-# ─────────────────────────────────────────────────────────────
 func _present_puzzle() -> void:
 	_in_puzzle_mode = true
 	emit_signal("puzzle_presented")
 
-	# Find the puzzle UI and activate it
+	var puzzle: Dictionary
+	if _training_mode:
+		puzzle = PuzzleBank.get_puzzle_for_level(GameState.coding_bot_level)
+		puzzle["question"] = "Level %d · %s\n%s" % [
+			GameState.coding_bot_level + 1,
+			PuzzleBank.tier_label(GameState.coding_bot_level),
+			puzzle.get("question", ""),
+		]
+	else:
+		puzzle = _mission_data.get("puzzle", {})
+
 	var hud := get_tree().get_first_node_in_group("hud")
 	if hud and hud.has_method("show_puzzle"):
-		hud.show_puzzle(_mission_data.get("puzzle", {}), self)
+		hud.show_puzzle(puzzle, self)
 	else:
 		push_warning("[CodingBot] Could not find HUD to show puzzle!")
 
 
-# ─────────────────────────────────────────────────────────────
-# CALLED WHEN PLAYER ANSWERS THE PUZZLE
-# ─────────────────────────────────────────────────────────────
 func on_puzzle_answered(answer_index: int) -> void:
 	_in_puzzle_mode = false
-	var puzzle: Dictionary = _mission_data.get("puzzle", {})
+	var puzzle: Dictionary
+	if _training_mode:
+		puzzle = PuzzleBank.get_puzzle_for_level(GameState.coding_bot_level)
+	else:
+		puzzle = _mission_data.get("puzzle", {})
+
 	var correct_index: int = puzzle.get("correct_index", 0)
 	var correct: bool = (answer_index == correct_index)
-
 	emit_signal("puzzle_answered", correct)
 
 	var dialogue_box := _find_dialogue_box()
 
 	if correct:
-		# Grant the reward!
-		var rewards: Dictionary = _mission_data.get("rewards", {})
-		RewardManager.grant_reward(rewards)
-		MissionManager.complete_mission(MISSION_ID, rewards)
-		SaveManager.save_game()
-		_update_quest_marker()
-
-		if dialogue_box:
-			dialogue_box.show_dialogue(
-				npc_name,
-				_mission_data.get("dialogue_success", ["[Coding Bot] Amazing! You got it! 🌟"]),
-				self
-			)
+		if _training_mode:
+			GameState.coding_bot_level += 1
+			GameState.add_tokens(3 + GameState.coding_bot_level)
+			GameState.add_xp(8 + GameState.coding_bot_level * 2)
+			SaveManager.save_game()
+			if dialogue_box:
+				dialogue_box.show_dialogue(npc_name, [
+					"[Coding Bot] Level cleared! 🌟",
+					"[Coding Bot] You're now training level %d. Keep going!" % (GameState.coding_bot_level + 1),
+				], self)
+		else:
+			var rewards: Dictionary = _mission_data.get("rewards", {})
+			RewardManager.grant_reward(rewards)
+			MissionManager.complete_mission(MISSION_ID, rewards)
+			SaveManager.save_game()
+			_update_quest_marker()
+			if dialogue_box:
+				dialogue_box.show_dialogue(npc_name, _mission_data.get("dialogue_success", []), self)
 	else:
+		var fail_lines: Array
+		if _training_mode:
+			fail_lines = [
+				"[Coding Bot] Close! Level %d is tricky." % (GameState.coding_bot_level + 1),
+				"[Coding Bot] Read the hint and try again!",
+			]
+		else:
+			fail_lines = _mission_data.get("dialogue_failure", [])
 		if dialogue_box:
-			dialogue_box.show_dialogue(
-				npc_name,
-				_mission_data.get("dialogue_failure", ["[Coding Bot] Hmm, not quite! Try again!"]),
-				self
-			)
-		# Let them try again after the dialogue
+			dialogue_box.show_dialogue(npc_name, fail_lines, self)
 		await get_tree().create_timer(0.5).timeout
 		_is_talking = false
 
 
-# Called by the dialogue box when it's done displaying
 func on_dialogue_finished() -> void:
 	_is_talking = false
 	emit_signal("dialogue_ended")

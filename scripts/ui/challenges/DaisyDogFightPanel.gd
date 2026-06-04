@@ -41,6 +41,7 @@ const C_EAR    := Color(0.90, 0.80, 0.70)
 const C_NOSE   := Color(0.90, 0.55, 0.65)
 const C_EYE    := Color(0.12, 0.08, 0.08)
 const C_COLLAR := Color(1.00, 0.45, 0.10)
+const DaisyDraw := preload("res://scripts/npcs/visuals/DaisyDrawHelper.gd")
 
 # ─────────────────────────────────────────────────────────────
 # STATE ENUMS
@@ -598,31 +599,17 @@ func _draw_daisy() -> void:
 	match _daisy_state:
 		DaisyState.STANDING:
 			_draw_daisy_standing(_daisy_x, draw_y, c)
+			_apply_groomer_look(_daisy_x, draw_y - 42.0)
 		DaisyState.BITING:
+			var lunge := 14.0
 			_draw_daisy_biting(_daisy_x, draw_y, c)
+			_apply_groomer_look(_daisy_x + 14.0 + lunge, draw_y - 9.0)
 		_:
-			_draw_daisy_normal(_daisy_x, draw_y, c)
-
-	# Apply outfit / haircut accents (reads from GameState)
-	_draw_daisy_outfit(_daisy_x, draw_y)
+			DaisyDraw.draw_idle_dog(arena, _daisy_x, draw_y, 1.0, _daisy_facing_right)
 
 	# Reset transform
 	if not _daisy_facing_right:
 		arena.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-
-
-func _draw_daisy_normal(x: float, y: float, c: Color) -> void:
-	arena.draw_circle(Vector2(x - 14, y - 8), 5.0, c)   # Tail left
-	arena.draw_rect(Rect2(x - 12, y - 11, 26, 13), c)   # Body
-	arena.draw_circle(Vector2(x + 12, y - 9), 10.0, c)  # Head right
-	arena.draw_rect(Rect2(x + 9, y - 16, 9, 12), C_EAR) # Ear
-	arena.draw_circle(Vector2(x + 17, y - 11), 2.2, C_EYE)
-	arena.draw_circle(Vector2(x + 21, y - 6),  2.8, C_NOSE)
-	arena.draw_rect(Rect2(x - 10, y + 2, 5, 9), c)
-	arena.draw_rect(Rect2(x - 3,  y + 2, 5, 9), c)
-	arena.draw_rect(Rect2(x + 5,  y + 2, 5, 9), c)
-	arena.draw_rect(Rect2(x + 12, y + 2, 4, 7), c)
-	arena.draw_rect(Rect2(x + 3, y - 15, 14, 4), C_COLLAR)
 
 
 func _draw_daisy_standing(x: float, y: float, c: Color) -> void:
@@ -657,19 +644,9 @@ func _draw_daisy_biting(x: float, y: float, c: Color) -> void:
 	arena.draw_rect(Rect2(x + 5 + lunge * 0.4, y - 15, 12, 4), C_COLLAR)
 
 
-func _draw_daisy_outfit(x: float, y: float) -> void:
-	match GameState.get("daisy_outfit"):
-		"bow":
-			arena.draw_circle(Vector2(x + 10, y - 18), 4.0, Color(1.0, 0.55, 0.75))
-			arena.draw_circle(Vector2(x + 16, y - 18), 4.0, Color(1.0, 0.55, 0.75))
-			arena.draw_circle(Vector2(x + 13, y - 18), 2.5, Color(1.0, 0.80, 0.90))
-		"bandana":
-			arena.draw_rect(Rect2(x + 2, y - 14, 14, 5), Color(0.85, 0.28, 0.22))
-		"sweater":
-			arena.draw_rect(Rect2(x - 11, y - 10, 24, 11), Color(0.35, 0.55, 0.88, 0.85))
-		"vest":
-			arena.draw_rect(Rect2(x - 10, y - 10, 10, 11), Color(0.22, 0.22, 0.22, 0.82))
-			arena.draw_rect(Rect2(x + 2,  y - 10, 10, 11), Color(0.22, 0.22, 0.22, 0.82))
+func _apply_groomer_look(head_x: float, head_y: float) -> void:
+	DaisyDraw.draw_haircut_only(arena, head_x, head_y, 1.0, _daisy_facing_right)
+	DaisyDraw.draw_outfit_only(arena, _daisy_x, FLOOR_Y - _daisy_y_off, 1.0, _daisy_facing_right)
 
 
 # ─────────────────────────────────────────────────────────────

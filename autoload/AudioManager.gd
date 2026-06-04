@@ -21,9 +21,20 @@ extends Node
 # CONSTANTS
 # ─────────────────────────────────────────────────────────────
 const SFX_FOLDER: String = "res://assets/audio/sfx/"
+const MUSIC_FOLDER: String = "res://assets/audio/music/"
 const POOL_SIZE: int = 6   # Max simultaneous SFX
 const MUSIC_BUS_NAME: String = "Music"
 const SFX_BUS_NAME: String = "SFX"
+const MUSIC_BUS_VOLUME: float = 0.42   # Keep BGM under SFX when using sfx as loops
+
+# Zone keys → track name (loads music/ first, then sfx/ as looping fallback)
+const ZONE_TRACKS: Dictionary = {
+	"start_area": "paint_brush",
+	"playground": "paint_brush",
+	"dog_pit": "dog_pant",
+	"school": "step",
+	"main_menu": "paint_brush",
+}
 
 # ─────────────────────────────────────────────────────────────
 # INTERNAL STATE
@@ -31,6 +42,8 @@ const SFX_BUS_NAME: String = "SFX"
 var _sounds: Dictionary = {}          # name → AudioStream
 var _pool: Array[AudioStreamPlayer] = []
 var _next_player: int = 0
+var _music_player: AudioStreamPlayer = null
+var _current_music_key: String = ""
 
 
 # ─────────────────────────────────────────────────────────────
@@ -41,6 +54,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	_build_player_pool()
+	_build_music_player()
 	_load_all_sfx()
 	apply_volume_settings()
 
@@ -50,6 +64,14 @@ func _ready() -> void:
 # ─────────────────────────────────────────────────────────────
 # BUILD THE AUDIO STREAM PLAYER POOL
 # ─────────────────────────────────────────────────────────────
+func _build_music_player() -> void:
+	_music_player = AudioStreamPlayer.new()
+	_music_player.name = "MusicPlayer"
+	_music_player.bus = MUSIC_BUS_NAME if AudioServer.get_bus_index(MUSIC_BUS_NAME) != -1 else "Master"
+	_music_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_music_player)
+
+
 func _build_player_pool() -> void:
 	for i in POOL_SIZE:
 		var p := AudioStreamPlayer.new()
@@ -130,3 +152,50 @@ func _set_bus_volume(bus_name: String, linear: float) -> void:
 # ─────────────────────────────────────────────────────────────
 func has_sfx(sound_name: String) -> bool:
 	return _sounds.has(sound_name)
+
+
+# ─────────────────────────────────────────────────────────────
+# BACKGROUND MUSIC
+# Uses res://assets/audio/music/{track}.ogg if present, otherwise
+# loops a soft SFX from the uploaded library (paint_brush, dog_pant, etc.).
+# ─────────────────────────────────────────────────────────────
+func play_music(zone_key: String) -> void:
+	var track_name: String = ZONE_TRACKS.get(zone_key, "paint_brush")
+	if track_name == _current_music_key and _music_player and _music_player.playing:
+		return
+
+	var stream := _load_music_stream(track_name)
+	if stream == null:
+		return
+
+	_set_stream_loop(stream, true)
+	_music_player.stream = stream
+	_music_player.volume_db = linear_to_db(MUSIC_BUS_VOLUME)
+	_music_player.play()
+	_current_music_key = track_name
+
+
+func stop_music() -> void:
+	if _music_player:
+		_music_player.stop()
+	_current_music_key = ""
+
+
+func _load_music_stream(track_name: String) -> AudioStream:
+	for folder in [MUSIC_FOLDER, SFX_FOLDER]:
+		for ext in [".ogg", ".wav", ".mp3"]:
+			var path: String = folder + track_name + ext
+			if ResourceLoader.exists(path):
+				var s: AudioStream = load(path)
+				if s:
+					return s
+	if _sounds.has(track_name):
+		return _sounds[track_name]
+	return null
+
+
+func _set_stream_loop(stream: AudioStream, loop: bool) -> void:
+	if stream is AudioStreamOggVorbis:
+		stream.loop = loop
+	elif stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD if loop else AudioStreamWAV.LOOP_DISABLED

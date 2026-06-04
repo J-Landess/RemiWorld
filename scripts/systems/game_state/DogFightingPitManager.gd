@@ -26,6 +26,7 @@ func _ready() -> void:
 	_spawn_pit_npcs()
 	_setup_exit_zone()
 	_setup_checkpoint_zone()
+	AudioManager.play_music("dog_pit")
 
 
 func _process(_delta: float) -> void:

@@ -37,6 +37,30 @@ var _open_store_after: bool = false    # Open store when done?
 var _is_typing: bool = false  # Is the typewriter effect running?
 var _full_text: String = ""   # The complete text of the current line
 var _type_timer: float = 0.0  # Timer for typewriter effect
+var _dialogue_font: Font = null
+
+
+func _ready() -> void:
+	_apply_dialogue_theme()
+
+
+func _apply_dialogue_theme() -> void:
+	var sys := SystemFont.new()
+	sys.font_names = PackedStringArray([
+		"Chalkboard SE", "Comic Sans MS", "Arial Rounded MT Bold",
+		"Marker Felt", "Helvetica Neue", "Arial"
+	])
+	sys.font_weight = 600
+	_dialogue_font = sys
+	if speaker_label:
+		speaker_label.add_theme_font_override("font", sys)
+		speaker_label.add_theme_font_size_override("font_size", 28)
+	if text_label:
+		text_label.add_theme_font_override("normal_font", sys)
+		text_label.add_theme_font_size_override("normal_font_size", 24)
+	if continue_label:
+		continue_label.add_theme_font_override("font", sys)
+		continue_label.add_theme_font_size_override("font_size", 16)
 
 
 # ─────────────────────────────────────────────────────────────

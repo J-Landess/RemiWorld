@@ -45,6 +45,7 @@ func _ready() -> void:
 	_setup_exit_zone()
 	_setup_dog_pit_entrance()
 	_setup_checkpoint_zone()
+	AudioManager.play_music("playground")
 
 	print("[Playground] Playground ready!")
 

@@ -17,6 +17,7 @@
 extends CharacterBody2D
 
 const CharacterShadowScene := preload("res://scenes/effects/CharacterShadow.tscn")
+const DaisyDraw := preload("res://scripts/npcs/visuals/DaisyDrawHelper.gd")
 
 # ─────────────────────────────────────────────────────────────
 # CONSTANTS
@@ -57,6 +58,7 @@ const C_COLLAR := Color(1.00, 0.45, 0.10)       # Orange collar (when companion)
 # ─────────────────────────────────────────────────────────────
 func _ready() -> void:
 	add_to_group("daisy")
+	add_to_group("daisy_appearance")
 
 	if not get_node_or_null("CharacterShadow"):
 		var shadow := CharacterShadowScene.instantiate()
@@ -280,6 +282,10 @@ func on_dialogue_finished() -> void:
 	_is_talking = false
 
 
+func refresh_appearance() -> void:
+	queue_redraw()
+
+
 # Reuses the same dialogue-box lookup used by NPC.gd.
 func _find_dialogue_box() -> Node:
 	var hud := get_tree().get_first_node_in_group("hud")
@@ -295,31 +301,5 @@ func _find_dialogue_box() -> Node:
 func _draw() -> void:
 	if not visible:
 		return
-
-	# ── Tail (right, small round nub) ────────────────────────
-	draw_circle(Vector2(14, -8), 5.0, C_FUR)
-
-	# ── Body ─────────────────────────────────────────────────
-	draw_rect(Rect2(-10, -10, 24, 12), C_FUR)
-
-	# ── Head (front-left) ────────────────────────────────────
-	draw_circle(Vector2(-11, -8), 9.0, C_FUR)
-
-	# ── Droopy ear ───────────────────────────────────────────
-	draw_rect(Rect2(-17, -10, 8, 11), C_EAR)
-
-	# ── Eye ──────────────────────────────────────────────────
-	draw_circle(Vector2(-15, -10), 2.0, C_EYE)
-
-	# ── Nose ─────────────────────────────────────────────────
-	draw_circle(Vector2(-19, -5), 2.5, C_NOSE)
-
-	# ── Legs (four short pegs) ───────────────────────────────
-	draw_rect(Rect2(-8, 2, 5, 8), C_FUR)
-	draw_rect(Rect2(-2, 2, 5, 8), C_FUR)
-	draw_rect(Rect2(5, 2, 5, 8), C_FUR)
-	draw_rect(Rect2(11, 2, 4, 7), C_FUR)
-
-	# ── Collar (only when companion) ─────────────────────────
-	if _state == State.COMPANION:
-		draw_rect(Rect2(-17, -13, 12, 4), C_COLLAR)
+	# World Daisy faces left; groomer items read from GameState.
+	DaisyDraw.draw_idle_dog(self, 0.0, 0.0, 1.0, false)

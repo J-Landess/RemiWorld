@@ -12,6 +12,11 @@ AudioManager.play_sfx("click")
 
 If a file is missing, the call is silently ignored — the game keeps working.
 
+## Background music
+
+Zone music uses `res://assets/audio/music/` first, then loops some SFX here at low volume
+(see `assets/audio/music/README.md`). `paint_brush`, `dog_pant`, and `step` work well as placeholders.
+
 ## Filenames the game looks for
 
 ### Core UI / Game Feel

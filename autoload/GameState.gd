@@ -44,6 +44,7 @@ var daisy_captured: bool = false   # Daisy has been caught and is now a companio
 # ── DAISY APPEARANCE (set at the groomer) ─────────────────────
 var daisy_haircut: String = "fluffy"   # "fluffy" | "short" | "mohawk" | "puppy_cut"
 var daisy_outfit:  String = "none"     # "none" | "bow" | "bandana" | "sweater" | "vest"
+var coding_bot_level: int = 0          # Coding Bot training ladder (after first mission)
 
 # Whether a game has been started (vs. first launch)
 var has_active_game: bool = false
@@ -147,6 +148,7 @@ func reset_for_new_game(new_player_name: String = "Remi") -> void:
 	daisy_captured = false
 	daisy_haircut = "fluffy"
 	daisy_outfit = "none"
+	coding_bot_level = 0
 	current_scene = "res://scenes/levels/v1_start_area/StartArea.tscn"
 	player_position = Vector2.ZERO
 	has_active_game = true
@@ -173,6 +175,7 @@ func to_dict() -> Dictionary:
 		"has_active_game": has_active_game,
 		"daisy_haircut": daisy_haircut,
 		"daisy_outfit": daisy_outfit,
+		"coding_bot_level": coding_bot_level,
 		"music_volume": music_volume,
 		"sfx_volume": sfx_volume,
 		"text_speed": text_speed,
@@ -199,6 +202,7 @@ func from_dict(data: Dictionary) -> void:
 	has_active_game = data.get("has_active_game", false)
 	daisy_haircut = data.get("daisy_haircut", "fluffy")
 	daisy_outfit  = data.get("daisy_outfit",  "none")
+	coding_bot_level = int(data.get("coding_bot_level", 0))
 	music_volume = data.get("music_volume", 0.8)
 	sfx_volume = data.get("sfx_volume", 1.0)
 	text_speed = data.get("text_speed", 0.05)

@@ -45,6 +45,7 @@ func _ready() -> void:
 	_spawn_ms_huffy()
 	_setup_locker()
 	_setup_exit()
+	AudioManager.play_music("school")
 
 	# Checkpoint: entering the school is itself a checkpoint moment
 	if _player:

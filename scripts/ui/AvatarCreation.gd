@@ -44,11 +44,52 @@ const HAIR_COLOR_OPTIONS: Array = [
 ]
 
 const HAIR_STYLES: Array = [
-	{"name": "Short",     "style_id": "short"},
-	{"name": "Long",      "style_id": "long"},
-	{"name": "Curly",     "style_id": "curly"},
-	{"name": "Ponytail",  "style_id": "ponytail"},
-	{"name": "Bun",       "style_id": "bun"},
+	{"name": "Short",    "style_id": "short"},
+	{"name": "Long",     "style_id": "long"},
+	{"name": "Curly",    "style_id": "curly"},
+	{"name": "Ponytail", "style_id": "ponytail"},
+	{"name": "Bun",      "style_id": "bun"},
+	{"name": "Afro",     "style_id": "afro"},
+	{"name": "Spiky",    "style_id": "spiky"},
+	{"name": "Buzz",     "style_id": "buzz"},
+	{"name": "Mohawk",   "style_id": "mohawk"},
+	{"name": "Braids",   "style_id": "braids"},
+]
+
+const OUTFIT_STYLE_OPTIONS: Array = [
+	{"name": "T-Shirt",    "style_id": "casual"},
+	{"name": "Fancy Coat", "style_id": "fancy_coat"},
+]
+
+const EYEWEAR_OPTIONS: Array = [
+	{"name": "None",        "style_id": ""},
+	{"name": "Sunglasses",  "style_id": "sunglasses"},
+]
+
+const HEADWEAR_OPTIONS: Array = [
+	{"name": "None",       "style_id": ""},
+	{"name": "Headphones", "style_id": "headphones"},
+]
+
+const FACIAL_HAIR_OPTIONS: Array = [
+	{"name": "None",        "style_id": ""},
+	{"name": "Stubble",     "style_id": "stubble"},
+	{"name": "Mustache",    "style_id": "mustache"},
+	{"name": "Goatee",      "style_id": "goatee"},
+	{"name": "Short Beard", "style_id": "beard_short"},
+	{"name": "Long Beard",  "style_id": "beard_long"},
+]
+
+const MAKEUP_OPTIONS: Array = [
+	{"name": "None",  "style_id": ""},
+	{"name": "Blush", "style_id": "blush"},
+	{"name": "Lips",  "style_id": "lips"},
+	{"name": "Glam",  "style_id": "glam"},
+]
+
+const VEHICLE_OPTIONS: Array = [
+	{"name": "None",    "style_id": ""},
+	{"name": "Scooter", "style_id": "scooter"},
 ]
 
 const OUTFIT_OPTIONS: Array = [
@@ -76,11 +117,17 @@ const SHOE_OPTIONS: Array = [
 # ─────────────────────────────────────────────────────────────
 # CURRENT SELECTIONS
 # ─────────────────────────────────────────────────────────────
-var _skin_idx:    int = 2   # medium
-var _hair_color_idx: int = 1
-var _hair_style_idx: int = 0
-var _outfit_idx:  int = 0
-var _shoe_idx:    int = 0
+var _skin_idx:         int = 2
+var _hair_color_idx:   int = 1
+var _hair_style_idx:   int = 0
+var _outfit_idx:       int = 0
+var _shoe_idx:         int = 0
+var _outfit_style_idx: int = 0
+var _eyewear_idx:      int = 0
+var _headwear_idx:     int = 0
+var _facial_hair_idx:  int = 0
+var _makeup_idx:       int = 0
+var _vehicle_idx:      int = 0
 
 # Reference to the live preview renderer
 var _renderer: Node2D = null
@@ -177,8 +224,19 @@ func _build_ui() -> void:
 	_add_section(options_vbox, "🎨 Skin Tone",     SKIN_OPTIONS,       _build_color_swatch, "_on_skin_selected")
 	_add_section(options_vbox, "💇 Hair Style",    HAIR_STYLES,        _build_text_button,  "_on_hair_style_selected")
 	_add_section(options_vbox, "🎨 Hair Colour",   HAIR_COLOR_OPTIONS, _build_color_swatch, "_on_hair_color_selected")
-	_add_section(options_vbox, "👕 Outfit Colour", OUTFIT_OPTIONS,     _build_color_swatch, "_on_outfit_selected")
-	_add_section(options_vbox, "👟 Shoe Colour",   SHOE_OPTIONS,       _build_color_swatch, "_on_shoe_selected")
+	_add_section(options_vbox, "👕 Outfit Colour", OUTFIT_OPTIONS,       _build_color_swatch, "_on_outfit_selected")
+	_add_section(options_vbox, "🧥 Jacket Style",  OUTFIT_STYLE_OPTIONS, _build_text_button,  "_on_outfit_style_selected")
+	_add_section(options_vbox, "👟 Shoe Colour",   SHOE_OPTIONS,         _build_color_swatch, "_on_shoe_selected")
+	_add_section(options_vbox, "😎 Eyewear",       EYEWEAR_OPTIONS,      _build_text_button,  "_on_eyewear_selected")
+	_add_section(options_vbox, "🎧 Headwear",      HEADWEAR_OPTIONS,     _build_text_button,  "_on_headwear_selected")
+	if GameState.player_sex == "girl":
+		_add_section(options_vbox, "💄 Makeup", MAKEUP_OPTIONS, _build_text_button, "_on_makeup_selected")
+	elif GameState.player_sex == "boy":
+		_add_section(options_vbox, "🧔 Facial Hair", FACIAL_HAIR_OPTIONS, _build_text_button, "_on_facial_hair_selected")
+	else:
+		_add_section(options_vbox, "💄 Makeup", MAKEUP_OPTIONS, _build_text_button, "_on_makeup_selected")
+		_add_section(options_vbox, "🧔 Facial Hair", FACIAL_HAIR_OPTIONS, _build_text_button, "_on_facial_hair_selected")
+	_add_section(options_vbox, "🛴 Ride", VEHICLE_OPTIONS, _build_text_button, "_on_vehicle_selected")
 
 	# ── BOTTOM BUTTONS ──────────────────────────────────────
 	var bottom := HBoxContainer.new()
@@ -263,11 +321,17 @@ func _build_text_button(option: Dictionary) -> Button:
 # ─────────────────────────────────────────────────────────────
 func _on_option_button_pressed(callback: String, index: int) -> void:
 	match callback:
-		"_on_skin_selected":       _skin_idx = index
-		"_on_hair_style_selected": _hair_style_idx = index
-		"_on_hair_color_selected": _hair_color_idx = index
-		"_on_outfit_selected":     _outfit_idx = index
-		"_on_shoe_selected":       _shoe_idx = index
+		"_on_skin_selected":        _skin_idx = index
+		"_on_hair_style_selected":  _hair_style_idx = index
+		"_on_hair_color_selected":  _hair_color_idx = index
+		"_on_outfit_selected":      _outfit_idx = index
+		"_on_shoe_selected":        _shoe_idx = index
+		"_on_outfit_style_selected": _outfit_style_idx = index
+		"_on_eyewear_selected":     _eyewear_idx = index
+		"_on_headwear_selected":    _headwear_idx = index
+		"_on_facial_hair_selected": _facial_hair_idx = index
+		"_on_makeup_selected":      _makeup_idx = index
+		"_on_vehicle_selected":     _vehicle_idx = index
 	_refresh_preview()
 
 
@@ -284,11 +348,17 @@ func _refresh_preview() -> void:
 
 func _build_config() -> Dictionary:
 	return {
-		"skin_tone":    SKIN_OPTIONS[_skin_idx]["tone_id"],
-		"hair_color":   HAIR_COLOR_OPTIONS[_hair_color_idx]["hex"],
-		"hairstyle":    HAIR_STYLES[_hair_style_idx]["style_id"],
-		"outfit_color": OUTFIT_OPTIONS[_outfit_idx]["color_id"],
-		"shoe_color":   SHOE_OPTIONS[_shoe_idx]["color_id"],
+		"skin_tone":     SKIN_OPTIONS[_skin_idx]["tone_id"],
+		"hair_color":    HAIR_COLOR_OPTIONS[_hair_color_idx]["hex"],
+		"hairstyle":     HAIR_STYLES[_hair_style_idx]["style_id"],
+		"outfit_color":  OUTFIT_OPTIONS[_outfit_idx]["color_id"],
+		"shoe_color":    SHOE_OPTIONS[_shoe_idx]["color_id"],
+		"outfit_style":  OUTFIT_STYLE_OPTIONS[_outfit_style_idx]["style_id"],
+		"eyewear":       EYEWEAR_OPTIONS[_eyewear_idx]["style_id"],
+		"headwear":      HEADWEAR_OPTIONS[_headwear_idx]["style_id"],
+		"facial_hair":   FACIAL_HAIR_OPTIONS[_facial_hair_idx]["style_id"],
+		"makeup":        MAKEUP_OPTIONS[_makeup_idx]["style_id"],
+		"vehicle":       VEHICLE_OPTIONS[_vehicle_idx]["style_id"],
 	}
 
 
@@ -301,9 +371,10 @@ func _on_enter_world_pressed() -> void:
 	# Persist to AvatarManager
 	AvatarManager.set_skin_tone(config["skin_tone"])
 	AvatarManager.set_hair_color(config["hair_color"])
-	AvatarManager._config["hairstyle"]    = config["hairstyle"]
-	AvatarManager._config["outfit_color"] = config["outfit_color"]
-	AvatarManager._config["shoe_color"]   = config["shoe_color"]
+	for key in ["hairstyle", "outfit_color", "shoe_color", "outfit_style",
+			"eyewear", "headwear", "facial_hair", "makeup", "vehicle"]:
+		AvatarManager._config[key] = config[key]
+	AvatarManager.emit_signal("avatar_updated", AvatarManager.get_config())
 
 	GameState.avatar_created = true
 	SaveManager.save_game()

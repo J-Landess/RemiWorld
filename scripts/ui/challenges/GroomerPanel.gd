@@ -169,6 +169,7 @@ func _purchase(item_id: String, cost: int) -> void:
 	_rebuild_items()
 	if preview:
 		preview.queue_redraw()
+	get_tree().call_group("daisy_appearance", "refresh_appearance")
 
 
 func _refresh_tokens() -> void:

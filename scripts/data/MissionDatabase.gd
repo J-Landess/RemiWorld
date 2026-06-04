@@ -80,8 +80,8 @@ const ALL_MISSIONS: Dictionary = {
 
 		# Completion dialogue (if already done)
 		"dialogue_complete": [
-			"[Coding Bot] You already solved my pattern puzzle! Great job! 🌟",
-			"[Coding Bot] Keep exploring Remi's World — there are more puzzles out there!",
+			"[Coding Bot] You beat Pattern Power! 🌟",
+			"[Coding Bot] Talk to me anytime for harder math and coding training levels!",
 		],
 	},
 

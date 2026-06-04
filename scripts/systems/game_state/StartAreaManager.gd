@@ -51,6 +51,7 @@ func _ready() -> void:
 	_setup_school_entrance()
 	_setup_playground_entrance()
 	_setup_checkpoint_zones()
+	AudioManager.play_music("start_area")
 
 	print("[StartArea] Start Area ready! Welcome, %s!" % GameState.player_name)
 

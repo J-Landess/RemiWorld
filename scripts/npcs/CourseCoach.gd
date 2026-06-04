@@ -45,6 +45,11 @@ func on_player_interact(_player: Node) -> void:
 		_start_course()
 
 
+## DialogueBox calls this after intro when show_puzzle_after is true.
+func _present_puzzle() -> void:
+	_start_course()
+
+
 func _start_course() -> void:
 	var hud := get_tree().get_first_node_in_group("hud")
 	if hud and hud.has_method("show_challenge"):

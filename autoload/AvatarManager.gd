@@ -52,6 +52,13 @@ var _config: Dictionary = {
 	"shoes": "default_shoes",    # Item ID of equipped shoes
 	"accessory": "",             # Item ID of equipped accessory (empty = none)
 	"special_effect": "",        # Item ID of special effect (rare items)
+	# Extra customization (avatar creator + closet)
+	"outfit_style": "casual",    # casual | fancy_coat
+	"eyewear": "",               # sunglasses
+	"headwear": "",              # headphones
+	"facial_hair": "",           # stubble | mustache | goatee | beard_short | beard_long
+	"makeup": "",                # blush | lips | glam
+	"vehicle": "",               # scooter
 	# Equipped items list (for quick lookup)
 	"equipped_items": [],
 }
