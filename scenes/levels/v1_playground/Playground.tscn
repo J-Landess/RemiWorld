@@ -239,6 +239,21 @@ theme_override_font_sizes/font_size = 22
 [node name="DaisyMarker" type="Marker2D" parent="Zones"]
 position = Vector2(490, 200)
 
+[node name="BostonSign" type="Label" parent="Zones"]
+offset_left = -200.0
+offset_top = 320.0
+offset_right = 200.0
+offset_bottom = 348.0
+text = "🛣️ Road to Boston — Talk to Maple"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.35, 0.22, 0.55, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0.9)
+theme_override_constants/outline_size = 3
+
+[node name="JourneyGuideMarker" type="Marker2D" parent="Zones"]
+position = Vector2(0, 360)
+
 [node name="DogPitSign" type="Label" parent="Zones"]
 offset_left = -160.0
 offset_top = -430.0

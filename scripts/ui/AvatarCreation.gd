@@ -348,6 +348,7 @@ func _refresh_preview() -> void:
 
 func _build_config() -> Dictionary:
 	return {
+		"remi_bald":     GameState.remi_bald,
 		"skin_tone":     SKIN_OPTIONS[_skin_idx]["tone_id"],
 		"hair_color":    HAIR_COLOR_OPTIONS[_hair_color_idx]["hex"],
 		"hairstyle":     HAIR_STYLES[_hair_style_idx]["style_id"],

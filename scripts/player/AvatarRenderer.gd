@@ -38,6 +38,7 @@ var headwear: String = ""
 var facial_hair: String = ""
 var makeup: String = ""
 var vehicle: String = ""
+var remi_bald: bool = false
 
 @export var figure_scale: float = 1.0
 
@@ -67,6 +68,7 @@ func apply_config(config: Dictionary) -> void:
 	facial_hair = config.get("facial_hair", "")
 	makeup = config.get("makeup", "")
 	vehicle = config.get("vehicle", "")
+	remi_bald = config.get("remi_bald", GameState.remi_bald)
 	queue_redraw()
 
 
@@ -109,7 +111,8 @@ func _draw() -> void:
 			draw_rect(Rect2(-10 * s, -27 * s, 20 * s, 6 * s), Color(0.08, 0.08, 0.12, 0.92))
 			draw_line(Vector2(0, -24 * s), Vector2(0, -21 * s), Color(0.2, 0.2, 0.25), 2.0)
 
-	_draw_hair(s)
+	if not remi_bald:
+		_draw_hair(s)
 	if headwear == "headphones":
 		draw_rect(Rect2(-14 * s, -42 * s, 28 * s, 4 * s), Color(0.22, 0.22, 0.28))
 		draw_rect(Rect2(-16 * s, -38 * s, 6 * s, 10 * s), Color(0.35, 0.35, 0.42))

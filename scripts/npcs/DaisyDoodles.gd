@@ -301,5 +301,20 @@ func _find_dialogue_box() -> Node:
 func _draw() -> void:
 	if not visible:
 		return
-	# World Daisy faces left; groomer items read from GameState.
+	if GameState.daisy_is_frog:
+		_draw_as_frog()
+		return
 	DaisyDraw.draw_idle_dog(self, 0.0, 0.0, 1.0, false)
+
+
+func _draw_as_frog() -> void:
+	var c := Color(0.35, 0.72, 0.38)
+	draw_circle(Vector2(0, -4), 16.0, c)
+	draw_circle(Vector2(-10, -10), 8.0, c.lightened(0.1))
+	draw_circle(Vector2(10, -10), 8.0, c.lightened(0.1))
+	draw_circle(Vector2(-12, -12), 2.5, Color(0.1, 0.1, 0.1))
+	draw_circle(Vector2(12, -12), 2.5, Color(0.1, 0.1, 0.1))
+	draw_rect(Rect2(-8, 6, 6, 5), c.darkened(0.1))
+	draw_rect(Rect2(2, 6, 6, 5), c.darkened(0.1))
+	if _state == State.COMPANION:
+		draw_rect(Rect2(-6, -14, 12, 3), Color(1.0, 0.45, 0.10))

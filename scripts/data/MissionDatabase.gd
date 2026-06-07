@@ -411,6 +411,55 @@ const ALL_MISSIONS: Dictionary = {
 			"[Coach Bolt] Feel free to chat, but the course record stands.",
 		],
 	},
+
+	# ──────────────────────────────────────────────────────────
+	# ROAD TO BOSTON — meet Zia the witch (timed journey)
+	# ──────────────────────────────────────────────────────────
+	"road_to_boston": {
+		"mission_id": "road_to_boston",
+		"title": "Road to Boston",
+		"description": "Reach Zia before time runs out. She's a loving witch — but don't keep her waiting!",
+		"npc_id": "journey_guide",
+		"npc_name": "Maple the Guide",
+
+		"rewards": {
+			"tokens": 25,
+			"xp": 80,
+			"nft": {
+				"nft_id": "zia_cookie_nft",
+				"name": "Zia's Star Cookie",
+				"description": "A magical treat from your grandmother Zia in Boston.",
+				"rarity": "uncommon",
+				"image_path": "res://assets/icons/nfts/zia_cookie_nft.png",
+				"discovered_from": "Road to Boston",
+				"tradeable": false,
+				"equipped": false,
+				"token_value": 15,
+			},
+		},
+		"repeatable": false,
+
+		"dialogue_intro": [
+			"[Maple] Remi! Your Zia in Boston sent word — she misses you!",
+			"[Maple] The road is long: fallen trees, rivers, storms, and stories.",
+			"[Maple] You have eight minutes before she worries. Be polite — she's a witch!",
+			"[Maple] If you're late, she might turn Daisy into a frog… and your hair may fall out!",
+			"[Maple] Ready? Follow the road east to her cottage!",
+		],
+		"dialogue_success": [
+			"[Zia] Remi, sweetheart! You made it on time!",
+			"[Zia] I love all children — especially you. Never whisper sass, or I'll swap your words for sass all day!",
+			"[Zia] Here — star cookies and a hug. Visit again soon.",
+		],
+		"dialogue_failure": [
+			"[Zia] (from afar) Too slow, little one!",
+			"[Zia] POOF — Daisy becomes a frog! Your hair — gone! Learn respect for time and tone.",
+		],
+		"dialogue_complete": [
+			"[Zia] My darling Remi! The cottage door is always open.",
+			"[Zia] Remember: good children get cookies. Sassy children get… interesting spells.",
+		],
+	},
 }
 
 

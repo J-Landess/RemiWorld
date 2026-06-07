@@ -53,6 +53,7 @@ func _register_default_missions() -> void:
 	_set_mission_status("daisy_fetch_game", STATUS_AVAILABLE)
 	_set_mission_status("daisy_dog_pit", STATUS_AVAILABLE)
 	_set_mission_status("daisy_obedience_course", STATUS_AVAILABLE)
+	_set_mission_status("road_to_boston", STATUS_AVAILABLE)
 	# Future missions can be added here and set to STATUS_LOCKED until unlocked
 
 
@@ -164,3 +165,5 @@ func from_dict(data: Dictionary) -> void:
 		_mission_states["daisy_dog_pit"] = STATUS_AVAILABLE
 	if not _mission_states.has("daisy_obedience_course"):
 		_mission_states["daisy_obedience_course"] = STATUS_AVAILABLE
+	if not _mission_states.has("road_to_boston"):
+		_mission_states["road_to_boston"] = STATUS_AVAILABLE

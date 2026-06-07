@@ -18,6 +18,7 @@ const ChessTutorScene := preload("res://scenes/npcs/ChessTutor.tscn")
 const CoachKickScene  := preload("res://scenes/npcs/CoachKick.tscn")
 const ArtistPipScene  := preload("res://scenes/npcs/ArtistPip.tscn")
 const DaisyScene      := preload("res://scenes/npcs/DaisyDoodles.tscn")
+const JourneyGuideScene := preload("res://scenes/npcs/JourneyGuide.tscn")
 
 const START_AREA_PATH := "res://scenes/levels/v1_start_area/StartArea.tscn"
 const DOG_PIT_PATH := "res://scenes/levels/v1_dog_fighting_pit/DogFightingPit.tscn"
@@ -81,6 +82,8 @@ func _spawn_player() -> void:
 		_player.global_position = spawn_point.global_position
 	else:
 		_player.global_position = Vector2(0, 320)
+	if GameState.remi_bald and _player.has_method("_refresh_avatar"):
+		_player._refresh_avatar()
 	print("[Playground] Player spawned at: ", _player.global_position)
 
 
@@ -96,6 +99,7 @@ func _spawn_npcs() -> void:
 	_spawn_npc_at(npc_parent, ChessTutorScene, "Zones/ChessMarker", "ChessTutor")
 	_spawn_npc_at(npc_parent, CoachKickScene,  "Zones/SoccerMarker", "CoachKick")
 	_spawn_npc_at(npc_parent, ArtistPipScene,  "Zones/ArtMarker", "ArtistPip")
+	_spawn_npc_at(npc_parent, JourneyGuideScene, "Zones/JourneyGuideMarker", "JourneyGuide")
 
 
 func _spawn_npc_at(parent: Node, scene: PackedScene, marker_path: String, label: String) -> void:

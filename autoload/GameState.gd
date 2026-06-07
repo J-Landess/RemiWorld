@@ -46,6 +46,14 @@ var daisy_haircut: String = "fluffy"   # "fluffy" | "short" | "mohawk" | "puppy_
 var daisy_outfit:  String = "none"     # "none" | "bow" | "bandana" | "sweater" | "vest"
 var coding_bot_level: int = 0          # Coding Bot training ladder (after first mission)
 
+# ── ROAD TO BOSTON (journey to Zia) ───────────────────────────
+var road_journey_active: bool = false
+var road_time_remaining: float = 0.0
+var road_milestone: int = 0            # 0..5 obstacles cleared
+var zia_curse_active: bool = false
+var daisy_is_frog: bool = false
+var remi_bald: bool = false
+
 # Whether a game has been started (vs. first launch)
 var has_active_game: bool = false
 
@@ -133,6 +141,28 @@ func get_xp_progress() -> float:
 	return float(player_xp) / float(XP_PER_LEVEL)
 
 
+func start_road_journey(seconds: float) -> void:
+	road_journey_active = true
+	road_time_remaining = seconds
+	road_milestone = 0
+	zia_curse_active = false
+	daisy_is_frog = false
+	remi_bald = false
+
+
+func apply_zia_curse() -> void:
+	zia_curse_active = true
+	road_journey_active = false
+	if daisy_captured:
+		daisy_is_frog = true
+	remi_bald = true
+
+
+func clear_road_journey() -> void:
+	road_journey_active = false
+	road_time_remaining = 0.0
+
+
 # ─────────────────────────────────────────────────────────────
 # GAME RESET (used when starting a new game)
 # ─────────────────────────────────────────────────────────────
@@ -149,6 +179,12 @@ func reset_for_new_game(new_player_name: String = "Remi") -> void:
 	daisy_haircut = "fluffy"
 	daisy_outfit = "none"
 	coding_bot_level = 0
+	road_journey_active = false
+	road_time_remaining = 0.0
+	road_milestone = 0
+	zia_curse_active = false
+	daisy_is_frog = false
+	remi_bald = false
 	current_scene = "res://scenes/levels/v1_start_area/StartArea.tscn"
 	player_position = Vector2.ZERO
 	has_active_game = true
@@ -176,6 +212,12 @@ func to_dict() -> Dictionary:
 		"daisy_haircut": daisy_haircut,
 		"daisy_outfit": daisy_outfit,
 		"coding_bot_level": coding_bot_level,
+		"road_journey_active": road_journey_active,
+		"road_time_remaining": road_time_remaining,
+		"road_milestone": road_milestone,
+		"zia_curse_active": zia_curse_active,
+		"daisy_is_frog": daisy_is_frog,
+		"remi_bald": remi_bald,
 		"music_volume": music_volume,
 		"sfx_volume": sfx_volume,
 		"text_speed": text_speed,
@@ -203,6 +245,12 @@ func from_dict(data: Dictionary) -> void:
 	daisy_haircut = data.get("daisy_haircut", "fluffy")
 	daisy_outfit  = data.get("daisy_outfit",  "none")
 	coding_bot_level = int(data.get("coding_bot_level", 0))
+	road_journey_active = data.get("road_journey_active", false)
+	road_time_remaining = float(data.get("road_time_remaining", 0.0))
+	road_milestone = int(data.get("road_milestone", 0))
+	zia_curse_active = data.get("zia_curse_active", false)
+	daisy_is_frog = data.get("daisy_is_frog", false)
+	remi_bald = data.get("remi_bald", false)
 	music_volume = data.get("music_volume", 0.8)
 	sfx_volume = data.get("sfx_volume", 1.0)
 	text_speed = data.get("text_speed", 0.05)

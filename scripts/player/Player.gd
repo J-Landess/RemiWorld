@@ -70,7 +70,9 @@ func _ready() -> void:
 # ─────────────────────────────────────────────────────────────
 func _refresh_avatar() -> void:
 	if avatar_renderer and avatar_renderer.has_method("apply_config"):
-		avatar_renderer.apply_config(AvatarManager.get_config())
+		var cfg: Dictionary = AvatarManager.get_config()
+		cfg["remi_bald"] = GameState.remi_bald
+		avatar_renderer.apply_config(cfg)
 
 
 func _on_avatar_updated(_config: Dictionary) -> void:
