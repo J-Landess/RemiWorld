@@ -16,7 +16,7 @@ describe("App navigation", () => {
     expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
   });
 
-  it("renders the play page placeholder", () => {
+  it("renders the play page with game embed", () => {
     render(
       <MemoryRouter initialEntries={["/play"]}>
         <AppRoutes />
@@ -26,6 +26,7 @@ describe("App navigation", () => {
     expect(
       screen.getByRole("heading", { name: /play remi's world/i }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/game embed placeholder/i)).toBeInTheDocument();
+    expect(screen.getByTitle(/remi's world game/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /fullscreen/i })).toBeInTheDocument();
   });
 });

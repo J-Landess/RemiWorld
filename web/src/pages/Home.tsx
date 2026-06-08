@@ -4,7 +4,7 @@ export function Home() {
   return (
     <div className="page">
       <section className="hero">
-        <span className="badge">Phase 1 — Web shell live</span>
+        <span className="badge">Play in your browser</span>
         <h1>Welcome to Remi&apos;s World</h1>
         <p className="hero-lead">
           Solve puzzles, collect VIBE tokens, customize your avatar, and explore
