@@ -58,13 +58,9 @@ free, open-source game assets:
 
 ## Audio
 
-A small SFX system was added in v1.7 (Playground Challenges + SFX). At the
-moment no audio files ship with the repo — `AudioManager` (autoload) loads
-every `.ogg` / `.wav` it finds in `assets/audio/sfx/` and ignores any sound
-that's missing, so the game still works in silence.
-
-To enable real sound, drop the files listed in
-[assets/audio/sfx/README.md](assets/audio/sfx/README.md) into that folder.
+A small SFX + music system was added in v1.7 (Playground Challenges + SFX).
+`AudioManager` loads SFX from `assets/audio/sfx/` and looping BGM from
+`assets/audio/music/`. Missing files are ignored so the game still works in silence.
 
 **Recommended free packs (all CC0):**
 - Kenney UI Audio — https://kenney.nl/assets/ui-audio
@@ -89,6 +85,13 @@ credited here as a courtesy):
   `goal_cheer.ogg`, `goal_miss.ogg`, `dog_pant.ogg`
 
 > Sound effects by Kenney (kenney.nl) — released under CC0.
+
+**Kenney Music Loops** (kenney_music-loops)
+- Source: https://kenney.nl/assets/music-loops
+- License: Creative Commons Zero v1.0 (CC0)
+- Files used (renamed): `start_area.ogg` (Cheerful Annoyance),
+  `playground.ogg` (Farm Frolics), `dog_pit.ogg` (Drumming Sticks),
+  `road_run.ogg` (Mishief Stroll)
 
 **Other free audio sources:**
 - Freesound: https://freesound.org (Creative Commons — check per-clip licence)

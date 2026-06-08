@@ -156,6 +156,10 @@ func _input(event: InputEvent) -> void:
 	if not advance:
 		return
 
+	var viewport := get_viewport()
+	if viewport:
+		viewport.set_input_as_handled()
+
 	# If still typing, skip to the end of the current line
 	if _is_typing:
 		_is_typing = false
@@ -170,9 +174,6 @@ func _input(event: InputEvent) -> void:
 	_current_line += 1
 	_show_current_line()
 
-	# Consume the input so it doesn't propagate
-	get_viewport().set_input_as_handled()
-
 
 # ─────────────────────────────────────────────────────────────
 # DIALOGUE COMPLETE
@@ -181,17 +182,22 @@ func _finish_dialogue() -> void:
 	visible = false
 	emit_signal("all_lines_shown")
 
+	var caller := _caller
+	var show_puzzle := _show_puzzle_after
+	var open_store := _open_store_after
+	_show_puzzle_after = false
+	_open_store_after = false
+
 	# Notify the caller NPC that dialogue is done
-	if _caller and _caller.has_method("on_dialogue_finished"):
-		_caller.on_dialogue_finished()
+	if caller and caller.has_method("on_dialogue_finished"):
+		caller.on_dialogue_finished()
 
-	emit_signal("dialogue_finished", _caller)
+	emit_signal("dialogue_finished", caller)
 
-	# Trigger post-dialogue actions
+	# Defer so _input can finish before scene changes / panels open
 	var hud := get_parent()
-	if _show_puzzle_after and _caller:
-		if _caller.has_method("_present_puzzle"):
-			_caller._present_puzzle()
-	elif _open_store_after:
+	if show_puzzle and caller and caller.has_method("_present_puzzle"):
+		caller.call_deferred("_present_puzzle")
+	elif open_store:
 		if hud and hud.has_method("open_store"):
-			hud.open_store()
+			hud.call_deferred("open_store")

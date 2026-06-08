@@ -90,6 +90,7 @@ func _setup_input_actions() -> void:
 	_add_key_action("open_backpack", [KEY_B])    # Open the backpack/inventory
 	_add_key_action("pause",      [KEY_ESCAPE])  # Pause / Settings
 	_add_key_action("sneak",      [KEY_SHIFT])   # Tiptoe quietly past Ms. Huffy
+	_add_key_action("jump",       [KEY_SPACE])
 
 
 func _add_key_action(action_name: String, keys: Array) -> void:

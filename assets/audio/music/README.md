@@ -1,14 +1,13 @@
 # Background Music
 
-Drop looping `.ogg` files here. `AudioManager.play_music()` loads them by name.
+Looping `.ogg` files loaded by `AudioManager.play_music()`.
 
-If a file is missing, the game loops a soft track from `assets/audio/sfx/` instead:
+| Zone            | File               |
+|-----------------|--------------------|
+| start_area      | start_area.ogg     |
+| playground      | playground.ogg     |
+| dog_pit         | dog_pit.ogg        |
+| road_to_boston  | road_run.ogg       |
+| school          | (falls back to sfx/step.ogg) |
 
-| Zone        | Fallback SFX    |
-|-------------|-----------------|
-| start_area  | paint_brush     |
-| playground  | paint_brush     |
-| dog_pit     | dog_pant        |
-| school      | step            |
-
-Example: add `paint_brush.ogg` here to override the SFX fallback for outdoor areas.
+If a music file is missing, the game loops a soft SFX from `assets/audio/sfx/` instead.

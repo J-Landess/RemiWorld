@@ -418,7 +418,7 @@ const ALL_MISSIONS: Dictionary = {
 	"road_to_boston": {
 		"mission_id": "road_to_boston",
 		"title": "Road to Boston",
-		"description": "Reach Zia before time runs out. She's a loving witch — but don't keep her waiting!",
+		"description": "Roller-skate to Zia in Boston before time runs out. Dodge, jump, and land tricks!",
 		"npc_id": "journey_guide",
 		"npc_name": "Maple the Guide",
 
@@ -440,11 +440,11 @@ const ALL_MISSIONS: Dictionary = {
 		"repeatable": false,
 
 		"dialogue_intro": [
-			"[Maple] Remi! Your Zia in Boston sent word — she misses you!",
-			"[Maple] The road is long: fallen trees, rivers, storms, and stories.",
-			"[Maple] You have eight minutes before she worries. Be polite — she's a witch!",
-			"[Maple] If you're late, she might turn Daisy into a frog… and your hair may fall out!",
-			"[Maple] Ready? Follow the road east to her cottage!",
+			"[Maple] Remi! Zia in Boston misses you — strap on your roller skates!",
+			"[Maple] Five stretches: oak logs, river puddles, hills, sassy kids, and a storm.",
+			"[Maple] Jump obstacles, switch lanes, and pull air tricks for bonus seconds.",
+			"[Maple] You have eight minutes. Fall and you'll stumble — that costs time!",
+			"[Maple] If you're late, Daisy becomes a frog and your hair falls out. Go!",
 		],
 		"dialogue_success": [
 			"[Zia] Remi, sweetheart! You made it on time!",

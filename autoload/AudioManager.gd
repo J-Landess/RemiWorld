@@ -25,15 +25,35 @@ const MUSIC_FOLDER: String = "res://assets/audio/music/"
 const POOL_SIZE: int = 6   # Max simultaneous SFX
 const MUSIC_BUS_NAME: String = "Music"
 const SFX_BUS_NAME: String = "SFX"
-const MUSIC_BUS_VOLUME: float = 0.42   # Keep BGM under SFX when using sfx as loops
+const MUSIC_BUS_VOLUME: float = 0.58
+
+# Per-sound gain in dB (applied on top of the SFX bus volume)
+const SFX_GAIN_DB: Dictionary = {
+	"step": 9.0,
+	"dialogue_blip": -4.0,
+	"click": 0.0,
+	"correct": 1.0,
+	"wrong": 0.0,
+	"reward": 2.0,
+	"kick": 2.0,
+	"whistle": 1.0,
+	"bark": 1.0,
+	"dog_pant": -2.0,
+	"paint_brush": -8.0,
+	"slider_tick": -3.0,
+	"chess_move": 0.0,
+	"goal_cheer": 2.0,
+	"goal_miss": 0.0,
+}
 
 # Zone keys → track name (loads music/ first, then sfx/ as looping fallback)
 const ZONE_TRACKS: Dictionary = {
-	"start_area": "paint_brush",
-	"playground": "paint_brush",
-	"dog_pit": "dog_pant",
+	"start_area": "start_area",
+	"playground": "playground",
+	"dog_pit": "dog_pit",
 	"school": "step",
-	"main_menu": "paint_brush",
+	"main_menu": "playground",
+	"road_to_boston": "road_run",
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -111,7 +131,7 @@ func _load_all_sfx() -> void:
 # ─────────────────────────────────────────────────────────────
 # PLAY A SOUND BY NAME
 # ─────────────────────────────────────────────────────────────
-func play_sfx(sound_name: String, pitch_variance: float = 0.0) -> void:
+func play_sfx(sound_name: String, pitch_variance: float = 0.0, extra_db: float = 0.0) -> void:
 	if not _sounds.has(sound_name):
 		return  # Fail-silent
 
@@ -119,6 +139,7 @@ func play_sfx(sound_name: String, pitch_variance: float = 0.0) -> void:
 	_next_player = (_next_player + 1) % _pool.size()
 
 	player.stream = _sounds[sound_name]
+	player.volume_db = float(SFX_GAIN_DB.get(sound_name, 0.0)) + extra_db
 	player.pitch_scale = 1.0
 	if pitch_variance > 0.0:
 		player.pitch_scale = 1.0 + randf_range(-pitch_variance, pitch_variance)
