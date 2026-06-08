@@ -6,7 +6,54 @@ Solve logic puzzles, collect VIBE tokens, customize your avatar, and explore a c
 
 ---
 
-## 🚀 How to Run
+## 🌐 Web App (Phase 1)
+
+The site shell for [wisemenresearch.org](https://wisemenresearch.org) lives in `web/`.
+
+### Run locally
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Open http://localhost:5180 — pages: **Home**, **Play** (embedded game), **About**.
+
+### Export the game for the browser (Phase 2)
+
+Requires Godot 4.6 with **Web export templates** installed (Editor → Manage Export Templates).
+
+```bash
+./scripts/build/export-web.sh
+cd web && npm run dev
+```
+
+Open http://localhost:5180/play — the game loads at `/game/index.html`.
+
+**Note:** Web export needs ETC2/ASTC texture import (already enabled in `project.godot`). If export fails with a blank "configuration errors" message, open the project once in Godot and re-run the script.
+
+**Vercel deploy:** Vercel does not run Godot. Export locally first, then commit `web/public/game/` before pushing (or add CI later).
+
+> Default port is **5180** (not 5173) so it won’t clash with other Vite apps like Family Dispatch. If 5180 is busy, Vite picks the next free port — check the terminal output.
+
+### Build & test
+
+```bash
+cd web
+npm run build
+npm test
+```
+
+### Deploy to Vercel
+
+1. Connect this GitHub repo to [Vercel](https://vercel.com)
+2. Leave the root directory as `.` — [`vercel.json`](vercel.json) points at `web/`
+3. Add your domain in Vercel → point Cloudflare DNS CNAME to Vercel
+
+---
+
+## 🚀 How to Run the Game (Godot)
 
 ### Requirements
 - [Godot 4.2+](https://godotengine.org/download) (free, open source)
@@ -36,6 +83,8 @@ Solve logic puzzles, collect VIBE tokens, customize your avatar, and explore a c
 ```
 RemiWorld/
 ├── project.godot          ← Godot project config (open this in Godot!)
+├── vercel.json            ← Vercel deploy config (builds web/)
+├── web/                   ← React + Vite site (wisemenresearch.org)
 ├── README.md              ← You are here
 ├── ROADMAP.md             ← Version roadmap
 ├── CREDITS.md             ← Asset credits

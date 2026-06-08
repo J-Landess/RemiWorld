@@ -1,0 +1,17 @@
+# Godot
+.godot/
+
+# Web
+web/node_modules/
+web/dist/
+exports/
+web/public/game/*
+!web/public/game/README.md
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store

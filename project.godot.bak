@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Remi World"
+config/name="Remi's World"
 config/description="A kid-friendly 2D adventure game where learning meets play."
 config/version="0.1.0"
 run/main_scene="res://scenes/main_menu/MainMenu.tscn"
@@ -55,6 +55,5 @@ window/stretch/aspect="expand"
 
 [rendering]
 
-textures/vram_compression/import_etc2_astc=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
