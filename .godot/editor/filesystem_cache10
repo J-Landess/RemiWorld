@@ -1,6 +1,6 @@
 72322a848ab928aa5c89f0cb78209805
-::res://::1780939964
-CREDITS.md::TextFile::-1::1780367511::0::1::::<><><>0<>0<><>::
+::res://::1780955672
+CREDITS.md::TextFile::-1::1780953432::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1780939903::0::1::::<><><>0<>0<><>::
 README.md::TextFile::-1::1780940033::0::1::::<><><>0<>0<><>::
 ROADMAP.md::TextFile::-1::1780365321::0::1::::<><><>0<>0<><>::
@@ -8,8 +8,12 @@ vercel.json::JSON::-1::1780934843::0::1::::<><><>0<>0<><>::
 ::res://assets/::1780367090
 ::res://assets/audio/::1780557713
 default_bus_layout.tres::AudioBusLayout::-1::1780364433::0::1::::<><><>0<>0<><>::
-::res://assets/audio/music/::1780557713
-README.md::TextFile::-1::1780557713::0::1::::<><><>0<>0<><>::
+::res://assets/audio/music/::1780955528
+dog_pit.ogg::AudioStreamOggVorbis::1757947635035800470::1780953307::1780955528::1::::<><><>0<>0<>5074f15dc1f1727e77a114cde264dbad<>res://.godot/imported/dog_pit.ogg-3228896a816b5e7d5321fa05b22c4e5e.oggvorbisstr::
+playground.ogg::AudioStreamOggVorbis::4546496446893049774::1780953304::1780955528::1::::<><><>0<>0<>d656dd07ed85bfdd4a009156875963a5<>res://.godot/imported/playground.ogg-a4adc6843aee400348563ad9573fbee0.oggvorbisstr::
+README.md::TextFile::-1::1780955533::0::1::::<><><>0<>0<><>::
+road_run.ogg::AudioStreamOggVorbis::5591044206236112396::1780953305::1780955528::1::::<><><>0<>0<>65671fb9762d464f8257af9051e2fa7c<>res://.godot/imported/road_run.ogg-f351b9ecee77e122c9585e99160e0f2d.oggvorbisstr::
+start_area.ogg::AudioStreamOggVorbis::7923260702892844849::1780953306::1780955528::1::::<><><>0<>0<>03332587b41f063140499d1d3e4f8b0f<>res://.godot/imported/start_area.ogg-8effbfde38195a26363b90ae00a94dd6.oggvorbisstr::
 ::res://assets/audio/sfx/::1780367686
 bark.ogg::AudioStreamOggVorbis::4529967573550368025::1780367502::1780367686::1::::<><><>0<>0<>7e167778778074203b3618a4f7387e92<>res://.godot/imported/bark.ogg-b64015b361025b7aaef950f6426dcf93.oggvorbisstr::
 chess_move.ogg::AudioStreamOggVorbis::7436309518711537741::1780367502::1780367686::1::::<><><>0<>0<>c4ab002621eb91c8b13b0ebcb541bb33<>res://.godot/imported/chess_move.ogg-d8cb05b506d507e00c1c1f6f662b1e42.oggvorbisstr::
@@ -38,10 +42,10 @@ wrong.ogg::AudioStreamOggVorbis::658013069817906262::1780367502::1780367686::1::
 ::res://assets/ui/::1779845036
 icon.svg::CompressedTexture2D::5300223887417514261::1779841247::1779845036::1::::<><><>0<>0<>a198040b2340865af2db2e3701263ef1<>res://.godot/imported/icon.svg-6c8e7c7a8dcdd81e58bcb0386e6e4017.ctex::
 ::res://autoload/::1780367686
-AudioManager.gd::GDScript::7501954254104823198::1780572198::0::1::::<>Node<><>0<>0<><>::
+AudioManager.gd::GDScript::7501954254104823198::1780953413::0::1::::<>Node<><>0<>0<><>::
 AvatarManager.gd::GDScript::232517877776414419::1780573456::0::1::::<>Node<><>0<>0<><>::
 CheckpointManager.gd::GDScript::6519200635304128081::1780116364::0::1::::<>Node<><>0<>0<><>::
-GameState.gd::GDScript::6125098823137958085::1780762769::0::1::::<>Node<><>0<>0<><>::
+GameState.gd::GDScript::6125098823137958085::1780953423::0::1::::<>Node<><>0<>0<><>::
 InventoryManager.gd::GDScript::6478486962579615738::1779841324::0::1::::<>Node<><>0<>0<><>::
 MissionDatabase.gd::GDScript::7631368145028657741::1779923202::0::1::::<>Node<><>0<>0<><>::
 MissionManager.gd::GDScript::3118242632952977480::1780762769::0::1::::<>Node<><>0<>0<><>::
@@ -68,7 +72,7 @@ DogFightingPit.tscn::PackedScene::-1::1780515594::0::1::::<><><>0<>0<><>::res://
 ::res://scenes/levels/v1_playground/::1780364577
 Playground.tscn::PackedScene::-1::1780762769::0::1::::<><><>0<>0<><>::res://scripts/systems/game_state/PlaygroundManager.gd<>res://scripts/levels/visuals/SoftViewGround.gd<>res://scripts/levels/visuals/SoftViewProp.gd
 ::res://scenes/levels/v1_road_to_boston/::1780576019
-RoadToBoston.tscn::PackedScene::-1::1780762769::0::1::::<><><>0<>0<><>::res://scripts/systems/game_state/RoadToBostonManager.gd<>res://scripts/levels/visuals/SoftViewGround.gd
+RoadToBoston.tscn::PackedScene::-1::1780953424::0::1::::<><><>0<>0<><>::res://scripts/systems/game_state/RoadToBostonManager.gd
 ::res://scenes/levels/v1_school_interior/::1780116605
 SchoolInterior.tscn::PackedScene::-1::1780116605::0::1::::<><><>0<>0<><>::res://scripts/systems/game_state/SchoolInteriorManager.gd
 ::res://scenes/levels/v1_start_area/::1779842071
@@ -110,7 +114,7 @@ WelcomeScreen.tscn::PackedScene::-1::1780104923::0::1::::<><><>0<>0<><>::res://s
 ::res://scripts/data/::1780558091
 CodingPuzzleBank.gd::GDScript::6014771084732763549::1780557665::0::1::::CodingPuzzleBank<>RefCounted<><>0<>0<><>::
 ItemDatabase.gd::GDScript::7691513376658508366::1780116405::0::1::::ItemDatabase<>RefCounted<><>0<>0<><>::
-MissionDatabase.gd::GDScript::3216490029232117002::1780762769::0::1::::MissionDatabase<>RefCounted<><>0<>0<><>::
+MissionDatabase.gd::GDScript::3216490029232117002::1780953416::0::1::::MissionDatabase<>RefCounted<><>0<>0<><>::
 ::res://scripts/levels/::1780172614
 ::res://scripts/levels/visuals/::1780172751
 CharacterShadow.gd::GDScript::7133405278705446397::1780172661::0::1::::<>Node2D<><>0<>0<><>::
@@ -141,10 +145,11 @@ Player.gd::GDScript::3394020171985643581::1780762769::0::1::::<>CharacterBody2D<
 ::res://scripts/systems/::1779841234
 ::res://scripts/systems/avatar/::1779841234
 ::res://scripts/systems/dialogue/::1779841234
-::res://scripts/systems/game_state/::1780590861
+::res://scripts/systems/game_state/::1780955528
 DogFightingPitManager.gd::GDScript::5927367276658158039::1780557712::0::1::::<>Node2D<><>0<>0<><>::
 PlaygroundManager.gd::GDScript::5299749636033864941::1780762769::0::1::::<>Node2D<><>0<>0<><>::
-RoadToBostonManager.gd::GDScript::3796249469249071425::1780762769::0::1::::<>Node2D<><>0<>0<><>::
+RoadSkateRunner.gd::GDScript::3317068693946658703::1780955533::0::1::::RoadSkateRunner<>Control<><>0<>0<><>::
+RoadToBostonManager.gd::GDScript::3796249469249071425::1780961163::0::1::::<>Node2D<><>0<>0<><>::
 SchoolInteriorManager.gd::GDScript::968565694633599338::1780557712::0::1::::<>Node2D<><>0<>0<><>::
 StartAreaManager.gd::GDScript::520390968055153895::1780557712::0::1::::<>Node2D<><>0<>0<><>::
 ::res://scripts/systems/inventory/::1779841234
@@ -156,7 +161,7 @@ StartAreaManager.gd::GDScript::520390968055153895::1780557712::0::1::::<>Node2D<
 AvatarCloset.gd::GDScript::822594634955856106::1779841840::0::1::::<>Control<><>0<>0<><>::
 AvatarCreation.gd::GDScript::570747250551507953::1780762769::0::1::::<>Control<><>0<>0<><>::
 BackpackUI.gd::GDScript::3648021850973758852::1780105140::0::1::::<>Control<><>0<>0<><>::
-DialogueBox.gd::GDScript::8828956680707371562::1780573451::0::1::::<>Control<><>0<>0<><>::
+DialogueBox.gd::GDScript::8828956680707371562::1780955908::0::1::::<>Control<><>0<>0<><>::
 GameOverScreen.gd::GDScript::8651405996806780203::1780116627::0::1::::<>CanvasLayer<><>0<>0<><>::
 HUD.gd::GDScript::239803419868423033::1780515546::0::1::::<>CanvasLayer<><>0<>0<><>::
 MainMenu.gd::GDScript::6676398905498928151::1779841541::0::1::::<>Control<><>0<>0<><>::
