@@ -20,68 +20,75 @@ const ALL_MISSIONS: Dictionary = {
 
 	"pattern_power": {
 		"mission_id": "pattern_power",
-		"title": "Pattern Power",
-		"description": "Help Coding Bot find the missing piece of the pattern!",
-		"npc_id": "coding_bot",
-		"npc_name": "Coding Bot",
+		"title": "First Shift at the Password Factory",
+		"description": "Crack your first code and stamp a password for pay!",
+		"npc_id": "password_factory",
+		"npc_name": "The Password Factory",
 
-		# The puzzle shown to the player
 		"puzzle": {
-			"type": "multiple_choice",         # Puzzle type (more types in future versions)
-			"question": "What comes next?\nRed, Blue, Red, Blue, ___?",
-			"display_pattern": ["🔴 Red", "🔵 Blue", "🔴 Red", "🔵 Blue", "❓"],
-			"choices": ["Red", "Blue", "Green"],
-			"correct_answer": "Red",            # Index 0
+			"type": "multiple_choice",
+			"mode": "choice",
+			"question": "Clue: pet name + lucky number\nWhich password fits?",
+			"choices": ["Remi7", "7Remi", "RemiRemi"],
+			"correct_answer": "Remi7",
 			"correct_index": 0,
-			"hint": "Look at the pattern from the beginning. What color goes in the blank?",
-			"explanation": "The pattern goes Red, Blue, Red, Blue... so the next one is Red!",
+			"hint": "Name first, then the lucky number 7.",
+			"explanation": "Remi7 matches the clue — your first stamped password!",
 		},
 
-		# Rewards for completing this mission
 		"rewards": {
 			"tokens": 10,
 			"xp": 25,
 			"nft": {
 				"nft_id": "pattern_star_nft",
-				"name": "Pattern Star Badge",
-				"description": "A digital badge for solving the Pattern Power puzzle!",
+				"name": "Factory Worker Badge",
+				"description": "Awarded for completing your first shift at the Password Factory!",
 				"rarity": "common",
 				"image_path": "res://assets/icons/nfts/pattern_star_nft.png",
-				"discovered_from": "Pattern Power",
+				"discovered_from": "First Shift at the Password Factory",
 				"tradeable": false,
 				"equipped": false,
 				"token_value": 5,
 			},
 		},
 
-		# Can this mission be repeated?
 		"repeatable": false,
 
-		# Intro dialogue (before puzzle)
 		"dialogue_intro": [
-			"[Coding Bot] Hi there! I'm Coding Bot! 🤖",
-			"[Coding Bot] I love patterns — they're like secret codes!",
-			"[Coding Bot] Can you help me figure out what comes next in my pattern?",
+			"[The Password Factory] *WHIRR-CLANK* Welcome to the Password Factory! 🏭",
+			"[The Password Factory] I'm the machine that turns cracked codes into stamped passwords.",
+			"[The Password Factory] Your job? Crack clues, build passwords, earn VIBE tokens!",
+			{
+				"type": "question",
+				"text": "Ready to clock in for your first shift?",
+				"choices": ["Let's crack codes!", "Not yet"],
+				"responses": [
+					[
+						"[The Password Factory] Conveyor's warming up — here's your first clue!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[The Password Factory] No rush — the factory runs 24/7. Come back anytime!",
+					],
+				],
+			},
 		],
 
-		# Success dialogue (after correct answer)
 		"dialogue_success": [
-			"[Coding Bot] Amazing! You got it! 🌟",
-			"[Coding Bot] Red comes next because the pattern repeats: Red, Blue, Red, Blue...",
-			"[Coding Bot] You're a pattern expert! Here's your reward!",
+			"[The Password Factory] *STAMP* Password accepted! 🌟",
+			"[The Password Factory] Remi7 — name plus lucky number. Perfect crack!",
+			"[The Password Factory] First shift complete! Here's your pay and badge!",
 		],
 
-		# Failure dialogue (after wrong answer)
 		"dialogue_failure": [
-			"[Coding Bot] Hmm, not quite! Let me give you a hint...",
-			"[Coding Bot] Look at the colors from the very beginning.",
-			"[Coding Bot] Do you see the repeating pattern?",
+			"[The Password Factory] Conveyor jam! That code didn't fit.",
+			"[The Password Factory] Hint: pet name FIRST, then the lucky number.",
+			"[The Password Factory] Try the line again — you've got this!",
 		],
 
-		# Completion dialogue (if already done)
 		"dialogue_complete": [
-			"[Coding Bot] You beat Pattern Power! 🌟",
-			"[Coding Bot] Talk to me anytime for harder math and coding training levels!",
+			"[The Password Factory] First shift done! You're on the payroll now.",
+			"[The Password Factory] Clock in anytime — codes get harder, pay gets bigger!",
 		],
 	},
 
@@ -90,16 +97,15 @@ const ALL_MISSIONS: Dictionary = {
 	# ──────────────────────────────────────────────────────────
 	"chess_knight_jump": {
 		"mission_id": "chess_knight_jump",
-		"title": "Knight's Jump",
-		"description": "Help the Chess Tutor capture the treasure in one knight move!",
+		"title": "Save the Piece",
+		"description": "Move threatened chess pieces to safety on a real 8×8 board!",
 		"npc_id": "chess_tutor",
 		"npc_name": "Chess Tutor",
 
 		"challenge": {
 			"panel": "ChessPuzzlePanel",
-			"rounds": 3,         # Number of puzzles in a row
+			"rounds": 3,
 			"required_correct": 2,
-			"grid_size": 4,      # 4x4 board
 		},
 
 		"rewards": {
@@ -121,16 +127,30 @@ const ALL_MISSIONS: Dictionary = {
 
 		"dialogue_intro": [
 			"[Chess Tutor] Welcome, young thinker! ♞",
-			"[Chess Tutor] The knight moves in an L: two squares one way, then one square sideways.",
-			"[Chess Tutor] Find the move that lands on the treasure!",
+			"[Chess Tutor] On a real board, pieces can come under attack — your job is to move them to safety.",
+			{
+				"type": "question",
+				"text": "Ready to save some pieces in danger?",
+				"choices": ["Let's play!", "Tell me more"],
+				"responses": [
+					[
+						"[Chess Tutor] Click a green-highlighted square to move the red piece to safety!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Chess Tutor] Green squares show where the piece can move. Pick one the attacker can't reach!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+				],
+			},
 		],
 		"dialogue_success": [
-			"[Chess Tutor] Brilliant! A true knight in the making! ♞",
+			"[Chess Tutor] Brilliant! You kept your pieces safe! ♞",
 			"[Chess Tutor] Here's your badge — wear it with pride!",
 		],
 		"dialogue_failure": [
-			"[Chess Tutor] Not quite — remember, the knight always moves in an L.",
-			"[Chess Tutor] Two squares one way, then one to the side. Try again!",
+			"[Chess Tutor] That square was still under attack — look at what the enemy covers.",
+			"[Chess Tutor] Try again and find a truly safe escape!",
 		],
 		"dialogue_complete": [
 			"[Chess Tutor] You've already proven yourself a master of the knight!",
@@ -174,7 +194,21 @@ const ALL_MISSIONS: Dictionary = {
 		"dialogue_intro": [
 			"[Coach Kick] Ready to take some shots, champ? ⚽",
 			"[Coach Kick] Press SPACE to stop the power bar, then SPACE again to stop the aim.",
-			"[Coach Kick] Score 2 out of 3 and you'll earn the Golden Cleats!",
+			{
+				"type": "question",
+				"text": "Think you can score 2 out of 3 goals?",
+				"choices": ["Bring it on!", "I'm still learning"],
+				"responses": [
+					[
+						"[Coach Kick] That's the spirit! Step up to the spot!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Coach Kick] Everyone starts somewhere — give it a try!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+				],
+			},
 		],
 		"dialogue_success": [
 			"[Coach Kick] GOAL! 🎉 You did it!",
@@ -227,7 +261,21 @@ const ALL_MISSIONS: Dictionary = {
 		"dialogue_intro": [
 			"[Artist Pip] Hi friend! 🎨",
 			"[Artist Pip] I'll show you a target color. You slide R, G, and B to match it.",
-			"[Artist Pip] Get 2 out of 3 close enough and you'll earn my Palette Badge!",
+			{
+				"type": "question",
+				"text": "Do you have a good eye for color mixing?",
+				"choices": ["Absolutely!", "I'll try my best"],
+				"responses": [
+					[
+						"[Artist Pip] Love the confidence — let's paint!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Artist Pip] That's all you need — practice makes perfect!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+				],
+			},
 		],
 		"dialogue_success": [
 			"[Artist Pip] Wow, that's a beautiful match! 🌈",
@@ -278,7 +326,20 @@ const ALL_MISSIONS: Dictionary = {
 
 		"dialogue_intro": [
 			"[Daisy] Woof! 🐾 (Daisy spins in circles excitedly!)",
-			"[Daisy] Click each stick to throw it — Daisy will fetch them all!",
+			{
+				"type": "question",
+				"text": "Want to play fetch with Daisy?",
+				"choices": ["Yes! Throw the sticks!", "Maybe later"],
+				"responses": [
+					[
+						"[Daisy] (Daisy barks and wags her tail!)",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Daisy] (Daisy lies down with a hopeful look.)",
+					],
+				],
+			},
 		],
 		"dialogue_success": [
 			"[Daisy] Woof woof! 🐾 (Daisy gives you a happy lick!)",
@@ -346,7 +407,20 @@ const ALL_MISSIONS: Dictionary = {
 		"dialogue_intro": [
 			"[Pit Boss Mara] Welcome to the Dog Pit. You can wager VIBE on Daisy's run.",
 			"[Pit Boss Mara] It'll be a three-bout ladder, and each owner's got something to say.",
-			"[Pit Boss Mara] Win at least 2 rounds and cash out. Lose, and your entry stays in the pot.",
+			{
+				"type": "question",
+				"text": "Ready to put VIBE on the line?",
+				"choices": ["Let's fight!", "Not today"],
+				"responses": [
+					[
+						"[Pit Boss Mara] Win at least 2 rounds and cash out. Let's go!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Pit Boss Mara] Smart to wait until you're loaded with VIBE.",
+					],
+				],
+			},
 		],
 		"dialogue_success": [
 			"[Pit Boss Mara] Daisy made it through the ladder! That's champion energy.",
@@ -396,7 +470,21 @@ const ALL_MISSIONS: Dictionary = {
 		"dialogue_intro": [
 			"[Coach Bolt] Welcome to the obedience course!",
 			"[Coach Bolt] Five obstacles, five commands. Watch the prompt and press the right key fast.",
-			"[Coach Bolt] Get at least 3 out of 5 and Daisy graduates. Ready?",
+			{
+				"type": "question",
+				"text": "Is Daisy ready to run the course?",
+				"choices": ["She's ready!", "We need practice"],
+				"responses": [
+					[
+						"[Coach Bolt] Then let's graduate! Get at least 3 out of 5!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Coach Bolt] Practice makes perfect — run it anyway!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+				],
+			},
 		],
 		"dialogue_success": [
 			"[Coach Bolt] Outstanding! Daisy is a natural!",
@@ -443,8 +531,21 @@ const ALL_MISSIONS: Dictionary = {
 			"[Maple] Remi! Zia in Boston misses you — strap on your roller skates!",
 			"[Maple] Five stretches: oak logs, river puddles, hills, sassy kids, and a storm.",
 			"[Maple] Jump obstacles, switch lanes, and pull air tricks for bonus seconds.",
-			"[Maple] You have eight minutes. Fall and you'll stumble — that costs time!",
-			"[Maple] If you're late, Daisy becomes a frog and your hair falls out. Go!",
+			{
+				"type": "question",
+				"text": "Eight minutes to Boston — think you can make it?",
+				"choices": ["I'm ready to roll!", "Tell me more first"],
+				"responses": [
+					[
+						"[Maple] Go! Fall and you'll stumble — that costs time!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Maple] If you're late, Daisy becomes a frog and your hair falls out. Now GO!",
+						{"type": "action", "action": "present_puzzle"},
+					],
+				],
+			},
 		],
 		"dialogue_success": [
 			"[Zia] Remi, sweetheart! You made it on time!",

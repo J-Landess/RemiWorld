@@ -14,7 +14,7 @@ extends Node2D
 # SCENE REFERENCES (preloaded for fast instantiation)
 # ─────────────────────────────────────────────────────────────
 const PlayerScene    := preload("res://scenes/player/Player.tscn")
-const CodingBotScene := preload("res://scenes/npcs/CodingBot.tscn")
+const PasswordFactoryScene := preload("res://scenes/npcs/PasswordFactory.tscn")
 const RoseScene      := preload("res://scenes/npcs/ShopkeeperRose.tscn")
 const HUDScene       := preload("res://scenes/ui/HUD.tscn")
 const DaisyScene     := preload("res://scenes/npcs/DaisyDoodles.tscn")
@@ -109,15 +109,17 @@ func _spawn_npcs() -> void:
 		push_warning("[StartArea] NPCs container not found.")
 		return
 
-	# Coding Bot — positioned left of centre
-	var coding_bot_node := npc_parent.get_node_or_null("CodingBot")
-	if coding_bot_node:
-		var bot_scene := CodingBotScene.instantiate()
-		var bot_pos: Vector2 = coding_bot_node.global_position
-		coding_bot_node.queue_free()
-		bot_scene.global_position = bot_pos
-		npc_parent.add_child(bot_scene)
-		print("[StartArea] Coding Bot spawned at: ", bot_pos)
+	# The Password Factory — positioned left of centre
+	var factory_node := npc_parent.get_node_or_null("PasswordFactory")
+	if not factory_node:
+		factory_node = npc_parent.get_node_or_null("CodingBot")
+	if factory_node:
+		var factory_scene := PasswordFactoryScene.instantiate()
+		var factory_pos: Vector2 = factory_node.global_position
+		factory_node.queue_free()
+		factory_scene.global_position = factory_pos
+		npc_parent.add_child(factory_scene)
+		print("[StartArea] Password Factory spawned at: ", factory_pos)
 
 	# Shopkeeper Rose — positioned right of centre
 	var rose_node := npc_parent.get_node_or_null("ShopkeeperRose")

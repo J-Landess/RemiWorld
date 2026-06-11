@@ -43,7 +43,7 @@ func on_player_interact(_player: Node) -> void:
 
 	MissionManager.start_mission(MISSION_ID)
 	if dialogue_box:
-		dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self, true)
+		dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self)
 	else:
 		_present_puzzle()
 

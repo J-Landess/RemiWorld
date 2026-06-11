@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/DaisyDogFightPanel.tscn" id="13_dogpit"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/ObstacleCoursePanel.tscn" id="14_course"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/GroomerPanel.tscn" id="15_groomer"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/PasswordFactoryPanel.tscn" id="16_password"]
 
 ; ──────────────────────────────────────────────────────────────
 ; HUD - Heads Up Display
@@ -76,7 +77,7 @@ anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -340.0
+offset_top = -460.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -91,20 +92,31 @@ anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DialogueBox/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
+
+[node name="AccentStrip" type="ColorRect" parent="DialogueBox/Panel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 5)
+color = Color(0, 0.9, 1, 1)
 
 [node name="SpeakerLabel" type="Label" parent="DialogueBox/Panel/VBoxContainer"]
 layout_mode = 2
 text = "NPC Name"
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 modulate = Color(1.0, 0.9, 0.3, 1)
 
 [node name="TextLabel" type="RichTextLabel" parent="DialogueBox/Panel/VBoxContainer"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 160)
+custom_minimum_size = Vector2(0, 220)
 bbcode_enabled = true
 fit_content = true
-theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/normal_font_size = 26
+
+[node name="ChoicesContainer" type="HBoxContainer" parent="DialogueBox/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+visible = false
 
 [node name="ContinueLabel" type="Label" parent="DialogueBox/Panel/VBoxContainer"]
 layout_mode = 2
@@ -624,4 +636,7 @@ visible = false
 visible = false
 
 [node name="GroomerPanel" parent="." instance=ExtResource("15_groomer")]
+visible = false
+
+[node name="PasswordFactoryPanel" parent="." instance=ExtResource("16_password")]
 visible = false

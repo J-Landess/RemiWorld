@@ -44,7 +44,7 @@ var daisy_captured: bool = false   # Daisy has been caught and is now a companio
 # ── DAISY APPEARANCE (set at the groomer) ─────────────────────
 var daisy_haircut: String = "fluffy"   # "fluffy" | "short" | "mohawk" | "puppy_cut"
 var daisy_outfit:  String = "none"     # "none" | "bow" | "bandana" | "sweater" | "vest"
-var coding_bot_level: int = 0          # Coding Bot training ladder (after first mission)
+var password_factory_level: int = 0   # Password Factory work ladder (after first mission)
 
 # ── ROAD TO BOSTON (journey to Zia) ───────────────────────────
 var road_journey_active: bool = false
@@ -179,7 +179,7 @@ func reset_for_new_game(new_player_name: String = "Remi") -> void:
 	daisy_captured = false
 	daisy_haircut = "fluffy"
 	daisy_outfit = "none"
-	coding_bot_level = 0
+	password_factory_level = 0
 	road_journey_active = false
 	road_time_remaining = 0.0
 	road_milestone = 0
@@ -212,7 +212,8 @@ func to_dict() -> Dictionary:
 		"has_active_game": has_active_game,
 		"daisy_haircut": daisy_haircut,
 		"daisy_outfit": daisy_outfit,
-		"coding_bot_level": coding_bot_level,
+		"password_factory_level": password_factory_level,
+		"coding_bot_level": password_factory_level,
 		"road_journey_active": road_journey_active,
 		"road_time_remaining": road_time_remaining,
 		"road_milestone": road_milestone,
@@ -245,7 +246,9 @@ func from_dict(data: Dictionary) -> void:
 	has_active_game = data.get("has_active_game", false)
 	daisy_haircut = data.get("daisy_haircut", "fluffy")
 	daisy_outfit  = data.get("daisy_outfit",  "none")
-	coding_bot_level = int(data.get("coding_bot_level", 0))
+	password_factory_level = int(
+		data.get("password_factory_level", data.get("coding_bot_level", 0))
+	)
 	road_journey_active = data.get("road_journey_active", false)
 	road_time_remaining = float(data.get("road_time_remaining", 0.0))
 	road_milestone = int(data.get("road_milestone", 0))

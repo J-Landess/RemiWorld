@@ -246,7 +246,7 @@ func on_player_interact(_player_node: Node) -> void:
 
 	MissionManager.start_mission(FETCH_MISSION_ID)
 	if dialogue_box:
-		dialogue_box.show_dialogue("Daisy", mission.get("dialogue_intro", []), self, true)
+		dialogue_box.show_dialogue("Daisy", mission.get("dialogue_intro", []), self)
 	else:
 		_present_puzzle()
 
