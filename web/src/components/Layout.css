@@ -92,6 +92,26 @@
   background: var(--color-primary);
 }
 
+/* Sign-out is a <button> that looks like a nav link */
+.nav-link-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-link-btn:hover {
+  color: var(--color-primary);
+  background: #f0ebff;
+  transform: none;
+}
+
 .site-main {
   flex: 1;
 }

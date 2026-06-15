@@ -118,15 +118,35 @@ func add_tokens(amount: int) -> void:
 
 
 func spend_tokens(amount: int) -> bool:
-	# Returns true if the purchase was successful, false if not enough tokens
-	if vibe_tokens >= amount:
+	# Returns true if the purchase was successful, false if not enough tokens.
+	# When logged in the deduction is validated server-side (anti-cheat).
+	# Guest path: local-only, same behaviour as before.
+	if AuthManager.is_logged_in():
+		# Optimistic UI — deduct locally first so the HUD updates immediately.
+		if vibe_tokens < amount:
+			print("[GameState] Not enough VIBE! Have: %d, Need: %d" % [vibe_tokens, amount])
+			return false
 		vibe_tokens -= amount
 		emit_signal("tokens_changed", vibe_tokens)
-		print("[GameState] Spent %d VIBE. Remaining: %d" % [amount, vibe_tokens])
+		# Confirm with the server; roll back locally on failure.
+		var result: Dictionary = await CloudSaveManager.spend_tokens(amount)
+		if not result["ok"]:
+			# Server rejected — roll back the optimistic deduction.
+			vibe_tokens += amount
+			emit_signal("tokens_changed", vibe_tokens)
+			print("[GameState] Server rejected spend: ", result.get("error", ""))
+			return false
+		print("[GameState] Spent %d VIBE (server-confirmed). Remaining: %d" % [amount, vibe_tokens])
 		return true
 	else:
-		print("[GameState] Not enough VIBE! Have: %d, Need: %d" % [vibe_tokens, amount])
-		return false
+		if vibe_tokens >= amount:
+			vibe_tokens -= amount
+			emit_signal("tokens_changed", vibe_tokens)
+			print("[GameState] Spent %d VIBE. Remaining: %d" % [amount, vibe_tokens])
+			return true
+		else:
+			print("[GameState] Not enough VIBE! Have: %d, Need: %d" % [vibe_tokens, amount])
+			return false
 
 
 # ─────────────────────────────────────────────────────────────

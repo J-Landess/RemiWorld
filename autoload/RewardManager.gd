@@ -41,25 +41,55 @@ signal nft_rewarded(nft: Dictionary)
 #     "nft": { "nft_id": "pattern_star", ... }
 #   })
 # ─────────────────────────────────────────────────────────────
+## Grant a reward after completing a mission.
+##
+## When the player is logged in, pass source_id (the mission_id from
+## MissionDatabase) and the server validates + grants the reward atomically.
+## The local reward dict is still used for guest mode and as the fallback.
+##
+## Example (logged-in path):
+##   await RewardManager.grant_reward({"source_id": "chess_knight_jump"}, ...)
+## Example (guest / legacy path):
+##   await RewardManager.grant_reward({"tokens": 12, "xp": 30, "nft": {...}})
 func grant_reward(reward: Dictionary) -> Dictionary:
-	var summary: Dictionary = {}
 	print("[RewardManager] Granting reward: ", reward)
 
-	# Grant VIBE tokens
+	# Server-authoritative path (logged in + source_id provided).
+	if AuthManager.is_logged_in() and reward.has("source_id"):
+		var result: Dictionary = await CloudSaveManager.grant_reward(reward["source_id"])
+		if result["ok"]:
+			var summary: Dictionary = result.get("data", {})
+			if summary.has("tokens"):
+				emit_signal("tokens_rewarded", int(summary["tokens"]))
+			if summary.has("xp"):
+				emit_signal("xp_rewarded", int(summary["xp"]))
+			if summary.has("nft"):
+				emit_signal("nft_rewarded", {"name": summary["nft"]})
+			if summary.has("item"):
+				emit_signal("item_rewarded", {"name": summary["item"]})
+			emit_signal("reward_granted", summary)
+			AudioManager.play_sfx("reward")
+			print("[RewardManager] Server reward granted: ", summary)
+			return summary
+		else:
+			push_error("[RewardManager] Server grant failed: " + result.get("error", ""))
+			# Fall through to local grant so the player isn't left empty-handed.
+
+	# Local / guest path (original behaviour).
+	var summary: Dictionary = {}
+
 	if reward.has("tokens") and reward["tokens"] > 0:
 		var token_amount: int = reward["tokens"]
 		GameState.add_tokens(token_amount)
 		summary["tokens"] = token_amount
 		emit_signal("tokens_rewarded", token_amount)
 
-	# Grant XP
 	if reward.has("xp") and reward["xp"] > 0:
 		var xp_amount: int = reward["xp"]
 		GameState.add_xp(xp_amount)
 		summary["xp"] = xp_amount
 		emit_signal("xp_rewarded", xp_amount)
 
-	# Grant regular items (array of item dictionaries)
 	if reward.has("items"):
 		var items: Array = reward["items"]
 		summary["items"] = []
@@ -68,14 +98,12 @@ func grant_reward(reward: Dictionary) -> Dictionary:
 			summary["items"].append(item.get("name", "Unknown Item"))
 			emit_signal("item_rewarded", item)
 
-	# Grant a single item shorthand
 	if reward.has("item"):
 		var item: Dictionary = reward["item"]
 		InventoryManager.add_item(item)
 		summary["item"] = item.get("name", "Unknown Item")
 		emit_signal("item_rewarded", item)
 
-	# Grant NFT collectible
 	if reward.has("nft"):
 		var nft: Dictionary = reward["nft"]
 		InventoryManager.add_nft(nft)
@@ -84,7 +112,7 @@ func grant_reward(reward: Dictionary) -> Dictionary:
 
 	emit_signal("reward_granted", summary)
 	AudioManager.play_sfx("reward")
-	print("[RewardManager] Reward granted! Summary: ", summary)
+	print("[RewardManager] Local reward granted. Summary: ", summary)
 	return summary
 
 

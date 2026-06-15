@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Layout.css";
 
 const navItems: { to: string; label: string; end?: boolean }[] = [
@@ -8,6 +9,8 @@ const navItems: { to: string; label: string; end?: boolean }[] = [
 ];
 
 export function Layout() {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="layout">
       <header className="site-header">
@@ -37,6 +40,35 @@ export function Layout() {
                   </NavLink>
                 </li>
               ))}
+
+              {user ? (
+                <>
+                  <li>
+                    <NavLink
+                      to="/profile"
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                    >
+                      Profile
+                    </NavLink>
+                  </li>
+                  <li>
+                    <button
+                      onClick={signOut}
+                      className="nav-link nav-link-btn"
+                    >
+                      Sign out
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link to="/login" className="nav-link">
+                    Sign in
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>

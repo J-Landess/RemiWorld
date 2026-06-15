@@ -12,6 +12,10 @@ web/public/game/*
 .env
 .env.local
 .env.*.local
+web/.env.local
+
+# Godot auth session (contains access/refresh tokens — never commit)
+user://session.json
 
 # OS
 .DS_Store

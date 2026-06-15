@@ -66,7 +66,13 @@ func save_game() -> bool:
 	file.store_string(json_string)
 	file.close()
 
-	print("[SaveManager] Game saved successfully!")
+	print("[SaveManager] Game saved locally.")
+
+	# Also push non-economy state to the cloud when logged in.
+	# Fire-and-forget; local save already succeeded above.
+	if AuthManager.is_logged_in():
+		CloudSaveManager.push_blob()
+
 	emit_signal("game_saved")
 	return true
 
