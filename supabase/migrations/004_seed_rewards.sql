@@ -10,7 +10,7 @@ insert into public.reward_definitions (source_id, tokens, xp, nft, repeatable) v
    false),
 
   ('chess_knight_jump', 12, 30,
-   '{"nft_id":"knight_star_nft","name":"Knight Star Badge","description":"Awarded for mastering the knight\'s leap!","rarity":"common","discovered_from":"Knight\'s Jump","tradeable":false,"token_value":6}',
+   '{"nft_id":"knight_star_nft","name":"Knight Star Badge","description":"Awarded for mastering the knight''s leap!","rarity":"common","discovered_from":"Knight''s Jump","tradeable":false,"token_value":6}',
    false),
 
   ('soccer_goal_kicker', 12, 30,
@@ -22,7 +22,7 @@ insert into public.reward_definitions (source_id, tokens, xp, nft, repeatable) v
    false),
 
   ('daisy_fetch_game', 15, 40,
-   '{"nft_id":"best_friend_nft","name":"Best Friend Badge","description":"Daisy gave you this in return for so much fun together.","rarity":"uncommon","discovered_from":"Daisy\'s Fetch Game","tradeable":false,"token_value":8}',
+   '{"nft_id":"best_friend_nft","name":"Best Friend Badge","description":"Daisy gave you this in return for so much fun together.","rarity":"uncommon","discovered_from":"Daisy''s Fetch Game","tradeable":false,"token_value":8}',
    false),
 
   ('daisy_dog_pit', 10, 50,
@@ -58,7 +58,7 @@ insert into public.reward_definitions (source_id, tokens, xp, nft, repeatable) v
    false),
 
   ('road_to_boston', 25, 80,
-   '{"nft_id":"zia_cookie_nft","name":"Zia\'s Star Cookie","description":"A magical treat from your grandmother Zia in Boston.","rarity":"uncommon","discovered_from":"Road to Boston","tradeable":false,"token_value":15}',
+   '{"nft_id":"zia_cookie_nft","name":"Zia''s Star Cookie","description":"A magical treat from your grandmother Zia in Boston.","rarity":"uncommon","discovered_from":"Road to Boston","tradeable":false,"token_value":15}',
    false)
 
 on conflict (source_id) do update set
