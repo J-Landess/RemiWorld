@@ -107,7 +107,7 @@ func _spawn_sticks() -> void:
 			b.queue_free()
 	_stick_buttons.clear()
 
-	var size: Vector2 = field.size if field.size != Vector2.ZERO else FIELD_SIZE
+	var field_size2: Vector2 = field.size if field.size != Vector2.ZERO else FIELD_SIZE
 	var margin := 28.0
 
 	for i in _stick_count:
@@ -129,8 +129,8 @@ func _spawn_sticks() -> void:
 
 		# Place at random non-overlapping spot in the top half of the field
 		var pos := Vector2(
-			randf_range(margin, size.x - margin - STICK_BUTTON_SIZE.x),
-			randf_range(margin, size.y * 0.55)
+			randf_range(margin, field_size2.x - margin - STICK_BUTTON_SIZE.x),
+			randf_range(margin, field_size2.y * 0.55)
 		)
 		btn.position = pos
 		btn.pressed.connect(_on_stick_pressed.bind(btn))
@@ -204,12 +204,12 @@ func _update_score_label() -> void:
 func _on_field_draw() -> void:
 	if not field:
 		return
-	var size: Vector2 = field.size
+	var field_size: Vector2 = field.size
 	# Grass background
-	field.draw_rect(Rect2(Vector2.ZERO, size), Color(0.36, 0.66, 0.32))
+	field.draw_rect(Rect2(Vector2.ZERO, field_size), Color(0.36, 0.66, 0.32))
 	# Lighter patches
-	field.draw_circle(Vector2(size.x * 0.3, size.y * 0.4), 60.0, Color(0.44, 0.72, 0.38, 0.55))
-	field.draw_circle(Vector2(size.x * 0.75, size.y * 0.6), 50.0, Color(0.42, 0.70, 0.36, 0.50))
+	field.draw_circle(Vector2(field_size.x * 0.3, field_size.y * 0.4), 60.0, Color(0.44, 0.72, 0.38, 0.55))
+	field.draw_circle(Vector2(field_size.x * 0.75, field_size.y * 0.6), 50.0, Color(0.42, 0.70, 0.36, 0.50))
 
 	# Player icon (Remi)
 	_draw_player_icon(_player_pos)
@@ -251,11 +251,11 @@ func _draw_daisy_icon(pos: Vector2) -> void:
 func _finish_challenge() -> void:
 	var success := _fetches_done >= _required_fetches
 	visible = false
-	if _caller and _caller.has_method("on_challenge_finished"):
-		_caller.on_challenge_finished(success)
 	var hud := get_parent()
 	if hud and hud.has_method("close_all_panels"):
 		hud.close_all_panels()
+	if _caller and _caller.has_method("on_challenge_finished"):
+		_caller.on_challenge_finished(success)
 
 
 func _on_close_pressed() -> void:

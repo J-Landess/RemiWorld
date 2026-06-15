@@ -76,12 +76,19 @@ func _make_store_card(item: Dictionary) -> Control:
 	var vbox := VBoxContainer.new()
 	card.add_child(vbox)
 
-	# Item preview (colored placeholder)
-	var preview := ColorRect.new()
-	preview.custom_minimum_size = Vector2(120, 100)
-	preview.color = Color(randf_range(0.5, 1.0), randf_range(0.5, 1.0), randf_range(0.5, 1.0))
-	preview.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	vbox.add_child(preview)
+	# Item preview — procedural drawing
+	var preview_wrap := Control.new()
+	preview_wrap.custom_minimum_size = Vector2(120, 80)
+	preview_wrap.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var preview_bg := ColorRect.new()
+	preview_bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	preview_bg.color = Color(0.15, 0.12, 0.20)
+	preview_wrap.add_child(preview_bg)
+	var preview_node: Node2D = load("res://scripts/ui/StoreItemPreview.gd").new()
+	preview_node.position = Vector2(60, 40)
+	preview_node.call("setup", item.get("item_id", ""))
+	preview_wrap.add_child(preview_node)
+	vbox.add_child(preview_wrap)
 
 	# Item name
 	var name_label := Label.new()

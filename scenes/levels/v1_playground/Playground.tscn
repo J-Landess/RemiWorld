@@ -17,68 +17,108 @@ size = Vector2(20, 960)
 script = ExtResource("1_manager")
 
 [node name="Ambience" type="CanvasModulate" parent="."]
-color = Color(1, 0.98, 0.94, 1)
+color = Color(0.96, 1.0, 0.92, 1)
 
 [node name="BackDrop" type="Node2D" parent="."]
 
 [node name="Ground" type="Node2D" parent="BackDrop"]
 z_index = -50
 script = ExtResource("2_ground")
+area_style = "playground"
 
 [node name="SortLayer" type="Node2D" parent="."]
 y_sort_enabled = true
 
 [node name="Props" type="Node2D" parent="SortLayer"]
 
+; Big mountain as a striking backdrop — rendered behind everything
+[node name="Mountain" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(0, -320)
+z_index = -10
+script = ExtResource("3_prop")
+prop_type = "mountain"
+prop_scale = 2.2
+
 [node name="TreeTopLeft" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(-620, -340)
+position = Vector2(-580, -300)
 script = ExtResource("3_prop")
 prop_type = "tree"
-prop_scale = 1.1
+prop_scale = 1.25
 
 [node name="TreeTopRight" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(620, -340)
+position = Vector2(660, -260)
 script = ExtResource("3_prop")
 prop_type = "tree"
-prop_scale = 1.0
+prop_scale = 0.90
 
 [node name="TreeBottomLeft" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(-680, 320)
+position = Vector2(-720, 240)
 script = ExtResource("3_prop")
 prop_type = "tree"
-prop_scale = 0.95
+prop_scale = 1.10
 
 [node name="TreeBottomRight" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(680, 320)
+position = Vector2(640, 300)
 script = ExtResource("3_prop")
 prop_type = "tree"
-prop_scale = 1.05
+prop_scale = 1.15
+
+[node name="TreeMidLeft" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-480, 80)
+script = ExtResource("3_prop")
+prop_type = "tree"
+prop_scale = 0.80
 
 [node name="WelcomeSign" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(0, -360)
+position = Vector2(-180, -370)
 script = ExtResource("3_prop")
 prop_type = "sign_post"
 
 [node name="DogPitSignPost" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(0, -420)
+position = Vector2(180, -390)
 script = ExtResource("3_prop")
 prop_type = "sign_post"
 prop_scale = 1.1
 
+; Flowers scattered in different spots compared to Start Area
 [node name="Flowers1" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(-180, 30)
+position = Vector2(-300, 200)
 script = ExtResource("3_prop")
 prop_type = "flowers"
-prop_scale = 0.9
+prop_scale = 1.0
 
 [node name="Flowers2" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(220, -20)
+position = Vector2(340, 80)
 script = ExtResource("3_prop")
 prop_type = "flowers"
 prop_scale = 0.85
 
+[node name="Flowers3" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(120, 340)
+script = ExtResource("3_prop")
+prop_type = "flowers"
+prop_scale = 0.75
+
+[node name="Pond" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-160, -120)
+script = ExtResource("3_prop")
+prop_type = "pond"
+prop_scale = 1.3
+
+[node name="BushLeft" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-560, -100)
+script = ExtResource("3_prop")
+prop_type = "bush"
+prop_scale = 1.0
+
+[node name="BushRight" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(520, 140)
+script = ExtResource("3_prop")
+prop_type = "bush"
+prop_scale = 0.90
+
 [node name="BenchCenter" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(0, 70)
+position = Vector2(200, -80)
 script = ExtResource("3_prop")
 prop_type = "bench"
 

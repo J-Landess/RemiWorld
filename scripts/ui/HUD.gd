@@ -154,6 +154,9 @@ func open_avatar_closet() -> void:
 func close_all_panels() -> void:
 	_hide_all_panels()
 	_set_game_paused(false)
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("set_movement_enabled"):
+		player.set_movement_enabled(true)
 
 
 func show_puzzle(puzzle_data: Dictionary, caller: Node) -> void:

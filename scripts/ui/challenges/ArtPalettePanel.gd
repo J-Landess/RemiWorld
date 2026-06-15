@@ -192,11 +192,11 @@ func _on_done_pressed() -> void:
 func _finish_challenge() -> void:
 	var success := _correct_count >= _required_correct
 	visible = false
-	if _caller and _caller.has_method("on_challenge_finished"):
-		_caller.on_challenge_finished(success)
 	var hud := get_parent()
 	if hud and hud.has_method("close_all_panels"):
 		hud.close_all_panels()
+	if _caller and _caller.has_method("on_challenge_finished"):
+		_caller.on_challenge_finished(success)
 
 
 func _on_close_pressed() -> void:

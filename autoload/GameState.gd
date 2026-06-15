@@ -46,6 +46,11 @@ var daisy_haircut: String = "fluffy"   # "fluffy" | "short" | "mohawk" | "puppy_
 var daisy_outfit:  String = "none"     # "none" | "bow" | "bandana" | "sweater" | "vest"
 var password_factory_level: int = 0   # Password Factory work ladder (after first mission)
 
+# ── AQUARIUM ──────────────────────────────────────────────────
+var is_vip: bool = false                    # Bought VIP access at the aquarium
+var aquarium_entry_paid: bool = false       # Paid the entry fee at least once
+var aquarium_animals_freed: Array = []      # IDs of animals freed so far
+
 # ── ROAD TO BOSTON (journey to Zia) ───────────────────────────
 var road_journey_active: bool = false
 var road_time_remaining: float = 0.0
@@ -186,6 +191,9 @@ func reset_for_new_game(new_player_name: String = "Remi") -> void:
 	zia_curse_active = false
 	daisy_is_frog = false
 	remi_bald = false
+	is_vip = false
+	aquarium_entry_paid = false
+	aquarium_animals_freed = []
 	current_scene = "res://scenes/levels/v1_start_area/StartArea.tscn"
 	player_position = Vector2.ZERO
 	has_active_game = true
@@ -220,6 +228,9 @@ func to_dict() -> Dictionary:
 		"zia_curse_active": zia_curse_active,
 		"daisy_is_frog": daisy_is_frog,
 		"remi_bald": remi_bald,
+		"is_vip": is_vip,
+		"aquarium_entry_paid": aquarium_entry_paid,
+		"aquarium_animals_freed": aquarium_animals_freed,
 		"music_volume": music_volume,
 		"sfx_volume": sfx_volume,
 		"text_speed": text_speed,
@@ -255,6 +266,9 @@ func from_dict(data: Dictionary) -> void:
 	zia_curse_active = data.get("zia_curse_active", false)
 	daisy_is_frog = data.get("daisy_is_frog", false)
 	remi_bald = data.get("remi_bald", false)
+	is_vip = data.get("is_vip", false)
+	aquarium_entry_paid = data.get("aquarium_entry_paid", false)
+	aquarium_animals_freed = data.get("aquarium_animals_freed", [])
 	music_volume = data.get("music_volume", 0.8)
 	sfx_volume = data.get("sfx_volume", 1.0)
 	text_speed = data.get("text_speed", 0.05)

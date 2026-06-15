@@ -1,0 +1,211 @@
+[gd_scene load_steps=3 format=3 uid="uid://rw_aquarium"]
+
+[ext_resource type="Script" path="res://scripts/systems/game_state/AquariumManager.gd" id="1_manager"]
+
+[sub_resource type="RectangleShape2D" id="RectShape_H"]
+size = Vector2(1400, 20)
+
+[sub_resource type="RectangleShape2D" id="RectShape_V"]
+size = Vector2(20, 840)
+
+; City Aquarium — interior.
+; Art is drawn procedurally in AquariumManager / ColorRect nodes.
+; Cages and NPCs are spawned in code by AquariumManager.
+
+[node name="Aquarium" type="Node2D"]
+script = ExtResource("1_manager")
+
+[node name="Ambience" type="CanvasModulate" parent="."]
+color = Color(0.80, 0.92, 1.0, 1)
+
+; ── FLOOR & WALLS (ColorRect art) ─────────────────────────────────────────────
+
+[node name="Art" type="Node2D" parent="."]
+
+[node name="Floor" type="ColorRect" parent="Art"]
+offset_left = -700.0
+offset_top = -420.0
+offset_right = 700.0
+offset_bottom = 420.0
+color = Color(0.12, 0.28, 0.45, 1)
+
+[node name="WallBack" type="ColorRect" parent="Art"]
+offset_left = -700.0
+offset_top = -420.0
+offset_right = 700.0
+offset_bottom = -280.0
+color = Color(0.08, 0.20, 0.38, 1)
+
+[node name="FloorTiles" type="ColorRect" parent="Art"]
+offset_left = -700.0
+offset_top = 200.0
+offset_right = 700.0
+offset_bottom = 420.0
+color = Color(0.16, 0.32, 0.50, 1)
+
+; ── TANK WINDOWS (decorative wall tanks) ────────────────────────────────────
+
+[node name="TankLeft" type="ColorRect" parent="Art"]
+offset_left = -620.0
+offset_top = -380.0
+offset_right = -320.0
+offset_bottom = -150.0
+color = Color(0.20, 0.65, 0.90, 0.70)
+
+[node name="TankLeftFrame" type="ColorRect" parent="Art"]
+offset_left = -624.0
+offset_top = -384.0
+offset_right = -316.0
+offset_bottom = -146.0
+color = Color(0.10, 0.35, 0.55, 1)
+
+[node name="TankRight" type="ColorRect" parent="Art"]
+offset_left = 320.0
+offset_top = -380.0
+offset_right = 620.0
+offset_bottom = -150.0
+color = Color(0.20, 0.65, 0.90, 0.70)
+
+[node name="TankRightFrame" type="ColorRect" parent="Art"]
+offset_left = 316.0
+offset_top = -384.0
+offset_right = 624.0
+offset_bottom = -146.0
+color = Color(0.10, 0.35, 0.55, 1)
+
+; ── CAGE DIVIDERS (the 3 cage bays for regular + 3 VIP) ─────────────────────
+
+[node name="CageSection" type="ColorRect" parent="Art"]
+offset_left = -660.0
+offset_top = -270.0
+offset_right = 660.0
+offset_bottom = -30.0
+color = Color(0.08, 0.18, 0.32, 0.65)
+
+[node name="CageDivider1" type="ColorRect" parent="Art"]
+offset_left = -170.0
+offset_top = -270.0
+offset_right = -162.0
+offset_bottom = -30.0
+color = Color(0.22, 0.45, 0.65, 1)
+
+[node name="CageDivider2" type="ColorRect" parent="Art"]
+offset_left = 162.0
+offset_top = -270.0
+offset_right = 170.0
+offset_bottom = -30.0
+color = Color(0.22, 0.45, 0.65, 1)
+
+[node name="VipDivider1" type="ColorRect" parent="Art"]
+offset_left = -170.0
+offset_top = -420.0
+offset_right = -162.0
+offset_bottom = -270.0
+color = Color(0.40, 0.22, 0.65, 1)
+
+[node name="VipDivider2" type="ColorRect" parent="Art"]
+offset_left = 162.0
+offset_top = -420.0
+offset_right = 170.0
+offset_bottom = -270.0
+color = Color(0.40, 0.22, 0.65, 1)
+
+; ── SIGNS ─────────────────────────────────────────────────────────────────────
+
+[node name="Signs" type="Node2D" parent="."]
+
+[node name="TitleSign" type="Label" parent="Signs"]
+offset_left = -260.0
+offset_top = -400.0
+offset_right = 260.0
+offset_bottom = -368.0
+text = "🐠 City Aquarium — Animal Rescue!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.85, 0.95, 1.0, 1)
+
+[node name="RegularSign" type="Label" parent="Signs"]
+offset_left = -380.0
+offset_top = -285.0
+offset_right = 380.0
+offset_bottom = -260.0
+text = "  🐻  Regular Animals  🐶     🐱"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.80, 0.90, 1.0, 0.9)
+
+[node name="VipSign" type="Label" parent="Signs"]
+offset_left = -400.0
+offset_top = -420.0
+offset_right = 400.0
+offset_bottom = -395.0
+text = "  ⭐ VIP ONLY ⭐   🐬  Hello Kitty 🐱✨  🐻‍⭐"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1.0, 0.85, 0.20, 1)
+
+[node name="BoothSign" type="Label" parent="Signs"]
+offset_left = -80.0
+offset_top = 140.0
+offset_right = 80.0
+offset_bottom = 165.0
+text = "🎟️ Ticket Booth"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1.0, 0.90, 0.50, 1)
+
+[node name="ExitSign" type="Label" parent="Signs"]
+offset_left = -60.0
+offset_top = -390.0
+offset_right = 60.0
+offset_bottom = -368.0
+text = "🚪 EXIT"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.5, 1.0, 0.5, 1)
+
+[node name="SortLayer" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="NPCs" type="Node2D" parent="SortLayer"]
+
+; ── BOUNDARIES ────────────────────────────────────────────────────────────────
+
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, -400)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallTop"]
+shape = SubResource("RectShape_H")
+
+[node name="WallBottom" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(0, 420)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallBottom"]
+shape = SubResource("RectShape_H")
+
+[node name="WallLeft" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(-680, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallLeft"]
+shape = SubResource("RectShape_V")
+
+[node name="WallRight" type="StaticBody2D" parent="Boundaries"]
+position = Vector2(680, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
+shape = SubResource("RectShape_V")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(0, 300)
+
+[node name="HUD" type="CanvasLayer" parent="."]

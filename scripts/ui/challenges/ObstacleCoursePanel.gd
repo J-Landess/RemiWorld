@@ -39,11 +39,11 @@ const C_COLLAR := Color(1.00, 0.45, 0.10)
 # Each entry: [name, prompt text, key codes, obstacle_type]
 # ─────────────────────────────────────────────────────────────
 const OBSTACLES := [
-	{"name": "Hurdle",  "prompt": "JUMP!",  "keys": [KEY_W, KEY_UP],    "type": "hurdle"},
-	{"name": "Sit Mat", "prompt": "SIT!",   "keys": [KEY_S, KEY_DOWN],  "type": "mat"},
-	{"name": "Barrel",  "prompt": "SPIN!",  "keys": [KEY_A, KEY_LEFT],  "type": "barrel"},
-	{"name": "Bell",    "prompt": "BARK!",  "keys": [KEY_SPACE],        "type": "bell"},
-	{"name": "Ball",    "prompt": "FETCH!", "keys": [KEY_D, KEY_RIGHT],  "type": "ball"},
+	{"name": "Hurdle",  "prompt": "JUMP!",  "key_codes": [KEY_W, KEY_UP],    "key_hint": "Press W or ↑",  "type": "hurdle"},
+	{"name": "Sit Mat", "prompt": "SIT!",   "key_codes": [KEY_S, KEY_DOWN],  "key_hint": "Press S or ↓",  "type": "mat"},
+	{"name": "Barrel",  "prompt": "SPIN!",  "key_codes": [KEY_A, KEY_LEFT],  "key_hint": "Press A or ←",  "type": "barrel"},
+	{"name": "Bell",    "prompt": "BARK!",  "key_codes": [KEY_SPACE],        "key_hint": "Press Space",   "type": "bell"},
+	{"name": "Ball",    "prompt": "FETCH!", "key_codes": [KEY_D, KEY_RIGHT], "key_hint": "Press D or →",  "type": "ball"},
 ]
 
 # ─────────────────────────────────────────────────────────────
@@ -117,8 +117,9 @@ func _run_next_obstacle() -> void:
 	if prompt_label:
 		prompt_label.text = obs.prompt
 		prompt_label.modulate = Color(1, 1, 0.4, 1)
+	if status_label:
+		status_label.text = obs.get("key_hint", "Press the right key!")
 	if timer_bar:
-		timer_bar.max_value = TIME_WINDOW
 		timer_bar.value     = TIME_WINDOW
 	_update_score_label()
 	arena.queue_redraw()
@@ -164,11 +165,11 @@ func _finish() -> void:
 
 	await get_tree().create_timer(2.0).timeout
 	visible = false
-	if _caller and _caller.has_method("on_challenge_finished"):
-		_caller.on_challenge_finished(success)
 	var hud := get_parent()
 	if hud and hud.has_method("close_all_panels"):
 		hud.close_all_panels()
+	if _caller and _caller.has_method("on_challenge_finished"):
+		_caller.on_challenge_finished(success)
 
 
 func _update_score_label() -> void:
@@ -230,7 +231,8 @@ func _input(event: InputEvent) -> void:
 		return
 
 	var obs: Dictionary = OBSTACLES[_current_obs]
-	if event.keycode in obs.keys:
+	var key_codes: Array = obs.get("key_codes", [])
+	if event.keycode in key_codes:
 		get_viewport().set_input_as_handled()
 		if obs.type == "hurdle":
 			_daisy_y_off = 38.0
@@ -243,7 +245,7 @@ func _input(event: InputEvent) -> void:
 
 func _key_is_any_course_key(kc: int) -> bool:
 	for obs: Dictionary in OBSTACLES:
-		if kc in obs.keys:
+		if kc in obs.get("key_codes", []):
 			return true
 	return false
 
@@ -423,8 +425,8 @@ func _draw_daisy_fetch(x: float, y: float, c: Color) -> void:
 func _on_close_pressed() -> void:
 	AudioManager.play_sfx("click")
 	visible = false
-	if _caller and _caller.has_method("on_challenge_finished"):
-		_caller.on_challenge_finished(false)
 	var hud := get_parent()
 	if hud and hud.has_method("close_all_panels"):
 		hud.close_all_panels()
+	if _caller and _caller.has_method("on_challenge_finished"):
+		_caller.on_challenge_finished(false)

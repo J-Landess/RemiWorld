@@ -501,6 +501,252 @@ const ALL_MISSIONS: Dictionary = {
 	},
 
 	# ──────────────────────────────────────────────────────────
+	# AQUARIUM — free the animals (regular tier)
+	# ──────────────────────────────────────────────────────────
+	"aquarium_rescue_bear": {
+		"mission_id": "aquarium_rescue_bear",
+		"title": "Free the Bear!",
+		"description": "Answer the Riddler's 10 animal questions (8/10) to free the bear.",
+		"npc_id": "riddler_npc",
+		"npc_name": "The Riddler",
+		"vip_required": false,
+		"animal_id": "bear",
+		"animal_emoji": "🐻",
+		"challenge": {"panel": "RiddlerPanel", "questions": 10, "required_correct": 8},
+		"rewards": {
+			"tokens": 18, "xp": 50,
+			"nft": {
+				"nft_id": "bear_rescue_nft", "name": "Bear Rescuer Badge",
+				"description": "You outwitted the Riddler and freed a bear!",
+				"rarity": "uncommon", "image_path": "res://assets/icons/nfts/bear_rescue_nft.png",
+				"discovered_from": "Aquarium Bear Rescue", "tradeable": false, "equipped": false, "token_value": 12,
+			},
+		},
+		"repeatable": false,
+		"dialogue_intro": [
+			"[The Riddler] Ohhh, a brave little visitor! 🎭 You want to free the bear, do you?",
+			"[The Riddler] I admire the ambition. But first — you must answer TEN of my animal riddles!",
+			"[The Riddler] Get 8 right… and maybe I'll let you try. Get fewer? Back to the gift shop!",
+			{"type": "question", "text": "Do you dare face the Riddler's quiz?",
+			"choices": ["Bring it on!", "I need to prepare"],
+			"responses": [
+				["[The Riddler] Wonderful! Let's begin — and don't let me trick you!", {"type": "action", "action": "present_puzzle"}],
+				["[The Riddler] Wise! Come back when your brain is ready. The bear will wait..."],
+			]},
+		],
+		"dialogue_success": [
+			"[The Riddler] 8 out of 10?! Impressive... most impressive. 😤",
+			"[The Riddler] Fine. The cage is open. Now SNEAK that bear out past the guard. Don't get spotted!",
+		],
+		"dialogue_failure": [
+			"[The Riddler] Ha! Not enough correct answers! The cage stays LOCKED.",
+			"[The Riddler] Come back when you've studied your animal facts!",
+		],
+		"dialogue_complete": [
+			"[The Riddler] You already freed that bear. Can't fool you twice... yet.",
+		],
+	},
+
+	"aquarium_rescue_dog": {
+		"mission_id": "aquarium_rescue_dog",
+		"title": "Free the Dog!",
+		"description": "Answer the Riddler's 10 animal questions (8/10) to free the dog.",
+		"npc_id": "riddler_npc",
+		"npc_name": "The Riddler",
+		"vip_required": false,
+		"animal_id": "dog",
+		"animal_emoji": "🐶",
+		"challenge": {"panel": "RiddlerPanel", "questions": 10, "required_correct": 8},
+		"rewards": {
+			"tokens": 18, "xp": 50,
+			"nft": {
+				"nft_id": "dog_rescue_nft", "name": "Dog Rescuer Badge",
+				"description": "You freed a dog from the aquarium — what a hero!",
+				"rarity": "uncommon", "image_path": "res://assets/icons/nfts/dog_rescue_nft.png",
+				"discovered_from": "Aquarium Dog Rescue", "tradeable": false, "equipped": false, "token_value": 12,
+			},
+		},
+		"repeatable": false,
+		"dialogue_intro": [
+			"[The Riddler] A dog lover, are we? 🎭 Ten questions stand between you and that pupper.",
+			{"type": "question", "text": "Ready for the Riddler's animal quiz?",
+			"choices": ["Let's go!", "Not yet"],
+			"responses": [
+				["[The Riddler] Eyes open — I WILL try to trick you!", {"type": "action", "action": "present_puzzle"}],
+				["[The Riddler] The dog will wait... patiently. Dogs are good at that."],
+			]},
+		],
+		"dialogue_success": [
+			"[The Riddler] Ugh. You passed. The cage is open — now SNEAK that dog past the guard!",
+		],
+		"dialogue_failure": [
+			"[The Riddler] So close, yet so far! Study harder and come back.",
+		],
+		"dialogue_complete": ["[The Riddler] That dog is already free. Go rescue something else!"],
+	},
+
+	"aquarium_rescue_cat": {
+		"mission_id": "aquarium_rescue_cat",
+		"title": "Free the Cat!",
+		"description": "Answer the Riddler's 10 animal questions (8/10) to free the cat.",
+		"npc_id": "riddler_npc",
+		"npc_name": "The Riddler",
+		"vip_required": false,
+		"animal_id": "cat",
+		"animal_emoji": "🐱",
+		"challenge": {"panel": "RiddlerPanel", "questions": 10, "required_correct": 8},
+		"rewards": {
+			"tokens": 18, "xp": 50,
+			"nft": {
+				"nft_id": "cat_rescue_nft", "name": "Cat Rescuer Badge",
+				"description": "A sneaky cat freed by an even sneakier you!",
+				"rarity": "uncommon", "image_path": "res://assets/icons/nfts/cat_rescue_nft.png",
+				"discovered_from": "Aquarium Cat Rescue", "tradeable": false, "equipped": false, "token_value": 12,
+			},
+		},
+		"repeatable": false,
+		"dialogue_intro": [
+			"[The Riddler] Oh, the cat? She's already plotting her escape — she just needs YOU to answer my quiz. 🎭",
+			{"type": "question", "text": "Ready to face 10 animal questions?",
+			"choices": ["Ready!", "Give me a hint first"],
+			"responses": [
+				["[The Riddler] No hints! That's cheating. Begin!", {"type": "action", "action": "present_puzzle"}],
+				["[The Riddler] Hint? Ha! The only hint is — I WILL try to trick you. Now begin!", {"type": "action", "action": "present_puzzle"}],
+			]},
+		],
+		"dialogue_success": [
+			"[The Riddler] *grumbles* Fine. Cage is open. Sneak that cat out — quietly!",
+		],
+		"dialogue_failure": [
+			"[The Riddler] The cat is disappointed in you. Study up!",
+		],
+		"dialogue_complete": ["[The Riddler] That cat has nine lives — and you used one freeing her."],
+	},
+
+	# ──────────────────────────────────────────────────────────
+	# AQUARIUM — free the animals (VIP tier)
+	# ──────────────────────────────────────────────────────────
+	"aquarium_rescue_dolphin": {
+		"mission_id": "aquarium_rescue_dolphin",
+		"title": "Free the Dolphin! (VIP)",
+		"description": "VIP only! Answer 10 questions (8/10) to free a dolphin.",
+		"npc_id": "riddler_npc",
+		"npc_name": "The Riddler",
+		"vip_required": true,
+		"animal_id": "dolphin",
+		"animal_emoji": "🐬",
+		"challenge": {"panel": "RiddlerPanel", "questions": 10, "required_correct": 8},
+		"rewards": {
+			"tokens": 30, "xp": 80,
+			"nft": {
+				"nft_id": "dolphin_rescue_nft", "name": "Dolphin Hero Badge",
+				"description": "A VIP hero who freed a dolphin from captivity!",
+				"rarity": "rare", "image_path": "res://assets/icons/nfts/dolphin_rescue_nft.png",
+				"discovered_from": "Aquarium Dolphin Rescue", "tradeable": false, "equipped": false, "token_value": 20,
+			},
+		},
+		"repeatable": false,
+		"dialogue_intro": [
+			"[The Riddler] A VIP, no less! The dolphin is worthy of only the smartest rescuer. 🎭",
+			"[The Riddler] Ten questions, eight correct — and then you must SNEAK this brilliant creature out.",
+			{"type": "question", "text": "Will you take the Riddler's VIP Challenge?",
+			"choices": ["Challenge accepted!", "I'll study first"],
+			"responses": [
+				["[The Riddler] Magnificent! The dolphin is cheering for you!", {"type": "action", "action": "present_puzzle"}],
+				["[The Riddler] Smart. Dolphins are smart too. They'd approve."],
+			]},
+		],
+		"dialogue_success": [
+			"[The Riddler] Extraordinary! A perfect rescue plan in motion. The cage opens! 🐬",
+			"[The Riddler] Now — SNEAK the dolphin past the guard. Don't blow your cover!",
+		],
+		"dialogue_failure": [
+			"[The Riddler] Even VIPs must earn their rescues. Study harder!",
+		],
+		"dialogue_complete": ["[The Riddler] The ocean is already thanking you for that dolphin rescue."],
+	},
+
+	"aquarium_rescue_hellokitty": {
+		"mission_id": "aquarium_rescue_hellokitty",
+		"title": "Free Hello Kitty! (VIP)",
+		"description": "VIP only! Answer 10 questions (8/10) to free Hello Kitty.",
+		"npc_id": "riddler_npc",
+		"npc_name": "The Riddler",
+		"vip_required": true,
+		"animal_id": "hellokitty",
+		"animal_emoji": "🐱✨",
+		"challenge": {"panel": "RiddlerPanel", "questions": 10, "required_correct": 8},
+		"rewards": {
+			"tokens": 30, "xp": 80,
+			"nft": {
+				"nft_id": "hellokitty_rescue_nft", "name": "Hello Kitty Hero Badge",
+				"description": "You rescued the legendary Hello Kitty herself!",
+				"rarity": "rare", "image_path": "res://assets/icons/nfts/hellokitty_rescue_nft.png",
+				"discovered_from": "Aquarium Hello Kitty Rescue", "tradeable": false, "equipped": false, "token_value": 25,
+			},
+		},
+		"repeatable": false,
+		"dialogue_intro": [
+			"[The Riddler] Oh my! You want to free HELLO KITTY?! That's the most famous guest in the aquarium! 🎭",
+			"[The Riddler] You'll need to be extra sharp. Ten questions — and I'll really try to trick you this time!",
+			{"type": "question", "text": "Are you brave enough for the Hello Kitty Challenge?",
+			"choices": ["I'm brave enough!", "Maybe I need a warm-up"],
+			"responses": [
+				["[The Riddler] Hello Kitty gives you a little wave! Begin!", {"type": "action", "action": "present_puzzle"}],
+				["[The Riddler] Go warm up — she'll be here, being adorable."],
+			]},
+		],
+		"dialogue_success": [
+			"[The Riddler] You... actually did it. Hello Kitty is impressed! The cage is open! 🐱✨",
+			"[The Riddler] Now disguise her and SNEAK her past the guard. She'll be very quiet — she's good at that!",
+		],
+		"dialogue_failure": [
+			"[The Riddler] So close! Hello Kitty says 'try again!'",
+		],
+		"dialogue_complete": ["[The Riddler] Hello Kitty sends her love. The bow is a nice touch."],
+	},
+
+	"aquarium_rescue_goldenbear": {
+		"mission_id": "aquarium_rescue_goldenbear",
+		"title": "Free the Golden Bear! (VIP)",
+		"description": "VIP only! Answer 10 questions (8/10) to free the legendary Golden Bear.",
+		"npc_id": "riddler_npc",
+		"npc_name": "The Riddler",
+		"vip_required": true,
+		"animal_id": "goldenbear",
+		"animal_emoji": "🐻‍⭐",
+		"challenge": {"panel": "RiddlerPanel", "questions": 10, "required_correct": 8},
+		"rewards": {
+			"tokens": 35, "xp": 100,
+			"nft": {
+				"nft_id": "goldenbear_rescue_nft", "name": "Golden Bear Legend Badge",
+				"description": "Only the bravest rescuer could free the legendary Golden Bear!",
+				"rarity": "legendary", "image_path": "res://assets/icons/nfts/goldenbear_rescue_nft.png",
+				"discovered_from": "Aquarium Golden Bear Rescue", "tradeable": false, "equipped": false, "token_value": 30,
+			},
+		},
+		"repeatable": false,
+		"dialogue_intro": [
+			"[The Riddler] The Golden Bear... the crown jewel of this aquarium. Are you truly worthy? 🎭",
+			"[The Riddler] This will be my HARDEST quiz yet. The bear is watching. Don't embarrass yourself.",
+			{"type": "question", "text": "Do you dare attempt the Golden Bear Challenge?",
+			"choices": ["I'm ready for anything!", "Let me think about it"],
+			"responses": [
+				["[The Riddler] MAGNIFICENT! The Golden Bear roars with approval! Begin!", {"type": "action", "action": "present_puzzle"}],
+				["[The Riddler] A wise pause. The golden one shall wait for a worthy champion."],
+			]},
+		],
+		"dialogue_success": [
+			"[The Riddler] INCREDIBLE! You... you actually passed! The Golden Bear is FREE! 🐻‍⭐",
+			"[The Riddler] Now — the HARDEST part. Sneak that golden giant past the guard. Good luck. You'll need it.",
+		],
+		"dialogue_failure": [
+			"[The Riddler] Even legends fall. The Golden Bear watches with patience. Try again!",
+		],
+		"dialogue_complete": ["[The Riddler] The Golden Bear legend lives on — because of you."],
+	},
+
+	# ──────────────────────────────────────────────────────────
 	# ROAD TO BOSTON — meet Zia the witch (timed journey)
 	# ──────────────────────────────────────────────────────────
 	"road_to_boston": {

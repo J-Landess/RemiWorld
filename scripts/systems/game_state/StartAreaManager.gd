@@ -33,6 +33,10 @@ var _school_hint_label: Label = null
 var _near_playground: bool = false
 var _playground_hint_label: Label = null
 
+# Aquarium entrance interaction state
+var _near_aquarium: bool = false
+var _aquarium_hint_label: Label = null
+
 # Daisy companion follow-slot (set after she's caught)
 var _daisy_node: Node = null
 
@@ -50,6 +54,7 @@ func _ready() -> void:
 	_spawn_daisy()
 	_setup_school_entrance()
 	_setup_playground_entrance()
+	_setup_aquarium_entrance()
 	_setup_checkpoint_zones()
 	AudioManager.play_music("start_area")
 
@@ -64,6 +69,8 @@ func _process(_delta: float) -> void:
 		_enter_school()
 	elif _near_playground and Input.is_action_just_pressed("interact"):
 		_enter_playground()
+	elif _near_aquarium and Input.is_action_just_pressed("interact"):
+		_enter_aquarium()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -274,6 +281,62 @@ func _enter_playground() -> void:
 		CheckpointManager.save_checkpoint(_player.global_position)
 		GameState.player_position = Vector2.ZERO
 	get_tree().change_scene_to_file("res://scenes/levels/v1_playground/Playground.tscn")
+
+
+# ─────────────────────────────────────────────────────────────
+# AQUARIUM ENTRANCE — next to the school on the right side
+# Aquarium prop is at (420, -270); door is near bottom: (420, -210)
+# ─────────────────────────────────────────────────────────────
+func _setup_aquarium_entrance() -> void:
+	# Use the Marker2D placed in the scene, or fall back to a hard position
+	var marker := get_node_or_null("AquariumEntrance")
+	var entrance_pos: Vector2 = marker.global_position if marker else Vector2(420, -210)
+
+	var entrance := Area2D.new()
+	entrance.name = "AquariumEntranceZone"
+	entrance.collision_layer = 4
+	entrance.collision_mask = 2
+
+	var shape_node := CollisionShape2D.new()
+	var shape := CircleShape2D.new()
+	shape.radius = 50.0
+	shape_node.shape = shape
+	entrance.add_child(shape_node)
+	entrance.global_position = entrance_pos
+	add_child(entrance)
+
+	entrance.body_entered.connect(_on_aquarium_entered)
+	entrance.body_exited.connect(_on_aquarium_exited)
+
+	var hint := Label.new()
+	hint.text = "[E] Enter Aquarium"
+	hint.position = Vector2(-52, -40)
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.modulate = Color(0.45, 0.85, 1.0, 1.0)
+	hint.visible = false
+	entrance.add_child(hint)
+	_aquarium_hint_label = hint
+
+
+func _on_aquarium_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		_near_aquarium = true
+		if _aquarium_hint_label:
+			_aquarium_hint_label.visible = true
+
+
+func _on_aquarium_exited(body: Node) -> void:
+	if body.is_in_group("player"):
+		_near_aquarium = false
+		if _aquarium_hint_label:
+			_aquarium_hint_label.visible = false
+
+
+func _enter_aquarium() -> void:
+	if _player:
+		CheckpointManager.save_checkpoint(_player.global_position)
+		GameState.player_position = Vector2.ZERO
+	get_tree().change_scene_to_file("res://scenes/levels/v1_aquarium/Aquarium.tscn")
 
 
 # ─────────────────────────────────────────────────────────────

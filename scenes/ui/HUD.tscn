@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://rw_hud"]
+[gd_scene load_steps=16 format=3 uid="uid://rw_hud"]
 
 [ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/DialogueBox.gd" id="2_dialogue"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/ObstacleCoursePanel.tscn" id="14_course"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/GroomerPanel.tscn" id="15_groomer"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/PasswordFactoryPanel.tscn" id="16_password"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/RiddlerPanel.tscn" id="17_riddler"]
 
 ; ──────────────────────────────────────────────────────────────
 ; HUD - Heads Up Display
@@ -639,4 +640,7 @@ visible = false
 visible = false
 
 [node name="PasswordFactoryPanel" parent="." instance=ExtResource("16_password")]
+visible = false
+
+[node name="RiddlerPanel" parent="." instance=ExtResource("17_riddler")]
 visible = false

@@ -462,11 +462,11 @@ func _finish(success: bool) -> void:
 	if success and _entry_paid:
 		GameState.add_tokens(_payout_bonus)
 	visible = false
-	if _caller and _caller.has_method("on_challenge_finished"):
-		_caller.on_challenge_finished(success)
 	var hud := get_parent()
 	if hud and hud.has_method("close_all_panels"):
 		hud.close_all_panels()
+	if _caller and _caller.has_method("on_challenge_finished"):
+		_caller.on_challenge_finished(success)
 
 
 # ─────────────────────────────────────────────────────────────

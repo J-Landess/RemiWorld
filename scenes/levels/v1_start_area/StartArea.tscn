@@ -93,6 +93,30 @@ script = ExtResource("4_prop")
 prop_type = "bush"
 prop_scale = 0.85
 
+[node name="Aquarium" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(420, -270)
+script = ExtResource("4_prop")
+prop_type = "aquarium"
+prop_scale = 1.05
+
+[node name="BushAquarium" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(300, -170)
+script = ExtResource("4_prop")
+prop_type = "bush"
+prop_scale = 0.80
+
+[node name="FlowerPatch2" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-120, 200)
+script = ExtResource("4_prop")
+prop_type = "flowers"
+prop_scale = 0.75
+
+[node name="RockCorner" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-650, 200)
+script = ExtResource("4_prop")
+prop_type = "rock"
+prop_scale = 1.1
+
 [node name="WelcomeSign" type="Node2D" parent="SortLayer/Props"]
 position = Vector2(0, -320)
 script = ExtResource("4_prop")
@@ -128,6 +152,16 @@ offset_bottom = 175.0
 text = "🐾 A dog was spotted here..."
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.45, 0.38, 0.32, 0.9)
+
+[node name="AquariumSign" type="Label" parent="SortLayer/Signs"]
+offset_left = 350.0
+offset_top = -320.0
+offset_right = 510.0
+offset_bottom = -292.0
+text = "🐠 City Aquarium"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.15, 0.50, 0.75, 1)
 
 [node name="NPCs" type="Node2D" parent="SortLayer"]
 
@@ -174,6 +208,9 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/WallRight"]
 shape = SubResource("RectShape_V")
+
+[node name="AquariumEntrance" type="Marker2D" parent="."]
+position = Vector2(420, -210)
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(0, 100)

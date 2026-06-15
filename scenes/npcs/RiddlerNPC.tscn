@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://rw_riddlernpc"]
+
+[ext_resource type="Script" path="res://scripts/npcs/RiddlerNPC.gd" id="1_riddler"]
+
+; Riddler NPC — spawn via AquariumManager, call .setup(mission_id, animal_id, hud).
+
+[node name="RiddlerNPC" type="Node2D"]
+script = ExtResource("1_riddler")

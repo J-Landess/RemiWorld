@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/systems/game_state/DogFightingPitManager.gd" id="1_manager"]
 [ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewGround.gd" id="2_ground"]
 [ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewProp.gd" id="3_prop"]
+[ext_resource type="Script" path="res://scripts/levels/visuals/SoftViewParallaxLayer.gd" id="4_parallax"]
 
 [sub_resource type="RectangleShape2D" id="RectShape_H"]
 size = Vector2(1400, 20)
@@ -14,13 +15,31 @@ size = Vector2(20, 840)
 script = ExtResource("1_manager")
 
 [node name="Ambience" type="CanvasModulate" parent="."]
-color = Color(0.98, 0.92, 0.86, 1)
+color = Color(1.0, 0.90, 0.78, 1)
 
 [node name="BackDrop" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="BackDrop"]
+scroll_ignore_camera_zoom = true
+
+[node name="SunsetSkyLayer" type="ParallaxLayer" parent="BackDrop/ParallaxBackground"]
+motion_scale = Vector2(0.10, 0.10)
+
+[node name="SunsetSkyArt" type="Node2D" parent="BackDrop/ParallaxBackground/SunsetSkyLayer"]
+script = ExtResource("4_parallax")
+layer_kind = "sunset_sky"
+
+[node name="SunsetHillsLayer" type="ParallaxLayer" parent="BackDrop/ParallaxBackground"]
+motion_scale = Vector2(0.30, 0.30)
+
+[node name="SunsetHillsArt" type="Node2D" parent="BackDrop/ParallaxBackground/SunsetHillsLayer"]
+script = ExtResource("4_parallax")
+layer_kind = "sunset_hills"
 
 [node name="Ground" type="Node2D" parent="BackDrop"]
 z_index = -50
 script = ExtResource("2_ground")
+area_style = "dog_pit"
 
 [node name="SortLayer" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -33,21 +52,54 @@ script = ExtResource("3_prop")
 prop_type = "fence"
 prop_scale = 1.2
 
+[node name="FenceLeft" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-300, -120)
+script = ExtResource("3_prop")
+prop_type = "fence"
+prop_scale = 1.0
+
+[node name="FenceRight" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(300, -120)
+script = ExtResource("3_prop")
+prop_type = "fence"
+prop_scale = 1.0
+
 [node name="FenceBottom" type="Node2D" parent="SortLayer/Props"]
 position = Vector2(0, 260)
 script = ExtResource("3_prop")
 prop_type = "fence"
 prop_scale = 1.2
 
+; Trees replaced with dead/bare look — using darker tint
 [node name="TreeLeft" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(-520, -300)
+position = Vector2(-560, -260)
 script = ExtResource("3_prop")
 prop_type = "tree"
+tint = Color(0.75, 0.65, 0.50, 1)
 
 [node name="TreeRight" type="Node2D" parent="SortLayer/Props"]
-position = Vector2(520, -300)
+position = Vector2(560, -280)
 script = ExtResource("3_prop")
 prop_type = "tree"
+tint = Color(0.70, 0.60, 0.45, 1)
+
+[node name="RockLeft" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-620, 160)
+script = ExtResource("3_prop")
+prop_type = "rock"
+prop_scale = 1.4
+
+[node name="RockRight" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(580, 200)
+script = ExtResource("3_prop")
+prop_type = "rock"
+prop_scale = 1.1
+
+[node name="RockTop" type="Node2D" parent="SortLayer/Props"]
+position = Vector2(-180, -350)
+script = ExtResource("3_prop")
+prop_type = "rock"
+prop_scale = 0.90
 
 [node name="NPCs" type="Node2D" parent="SortLayer"]
 

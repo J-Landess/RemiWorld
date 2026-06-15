@@ -1,7 +1,7 @@
 ## SoftViewProp.gd — soft ¾-view placeholder props (replace with sprites later).
 extends Node2D
 
-@export_enum("tree", "school", "flowers", "bench", "bush", "sign_post", "fence") var prop_type: String = "tree"
+@export_enum("tree", "school", "flowers", "bench", "bush", "sign_post", "fence", "mountain", "aquarium", "rock", "pond") var prop_type: String = "tree"
 @export var prop_scale: float = 1.0
 @export var tint: Color = Color(1, 1, 1, 1)
 
@@ -27,6 +27,14 @@ func _draw() -> void:
 			_draw_sign_post(s)
 		"fence":
 			_draw_fence(s)
+		"mountain":
+			_draw_mountain(s)
+		"aquarium":
+			_draw_aquarium(s)
+		"rock":
+			_draw_rock(s)
+		"pond":
+			_draw_pond(s)
 
 
 func _shadow_oval(rx: float, ry: float, alpha: float = 0.22) -> void:
@@ -217,3 +225,104 @@ func _draw_fence(s: float) -> void:
 		Vector2(-32 * s, -8 * s), Vector2(32 * s, -8 * s),
 		Vector2(32 * s, -2 * s), Vector2(-32 * s, -2 * s),
 	]), wood_light)
+
+
+# ── MOUNTAIN ─────────────────────────────────────────────────────────────────
+func _draw_mountain(s: float) -> void:
+	# Far shadow
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-140 * s, 10 * s), Vector2(140 * s, 10 * s), Vector2(0, -260 * s),
+	]), Color(0.18, 0.24, 0.32, 0.25))
+	# Main body — rocky grey-blue
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-130 * s, 8 * s), Vector2(130 * s, 8 * s), Vector2(0, -260 * s),
+	]), Color(0.48, 0.52, 0.60) * tint)
+	# Left face lighter
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-130 * s, 8 * s), Vector2(0, 8 * s), Vector2(0, -260 * s),
+	]), Color(0.60, 0.64, 0.72, 0.55))
+	# Rock striations
+	for i in range(3):
+		var t := 0.30 + float(i) * 0.20
+		var w := 130 * s * (1.0 - t)
+		var yy := lerpf(8 * s, -260 * s, t)
+		draw_line(Vector2(-w, yy), Vector2(w, yy), Color(0.35, 0.38, 0.45, 0.30), 2.0)
+	# Snow cap
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-38 * s, -180 * s), Vector2(38 * s, -180 * s), Vector2(0, -260 * s),
+	]), Color(0.95, 0.97, 1.0) * tint)
+	# Snow highlight
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-20 * s, -200 * s), Vector2(0, -200 * s), Vector2(0, -260 * s),
+	]), Color(1.0, 1.0, 1.0, 0.55))
+	# Base ground shadow
+	_shadow_oval(120 * s, 18 * s)
+
+
+# ── AQUARIUM BUILDING ─────────────────────────────────────────────────────────
+func _draw_aquarium(s: float) -> void:
+	_shadow_oval(80 * s, 14 * s)
+	# Foundation step
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-88 * s, 10 * s), Vector2(88 * s, 10 * s),
+		Vector2(96 * s, 18 * s), Vector2(-96 * s, 18 * s),
+	]), Color(0.40, 0.55, 0.62) * tint)
+	# Main walls — teal/blue
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-80 * s, 10 * s), Vector2(80 * s, 10 * s),
+		Vector2(72 * s, -110 * s), Vector2(-72 * s, -110 * s),
+	]), Color(0.22, 0.55, 0.72) * tint)
+	# Right-side shade
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(24 * s, 10 * s), Vector2(80 * s, 10 * s),
+		Vector2(72 * s, -110 * s), Vector2(28 * s, -110 * s),
+	]), Color(0.15, 0.40, 0.58, 0.50) * tint)
+	# Dome/arched roof
+	_draw_ellipse(Vector2(0, -110 * s), 72 * s, 28 * s, Color(0.18, 0.48, 0.68) * tint)
+	_draw_ellipse(Vector2(-18 * s, -118 * s), 50 * s, 20 * s, Color(0.30, 0.62, 0.82, 0.60))
+	# Large front window — fish tank glass
+	draw_rect(Rect2(-52 * s, -88 * s, 104 * s, 68 * s), Color(0.45, 0.80, 0.95, 0.75))
+	draw_rect(Rect2(-52 * s, -88 * s, 104 * s, 68 * s), Color(0.20, 0.55, 0.75), false, 2.5)
+	# Cross divider on window
+	draw_line(Vector2(0, -88 * s), Vector2(0, -20 * s), Color(0.20, 0.55, 0.75, 0.6), 1.5)
+	draw_line(Vector2(-52 * s, -54 * s), Vector2(52 * s, -54 * s), Color(0.20, 0.55, 0.75, 0.6), 1.5)
+	# Fish silhouettes inside window
+	draw_circle(Vector2(-26 * s, -62 * s), 7 * s, Color(1.0, 0.75, 0.20, 0.75))
+	draw_circle(Vector2(20 * s, -42 * s), 5 * s, Color(0.90, 0.35, 0.35, 0.75))
+	draw_circle(Vector2(-10 * s, -36 * s), 6 * s, Color(0.45, 0.85, 0.65, 0.75))
+	# Door
+	draw_colored_polygon(PackedVector2Array([
+		Vector2(-14 * s, 10 * s), Vector2(14 * s, 10 * s),
+		Vector2(12 * s, -28 * s), Vector2(-12 * s, -28 * s),
+	]), Color(0.18, 0.38, 0.55) * tint)
+	draw_circle(Vector2(8 * s, -12 * s), 2.5 * s, Color(0.85, 0.90, 0.95))
+	# Sign on roof arch
+	draw_rect(Rect2(-38 * s, -130 * s, 76 * s, 18 * s), Color(0.12, 0.30, 0.48) * tint)
+
+
+# ── ROCK ──────────────────────────────────────────────────────────────────────
+func _draw_rock(s: float) -> void:
+	_shadow_oval(30 * s, 8 * s)
+	# Back rocks
+	draw_circle(Vector2(-16 * s, -14 * s), 18 * s, Color(0.50, 0.52, 0.55) * tint)
+	draw_circle(Vector2(14 * s, -10 * s),  16 * s, Color(0.46, 0.48, 0.52) * tint)
+	# Front main boulder
+	draw_circle(Vector2(0, -8 * s), 22 * s, Color(0.60, 0.62, 0.65) * tint)
+	# Highlights
+	draw_circle(Vector2(-8 * s, -18 * s), 8 * s, Color(0.75, 0.77, 0.80, 0.45))
+	draw_circle(Vector2(8 * s, -6 * s),   5 * s, Color(0.42, 0.44, 0.48, 0.50))
+
+
+# ── POND ──────────────────────────────────────────────────────────────────────
+func _draw_pond(s: float) -> void:
+	# Outer bank
+	_draw_ellipse(Vector2(0, 0), 52 * s, 22 * s, Color(0.28, 0.48, 0.28) * tint)
+	# Water surface
+	_draw_ellipse(Vector2(0, -2 * s), 44 * s, 17 * s, Color(0.22, 0.55, 0.80) * tint)
+	# Shimmer highlight
+	_draw_ellipse(Vector2(-10 * s, -6 * s), 22 * s, 7 * s, Color(0.55, 0.82, 1.0, 0.40))
+	# Lily pad
+	_draw_ellipse(Vector2(12 * s, 0), 10 * s, 6 * s, Color(0.28, 0.62, 0.32))
+	draw_line(Vector2(12 * s, 0), Vector2(12 * s, -6 * s), Color(0.22, 0.50, 0.28), 1.5)
+	# Small flower on lily pad
+	draw_circle(Vector2(12 * s, -3 * s), 3 * s, Color(0.95, 0.40, 0.60))

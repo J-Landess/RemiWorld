@@ -54,7 +54,13 @@ func _register_default_missions() -> void:
 	_set_mission_status("daisy_dog_pit", STATUS_AVAILABLE)
 	_set_mission_status("daisy_obedience_course", STATUS_AVAILABLE)
 	_set_mission_status("road_to_boston", STATUS_AVAILABLE)
-	# Future missions can be added here and set to STATUS_LOCKED until unlocked
+	# Aquarium rescues — one per animal
+	_set_mission_status("aquarium_rescue_bear", STATUS_AVAILABLE)
+	_set_mission_status("aquarium_rescue_dog", STATUS_AVAILABLE)
+	_set_mission_status("aquarium_rescue_cat", STATUS_AVAILABLE)
+	_set_mission_status("aquarium_rescue_dolphin", STATUS_AVAILABLE)
+	_set_mission_status("aquarium_rescue_hellokitty", STATUS_AVAILABLE)
+	_set_mission_status("aquarium_rescue_goldenbear", STATUS_AVAILABLE)
 
 
 # ─────────────────────────────────────────────────────────────
