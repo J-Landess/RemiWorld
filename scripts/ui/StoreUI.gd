@@ -145,7 +145,7 @@ func _on_buy_pressed(item: Dictionary, button: Button) -> void:
 	var item_id: String = item.get("item_id", "")
 
 	# Try to spend the tokens
-	var success := GameState.spend_tokens(price)
+	var success := await GameState.spend_tokens(price)
 
 	if success:
 		# Add item to backpack

@@ -7,7 +7,7 @@
 ##   SupabaseClient.configure(url, anon_key)
 ##
 ## Usage:
-##   var result = await SupabaseClient.rpc("spend_tokens", {"p_amount": 5})
+##   var result = await SupabaseClient.call_rpc("spend_tokens", {"p_amount": 5})
 ##   var result = await SupabaseClient.post("auth/v1/token?grant_type=password", body)
 ##   var result = await SupabaseClient.get_row("profiles", "id=eq." + user_id)
 ## =============================================================
@@ -59,7 +59,7 @@ func clear_access_token() -> void:
 
 ## Call a Supabase Postgres RPC function.
 ## Returns { "ok": bool, "data": Variant, "error": String }.
-func rpc(function_name: String, params: Dictionary = {}) -> Dictionary:
+func call_rpc(function_name: String, params: Dictionary = {}) -> Dictionary:
 	return await _enqueue(
 		HTTPClient.METHOD_POST,
 		"/rest/v1/rpc/" + function_name,
@@ -115,8 +115,6 @@ func _enqueue(
 	authed: bool,
 	extra_headers: Dictionary = {}
 ) -> Dictionary:
-	var resolve := Signal  # placeholder — we use a manual signal pattern below
-
 	# Build a one-shot signal node so we can await per-request.
 	var waiter := _RequestWaiter.new()
 	_queue.append({
@@ -158,7 +156,7 @@ func _dispatch(req: Dictionary) -> void:
 	for key in req["extra_headers"]:
 		headers.append(key + ": " + req["extra_headers"][key])
 
-	var full_url := _url + req["path"]
+	var full_url: String = _url + req["path"]
 	var body_str := ""
 	if not req["body"].is_empty() or req["method"] == HTTPClient.METHOD_POST:
 		body_str = JSON.stringify(req["body"])

@@ -137,7 +137,7 @@ func grant_reward(source_id: String) -> Dictionary:
 	if not AuthManager.is_logged_in():
 		return {"ok": false, "error": "Not logged in"}
 
-	var result := await SupabaseClient.rpc("grant_for_source", {"p_source_id": source_id})
+	var result := await SupabaseClient.call_rpc("grant_for_source", {"p_source_id": source_id})
 	if result["ok"] and result["data"] is Dictionary:
 		var summary: Dictionary = result["data"]
 		# Reconcile local state with what the server says was granted.
@@ -160,7 +160,7 @@ func spend_tokens(amount: int) -> Dictionary:
 	if not AuthManager.is_logged_in():
 		return {"ok": false, "error": "Not logged in"}
 
-	var result := await SupabaseClient.rpc("spend_tokens", {"p_amount": amount})
+	var result := await SupabaseClient.call_rpc("spend_tokens", {"p_amount": amount})
 	if result["ok"] and result["data"] is Dictionary:
 		# Trust the server's returned balance.
 		var new_balance: int = int(result["data"].get("balance", GameState.vibe_tokens - amount))

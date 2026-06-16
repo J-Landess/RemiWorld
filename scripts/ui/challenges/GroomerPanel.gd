@@ -143,7 +143,7 @@ func _rebuild_items() -> void:
 
 
 func _purchase(item_id: String, cost: int) -> void:
-	if cost > 0 and not GameState.spend_tokens(cost):
+	if cost > 0 and not await GameState.spend_tokens(cost):
 		if status_label:
 			status_label.text = "❌ Not enough VIBE!"
 		return

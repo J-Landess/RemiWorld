@@ -202,7 +202,7 @@ func _open_ticket_booth() -> void:
 func on_dialogue_action(action: String) -> void:
 	match action:
 		"buy_vip":
-			if GameState.spend_tokens(ENTRY_FEE_VIP):
+			if await GameState.spend_tokens(ENTRY_FEE_VIP):
 				GameState.aquarium_entry_paid = true
 				GameState.is_vip = true
 				SaveManager.save_game()
@@ -210,7 +210,7 @@ func on_dialogue_action(action: String) -> void:
 					_hud.show_notification("🌟 VIP Access granted! All animals unlocked!")
 				_phase = "selection"
 		"buy_regular":
-			if GameState.spend_tokens(ENTRY_FEE_REGULAR):
+			if await GameState.spend_tokens(ENTRY_FEE_REGULAR):
 				GameState.aquarium_entry_paid = true
 				SaveManager.save_game()
 				if _hud:

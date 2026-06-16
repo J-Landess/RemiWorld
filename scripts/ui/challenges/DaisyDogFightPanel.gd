@@ -148,7 +148,7 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 		close_button.text = "Forfeit"
 
 	var total_wager := _wager_cost * _rounds
-	if not GameState.spend_tokens(total_wager):
+	if not await GameState.spend_tokens(total_wager):
 		var hud := get_parent()
 		if hud and hud.has_method("show_notification"):
 			hud.show_notification("❌ Not enough VIBE (%d needed)." % total_wager)
