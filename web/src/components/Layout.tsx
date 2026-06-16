@@ -63,11 +63,18 @@ export function Layout() {
                   </li>
                 </>
               ) : (
-                <li>
-                  <Link to="/login" className="nav-link">
-                    Sign in
-                  </Link>
-                </li>
+                <>
+                  <li>
+                    <Link to="/login" className="nav-link">
+                      Sign in
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/signup" className="btn btn-primary nav-cta">
+                      Sign up free
+                    </Link>
+                  </li>
+                </>
               )}
             </ul>
           </nav>
@@ -82,10 +89,11 @@ export function Layout() {
         <div className="footer-inner">
           <p>
             Remi&apos;s World — a kid-friendly adventure where learning meets
-            play.
+            play. ✨
           </p>
           <p className="muted">
-            © {new Date().getFullYear()} Wise Men Research
+            © {new Date().getFullYear()} Wise Men Research · Built with Godot 4
+            · A real coin &amp; NFTs are on the way
           </p>
         </div>
       </footer>

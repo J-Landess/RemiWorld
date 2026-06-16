@@ -1,13 +1,17 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 
 export function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const redirectTo =
+    (location.state as { from?: string } | null)?.from ?? "/play";
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -22,18 +26,30 @@ export function Login() {
     setLoading(false);
 
     if (authError) {
-      setError(authError.message);
+      const msg = authError.message.toLowerCase();
+      if (msg.includes("not confirmed") || msg.includes("confirm")) {
+        setError(
+          "Your email isn't confirmed yet. Check your inbox for the confirmation link, then sign in.",
+        );
+      } else if (msg.includes("invalid")) {
+        setError(
+          "We don't recognize that email and password combo. Double-check it, or create a free account.",
+        );
+      } else {
+        setError(authError.message);
+      }
     } else {
-      navigate("/profile");
+      navigate(redirectTo);
     }
   }
 
   return (
-    <div className="page">
-      <div className="auth-card">
-        <h1>Sign in</h1>
+    <div className="page auth-page">
+      <div className="auth-card glow-card">
+        <span className="badge">Welcome back</span>
+        <h1 className="gradient-text">Sign in</h1>
         <p className="muted">
-          Play Remi&apos;s World with your progress saved across devices.
+          Jump back into Remi&apos;s World with all your progress saved.
         </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -64,13 +80,13 @@ export function Login() {
           {error && <p className="auth-error">{error}</p>}
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? "Signing in…" : "Sign in"}
+            {loading ? "Signing in…" : "Sign in & play"}
           </button>
         </form>
 
         <p className="auth-switch">
-          No account yet?{" "}
-          <Link to="/signup">Create one — it&apos;s free</Link>
+          New here?{" "}
+          <Link to="/signup">Create a free account — it only takes a sec</Link>
         </p>
       </div>
     </div>

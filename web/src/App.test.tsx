@@ -21,13 +21,14 @@ describe("App navigation", () => {
     expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
   });
 
-  it("renders the play page with game embed", () => {
+  it("gates the play page behind a free account when logged out", async () => {
     renderWithAuth(<AppRoutes />, "/play");
 
+    // The play page should ask logged-out visitors to create an account
+    // instead of exposing the game iframe.
     expect(
-      screen.getByRole("heading", { name: /play remi's world/i }),
+      await screen.findByRole("link", { name: /create my free account/i }),
     ).toBeInTheDocument();
-    expect(screen.getByTitle(/remi's world game/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /fullscreen/i })).toBeInTheDocument();
+    expect(screen.queryByTitle(/remi's world game/i)).not.toBeInTheDocument();
   });
 });
