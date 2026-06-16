@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { getSupabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
 
 interface ProfileRow {
@@ -18,6 +18,12 @@ export function Profile() {
 
   useEffect(() => {
     if (!user) return;
+
+    const supabase = getSupabase();
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
 
     supabase
       .from("profiles")

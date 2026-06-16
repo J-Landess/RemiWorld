@@ -1,5 +1,6 @@
 import { NavLink, Outlet, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { isSupabaseConfigured } from "../lib/supabase";
 import "./Layout.css";
 
 const navItems: { to: string; label: string; end?: boolean }[] = [
@@ -82,6 +83,13 @@ export function Layout() {
       </header>
 
       <main className="site-main">
+        {!isSupabaseConfigured && (
+          <div className="config-banner" role="status">
+            Accounts are temporarily unavailable — the server is missing Supabase
+            settings. The site will load, but sign-up and play need env vars on
+            Vercel.
+          </div>
+        )}
         <Outlet />
       </main>
 

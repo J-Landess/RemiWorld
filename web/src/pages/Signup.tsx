@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { getSupabase } from "../lib/supabase";
 
 export function Signup() {
   const navigate = useNavigate();
@@ -26,6 +26,15 @@ export function Signup() {
     }
 
     setLoading(true);
+
+    const supabase = getSupabase();
+    if (!supabase) {
+      setLoading(false);
+      setError(
+        "Sign-up is not configured on this server yet. Please try again later.",
+      );
+      return;
+    }
 
     const { data, error: authError } = await supabase.auth.signUp({
       email,
