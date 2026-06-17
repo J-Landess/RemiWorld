@@ -97,15 +97,13 @@ const ALL_MISSIONS: Dictionary = {
 	# ──────────────────────────────────────────────────────────
 	"chess_knight_jump": {
 		"mission_id": "chess_knight_jump",
-		"title": "Save the Piece",
-		"description": "Move threatened chess pieces to safety on a real 8×8 board!",
+		"title": "Chess Park",
+		"description": "Step into the park and play 1v1 chess — vs a hustler AI or a friend.",
 		"npc_id": "chess_tutor",
 		"npc_name": "Chess Tutor",
 
 		"challenge": {
-			"panel": "ChessPuzzlePanel",
-			"rounds": 3,
-			"required_correct": 2,
+			"panel": "ChessParkPanel",
 		},
 
 		"rewards": {
@@ -126,35 +124,36 @@ const ALL_MISSIONS: Dictionary = {
 		"repeatable": false,
 
 		"dialogue_intro": [
-			"[Chess Tutor] Welcome, young thinker! ♞",
-			"[Chess Tutor] On a real board, pieces can come under attack — your job is to move them to safety.",
+			"[Chess Tutor] Welcome to the park, young thinker. ♟️",
+			"[Chess Tutor] This ain't a classroom — this is street chess.",
+			"[Chess Tutor] You can play a hustler (AI makes random moves) or go 1v1 with a friend on the same device.",
 			{
 				"type": "question",
-				"text": "Ready to save some pieces in danger?",
-				"choices": ["Let's play!", "Tell me more"],
+				"text": "You ready to sit at the table?",
+				"choices": ["Let's play", "How it works"],
 				"responses": [
 					[
-						"[Chess Tutor] Click a green-highlighted square to move the red piece to safety!",
+						"[Chess Tutor] Respect. Pick your mode, then make your move.",
 						{"type": "action", "action": "present_puzzle"},
 					],
 					[
-						"[Chess Tutor] Green squares show where the piece can move. Pick one the attacker can't reach!",
+						"[Chess Tutor] Tap a piece to see legal moves. Tap a green square to move.",
+						"[Chess Tutor] 'Hustler' just plays random legal moves — the vibe is the park, not perfection.",
 						{"type": "action", "action": "present_puzzle"},
 					],
 				],
 			},
 		],
 		"dialogue_success": [
-			"[Chess Tutor] Brilliant! You kept your pieces safe! ♞",
+			"[Chess Tutor] That's how you move in the park. ♟️",
 			"[Chess Tutor] Here's your badge — wear it with pride!",
 		],
 		"dialogue_failure": [
-			"[Chess Tutor] That square was still under attack — look at what the enemy covers.",
-			"[Chess Tutor] Try again and find a truly safe escape!",
+			"[Chess Tutor] Come back. In the park, you always get another game.",
 		],
 		"dialogue_complete": [
-			"[Chess Tutor] You've already proven yourself a master of the knight!",
-			"[Chess Tutor] Come back any time to share a game.",
+			"[Chess Tutor] The table's always open.",
+			"[Chess Tutor] Run it back any time — park chess never sleeps.",
 		],
 	},
 

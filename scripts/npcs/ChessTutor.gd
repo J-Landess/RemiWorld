@@ -36,12 +36,11 @@ func on_player_interact(_player: Node) -> void:
 
 	var dialogue_box := _find_dialogue_box()
 
-	if MissionManager.is_mission_complete(MISSION_ID):
-		if dialogue_box:
-			dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self)
-		return
+	# Chess Park is always available. We keep the mission completion for the badge,
+	# but the main interaction is now a real 1v1 chess game.
+	if not MissionManager.is_mission_complete(MISSION_ID):
+		MissionManager.start_mission(MISSION_ID)
 
-	MissionManager.start_mission(MISSION_ID)
 	if dialogue_box:
 		dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self)
 	else:
@@ -52,7 +51,7 @@ func on_player_interact(_player: Node) -> void:
 func _present_puzzle() -> void:
 	var hud := get_tree().get_first_node_in_group("hud")
 	if hud and hud.has_method("show_challenge"):
-		hud.show_challenge("ChessPuzzlePanel", _mission_data, self)
+		hud.show_challenge("ChessParkPanel", _mission_data, self)
 
 
 # Called by the ChessPuzzlePanel when the challenge ends.
@@ -60,13 +59,18 @@ func on_challenge_finished(success: bool) -> void:
 	var dialogue_box := _find_dialogue_box()
 
 	if success:
-		var rewards: Dictionary = _mission_data.get("rewards", {})
-		RewardManager.grant_reward(rewards)
-		MissionManager.complete_mission(MISSION_ID, rewards)
-		SaveManager.save_game()
-		_update_quest_marker()
-		if dialogue_box:
-			dialogue_box.show_dialogue(npc_name, _mission_data.get("dialogue_success", []), self)
+		# Only award the badge once. Chess Park itself is replayable.
+		if not MissionManager.is_mission_complete(MISSION_ID):
+			var rewards: Dictionary = _mission_data.get("rewards", {})
+			RewardManager.grant_reward(rewards)
+			MissionManager.complete_mission(MISSION_ID, rewards)
+			SaveManager.save_game()
+			_update_quest_marker()
+			if dialogue_box:
+				dialogue_box.show_dialogue(npc_name, _mission_data.get("dialogue_success", []), self)
+		else:
+			if dialogue_box:
+				dialogue_box.show_dialogue(npc_name, _mission_data.get("dialogue_complete", []), self)
 	else:
 		if dialogue_box:
 			dialogue_box.show_dialogue(npc_name, _mission_data.get("dialogue_failure", []), self)

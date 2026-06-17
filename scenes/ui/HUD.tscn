@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/GroomerPanel.tscn" id="15_groomer"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/PasswordFactoryPanel.tscn" id="16_password"]
 [ext_resource type="PackedScene" path="res://scenes/ui/challenges/RiddlerPanel.tscn" id="17_riddler"]
+[ext_resource type="PackedScene" path="res://scenes/ui/challenges/ChessParkPanel.tscn" id="18_chesspark"]
 
 ; ──────────────────────────────────────────────────────────────
 ; HUD - Heads Up Display
@@ -643,4 +644,7 @@ visible = false
 visible = false
 
 [node name="RiddlerPanel" parent="." instance=ExtResource("17_riddler")]
+visible = false
+
+[node name="ChessParkPanel" parent="." instance=ExtResource("18_chesspark")]
 visible = false
