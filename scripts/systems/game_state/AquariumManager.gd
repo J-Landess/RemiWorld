@@ -209,6 +209,8 @@ func on_dialogue_action(action: String) -> void:
 				if _hud:
 					_hud.show_notification("🌟 VIP Access granted! All animals unlocked!")
 				_phase = "selection"
+			elif _hud:
+				_hud.show_notification("❌ Not enough VIBE for VIP entry (%d needed)." % ENTRY_FEE_VIP)
 		"buy_regular":
 			if await GameState.spend_tokens(ENTRY_FEE_REGULAR):
 				GameState.aquarium_entry_paid = true
@@ -216,6 +218,8 @@ func on_dialogue_action(action: String) -> void:
 				if _hud:
 					_hud.show_notification("🎟️ Entry paid! Choose an animal to rescue.")
 				_phase = "selection"
+			elif _hud:
+				_hud.show_notification("❌ Not enough VIBE for entry (%d needed)." % ENTRY_FEE_REGULAR)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

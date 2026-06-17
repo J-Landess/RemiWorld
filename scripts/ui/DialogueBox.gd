@@ -117,12 +117,13 @@ func _show_current_line() -> void:
 			_show_question(line_data)
 			return
 		if line_type == "action":
-			if line_data.get("action") == "present_puzzle" and _caller and _caller.has_method("_present_puzzle"):
-				var caller := _caller
-				_finish_dialogue()
+			var action_name: String = str(line_data.get("action", ""))
+			var caller := _caller
+			_finish_dialogue()
+			if action_name == "present_puzzle" and caller and caller.has_method("_present_puzzle"):
 				caller.call_deferred("_present_puzzle")
-			else:
-				_finish_dialogue()
+			elif caller and caller.has_method("on_dialogue_action"):
+				caller.call_deferred("on_dialogue_action", action_name)
 			return
 
 	var line := str(line_data)
