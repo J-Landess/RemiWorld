@@ -205,7 +205,11 @@ func _make_move(from: Vector2i, to: Vector2i) -> void:
 	AudioManager.play_sfx("chess_move")
 
 	if captured_king:
-		_set_status(("White" if not _turn_is_white else "Black") + " wins! King captured.")
+		var winner := "White" if not _turn_is_white else "Black"
+		_set_status(winner + " wins! King captured.")
+		if _caller and _caller.has_method("on_challenge_finished"):
+			await get_tree().create_timer(1.0).timeout
+			_caller.on_challenge_finished(true)
 		return
 
 	# If no legal moves, call it a wrap (simple stalemate/checkmate blend)
@@ -372,5 +376,5 @@ func _on_close_pressed() -> void:
 	if hud and hud.has_method("close_all_panels"):
 		hud.close_all_panels()
 	if _caller and _caller.has_method("on_challenge_finished"):
-		_caller.on_challenge_finished(true)
-
+		# Backing out is not a "win" — don't grant mission rewards.
+		_caller.on_challenge_finished(false)

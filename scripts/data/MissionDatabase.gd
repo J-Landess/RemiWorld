@@ -154,6 +154,19 @@ const ALL_MISSIONS: Dictionary = {
 		"dialogue_complete": [
 			"[Chess Tutor] The table's always open.",
 			"[Chess Tutor] Run it back any time — park chess never sleeps.",
+			{
+				"type": "question",
+				"text": "You sitting down?",
+				"choices": ["Let's play ♟️", "Not now"],
+				"responses": [
+					[
+						{"type": "action", "action": "present_puzzle"},
+					],
+					[
+						"[Chess Tutor] Alright. Holler when you're ready.",
+					],
+				],
+			},
 		],
 	},
 
