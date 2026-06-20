@@ -29,7 +29,7 @@ signal auth_failed(reason: String)
 # a GDScript config file that is git-ignored.
 # ─────────────────────────────────────────────────────────────
 const SUPABASE_URL:      String = "https://urzcegnzxswdkyazqrlt.supabase.co"
-const SUPABASE_ANON_KEY: String = "sb_publishable_WUBl9NlHrb4AbmN07K5w9Q_UcVBFXV_"
+const SUPABASE_ANON_KEY: String = "sb_publishable_WUBl9NlHrb4AbmN07K5w9Q_UcVBFXV_ "
 
 const SESSION_FILE: String = "user://session.json"
 const TOKEN_REFRESH_MARGIN_SEC: float = 60.0  # Refresh this many seconds before expiry
