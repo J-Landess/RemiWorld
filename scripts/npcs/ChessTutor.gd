@@ -2,7 +2,7 @@
 ## =============================================================
 ## Chess Park hustler — sit at the table vs AI or a friend.
 ##
-## Mission: "chess_knight_jump" (badge on first visit)
+## Mission: "chess_knight_jump" (badge on first win)
 ## Reward:  12 VIBE + 30 XP + Knight Star Badge NFT
 ## =============================================================
 extends "res://scripts/npcs/NPC.gd"
@@ -23,37 +23,35 @@ func _ready() -> void:
 	_update_quest_marker()
 
 
+func _get_dialogue_lines() -> Array:
+	if MissionManager.is_mission_complete(MISSION_ID):
+		return _mission_data.get("dialogue_complete", [])
+	return _mission_data.get("dialogue_intro", [])
+
+
 func on_player_interact(_player: Node) -> void:
 	if _is_talking:
 		return
 	_is_talking = true
 
-	if not MissionManager.is_mission_complete(MISSION_ID):
-		MissionManager.start_mission(MISSION_ID)
-
 	var dialogue_box := _find_dialogue_box()
 
-	# Repeat visitors: skip the speech and sit at the board immediately.
+	# Badge already earned — skip the speech and sit at the board.
 	if MissionManager.is_mission_complete(MISSION_ID):
-		_open_chess_park()
+		_present_puzzle()
 		return
 
-	# First visit: one quick park intro, then open the board automatically.
+	if MissionManager.get_mission_status(MISSION_ID) == MissionManager.STATUS_LOCKED:
+		MissionManager.unlock_mission(MISSION_ID)
+	MissionManager.start_mission(MISSION_ID)
+
 	if dialogue_box:
-		dialogue_box.show_dialogue(npc_name, [
-			"[Chess Tutor] Welcome to the park, young thinker. ♟️",
-			"[Chess Tutor] Street chess — play the hustler AI or a friend on the same device.",
-			{"type": "action", "action": "present_puzzle"},
-		], self)
+		dialogue_box.show_dialogue(npc_name, _get_dialogue_lines(), self)
 	else:
-		_open_chess_park()
+		_present_puzzle()
 
 
 func _present_puzzle() -> void:
-	_open_chess_park()
-
-
-func _open_chess_park() -> void:
 	var hud := get_tree().get_first_node_in_group("hud")
 	if not hud:
 		push_warning("[ChessTutor] HUD not found — cannot open Chess Park.")
@@ -70,13 +68,13 @@ func _open_chess_park() -> void:
 		_is_talking = false
 		return
 
-	hud.show_challenge("ChessParkPanel", _mission_data, self)
+	# Defer one frame so DialogueBox can finish closing first.
+	hud.call_deferred("show_challenge", "ChessParkPanel", _mission_data, self)
 
 
 func on_challenge_finished(success: bool) -> void:
 	var dialogue_box := _find_dialogue_box()
 
-	# Backing out shouldn't grant the badge.
 	if success and not MissionManager.is_mission_complete(MISSION_ID):
 		var rewards: Dictionary = _mission_data.get("rewards", {}).duplicate()
 		rewards["source_id"] = _mission_data.get("mission_id", MISSION_ID)
