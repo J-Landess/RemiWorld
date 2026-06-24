@@ -84,9 +84,10 @@ const ALL_QUESTIONS: Array[Dictionary] = [
 	},
 ]
 
-const QUESTION_TIME: float = 15.0
-const TOTAL_QUESTIONS: int = 10
-const REQUIRED_CORRECT: int = 8
+## Defaults — overridden at runtime by DifficultyManager.scale()
+const _DEFAULT_QUESTION_TIME:  float = 15.0
+const _DEFAULT_TOTAL_QUESTIONS: int  = 10
+const _DEFAULT_REQUIRED_CORRECT: int =  8
 
 # ── Node refs ─────────────────────────────────────────────────────────────────
 @onready var title_label: Label         = $Backdrop/Panel/VBox/TitleLabel
@@ -108,6 +109,11 @@ var _time_left: float = 0.0
 var _answered: bool = false
 var _done: bool = false
 
+# Difficulty-scaled at show_challenge() via DifficultyManager
+var _question_time:   float = _DEFAULT_QUESTION_TIME
+var _total_questions: int   = _DEFAULT_TOTAL_QUESTIONS
+var _required_correct: int  = _DEFAULT_REQUIRED_CORRECT
+
 
 func _ready() -> void:
 	visible = false
@@ -123,11 +129,16 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 	_current_q = 0
 	_done = false
 
-	# Shuffle and pick TOTAL_QUESTIONS questions
+	var cfg := DifficultyManager.scale(mission_data.get("challenge", {}))
+	_question_time    = float(cfg.get("question_time",    _DEFAULT_QUESTION_TIME))
+	_total_questions  = int(cfg.get("questions",          _DEFAULT_TOTAL_QUESTIONS))
+	_required_correct = int(cfg.get("required_correct",   _DEFAULT_REQUIRED_CORRECT))
+
+	# Shuffle and pick _total_questions questions
 	var pool := ALL_QUESTIONS.duplicate()
 	pool.shuffle()
 	_questions.clear()
-	for i in min(TOTAL_QUESTIONS, pool.size()):
+	for i in min(_total_questions, pool.size()):
 		_questions.append(pool[i])
 
 	if title_label:
@@ -145,7 +156,7 @@ func _process(delta: float) -> void:
 		return
 	_time_left -= delta
 	if timer_bar:
-		timer_bar.value = (_time_left / QUESTION_TIME) * 100.0
+		timer_bar.value = (_time_left / _question_time) * 100.0
 	if _time_left <= 0.0:
 		_time_expired()
 
@@ -156,7 +167,7 @@ func _ask_question() -> void:
 		return
 
 	_answered = false
-	_time_left = QUESTION_TIME
+	_time_left = _question_time
 
 	var q := _questions[_current_q]
 	if question_label:
@@ -167,7 +178,7 @@ func _ask_question() -> void:
 	if feedback_label:
 		feedback_label.text = ""
 	if score_label:
-		score_label.text = "Score: %d / %d  |  Q%d of %d" % [_correct_count, REQUIRED_CORRECT, _current_q + 1, _questions.size()]
+		score_label.text = "Score: %d / %d  |  Q%d of %d" % [_correct_count, _required_correct, _current_q + 1, _questions.size()]
 	if timer_bar:
 		timer_bar.value = 100.0
 
@@ -212,9 +223,9 @@ func _on_choice(idx: int) -> void:
 		AudioManager.play_sfx("wrong")
 
 	if score_label:
-		score_label.text = "Score: %d / %d  |  Q%d of %d" % [_correct_count, REQUIRED_CORRECT, _current_q + 1, _questions.size()]
+		score_label.text = "Score: %d / %d  |  Q%d of %d" % [_correct_count, _required_correct, _current_q + 1, _questions.size()]
 
-	await get_tree().create_timer(1.6).timeout
+	await get_tree().create_timer(1.6, true).timeout
 	_current_q += 1
 	_ask_question()
 
@@ -226,7 +237,7 @@ func _time_expired() -> void:
 		feedback_label.text = "⏰ Time's up! The Riddler laughs at your hesitation!"
 		feedback_label.modulate = Color(1.0, 0.65, 0.20)
 	AudioManager.play_sfx("wrong")
-	await get_tree().create_timer(1.6).timeout
+	await get_tree().create_timer(1.6, true).timeout
 	_current_q += 1
 	_ask_question()
 
@@ -241,7 +252,7 @@ func _disable_choices() -> void:
 
 func _finish() -> void:
 	_done = true
-	var success := _correct_count >= REQUIRED_CORRECT
+	var success := _correct_count >= _required_correct
 	visible = false
 	var hud := get_parent()
 	if hud and hud.has_method("close_all_panels"):

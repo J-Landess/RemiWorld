@@ -25,8 +25,9 @@ const FLOOR_Y: float = 155.0
 const DAISY_X: float = 90.0
 const OBS_X:   float = 370.0
 
-const TIME_WINDOW: float = 1.8
-const REQUIRED:    int   = 3
+## Defaults — overridden at runtime by DifficultyManager.scale()
+const _DEFAULT_TIME_WINDOW: float = 1.8
+const _DEFAULT_REQUIRED:    int   = 3
 
 const C_FUR    := Color(1.00, 1.00, 1.00)
 const C_EAR    := Color(0.90, 0.80, 0.70)
@@ -62,6 +63,10 @@ var _daisy_y_off:    float = 0.0
 var _mission_data:   Dictionary = {}
 var _caller:         Node = null
 
+# Difficulty-scaled at show_challenge() via DifficultyManager
+var _time_window: float = _DEFAULT_TIME_WINDOW
+var _required:    int   = _DEFAULT_REQUIRED
+
 # ─────────────────────────────────────────────────────────────
 # NODE REFERENCES
 # ─────────────────────────────────────────────────────────────
@@ -94,6 +99,13 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 	_daisy_anim   = "idle"
 	_daisy_y_off  = 0.0
 
+	var cfg := DifficultyManager.scale(mission_data.get("challenge", {}))
+	_time_window = float(cfg.get("time_window", _DEFAULT_TIME_WINDOW))
+	_required    = int(cfg.get("required",      _DEFAULT_REQUIRED))
+
+	if timer_bar:
+		timer_bar.max_value = _time_window
+
 	if title_label:
 		title_label.text = "🏋️  %s" % mission_data.get("title", "Obedience Course")
 	visible = true
@@ -109,7 +121,7 @@ func _run_next_obstacle() -> void:
 		return
 
 	var obs: Dictionary = OBSTACLES[_current_obs]
-	_timer        = TIME_WINDOW
+	_timer        = _time_window
 	_state        = CourseState.WAITING
 	_daisy_anim   = "idle"
 	_daisy_y_off  = 0.0
@@ -120,7 +132,7 @@ func _run_next_obstacle() -> void:
 	if status_label:
 		status_label.text = obs.get("key_hint", "Press the right key!")
 	if timer_bar:
-		timer_bar.value     = TIME_WINDOW
+		timer_bar.value     = _time_window
 	_update_score_label()
 	arena.queue_redraw()
 
@@ -153,7 +165,7 @@ func _on_timeout_or_wrong() -> void:
 
 func _finish() -> void:
 	_state = CourseState.DONE
-	var success := _score >= REQUIRED
+	var success := _score >= _required
 	AudioManager.play_sfx("goal_cheer" if success else "goal_miss")
 	if status_label:
 		status_label.text = "Course done! %d / %d  — %s" % [

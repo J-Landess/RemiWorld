@@ -78,7 +78,8 @@ func on_challenge_finished(success: bool) -> void:
 
 	# Backing out shouldn't grant the badge.
 	if success and not MissionManager.is_mission_complete(MISSION_ID):
-		var rewards: Dictionary = _mission_data.get("rewards", {})
+		var rewards: Dictionary = _mission_data.get("rewards", {}).duplicate()
+		rewards["source_id"] = _mission_data.get("mission_id", MISSION_ID)
 		RewardManager.grant_reward(rewards)
 		MissionManager.complete_mission(MISSION_ID, rewards)
 		SaveManager.save_game()

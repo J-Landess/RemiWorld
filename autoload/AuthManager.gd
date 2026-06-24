@@ -39,6 +39,7 @@ const TOKEN_REFRESH_MARGIN_SEC: float = 60.0  # Refresh this many seconds before
 # ─────────────────────────────────────────────────────────────
 var _session: Dictionary = {}  # access_token, refresh_token, expires_at, user{}
 var _refresh_timer: Timer
+var _js_message_callback: JavaScriptObject  # Keeps the JS callback alive on Web
 
 
 func _ready() -> void:
@@ -50,6 +51,11 @@ func _ready() -> void:
 	add_child(_refresh_timer)
 
 	_load_session()
+
+	# On Web, receive the Supabase session forwarded from the parent page
+	# so that cloud saves work when the player logs in through the website.
+	if OS.get_name() == "Web":
+		_register_web_message_listener()
 
 
 # ─────────────────────────────────────────────────────────────
@@ -220,3 +226,46 @@ func _load_session() -> void:
 func _delete_session_file() -> void:
 	if FileAccess.file_exists(SESSION_FILE):
 		DirAccess.remove_absolute(SESSION_FILE)
+
+
+# ─────────────────────────────────────────────────────────────
+# WEB PLATFORM — receive JWT from parent page via postMessage
+# The React shell calls:
+#   iframe.contentWindow.postMessage(JSON.stringify({
+#     type: "remiworld_session",
+#     access_token, refresh_token, expires_at, token_type, user
+#   }), "*")
+# ─────────────────────────────────────────────────────────────
+func _register_web_message_listener() -> void:
+	_js_message_callback = JavaScriptBridge.create_callback(_on_web_message)
+	var js_window := JavaScriptBridge.get_interface("window")
+	js_window.addEventListener("message", _js_message_callback)
+	print("[AuthManager] Web postMessage listener registered.")
+
+
+func _on_web_message(args: Array) -> void:
+	if args.is_empty():
+		return
+	var raw: String = str(args[0].data)
+	if raw.is_empty() or not raw.begins_with("{"):
+		return
+
+	var data = JSON.parse_string(raw)
+	if not data is Dictionary:
+		return
+
+	match data.get("type", ""):
+		"remiworld_session":
+			var incoming_token: String = data.get("access_token", "")
+			if incoming_token.is_empty():
+				return
+			# Apply whenever the token differs (new login or token refresh on web)
+			if incoming_token != _session.get("access_token", ""):
+				print("[AuthManager] Session received from web shell.")
+				_apply_session(data)
+				emit_signal("logged_in", user_id())
+		"remiworld_session_clear":
+			if is_logged_in():
+				print("[AuthManager] Session cleared by web shell.")
+				_clear_session()
+				emit_signal("logged_out")

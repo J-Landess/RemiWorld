@@ -121,7 +121,7 @@ func _show_intro_dialogue() -> void:
 		_present_puzzle()
 		return
 	var lines: Array = _mission_data.get("dialogue_intro", [])
-	dialogue_box.show_dialogue(lines, self)
+	dialogue_box.show_dialogue("The Riddler", lines, self)
 
 
 func _show_complete_dialogue() -> void:
@@ -130,7 +130,7 @@ func _show_complete_dialogue() -> void:
 		return
 	var lines: Array = _mission_data.get("dialogue_complete",
 		["[The Riddler] You already freed that animal. Impressive… once."])
-	dialogue_box.show_dialogue(lines, self)
+	dialogue_box.show_dialogue("The Riddler", lines, self)
 
 
 func _show_vip_block() -> void:
@@ -143,7 +143,7 @@ func _show_vip_block() -> void:
 		"[The Riddler] That's the VIP section! You'll need a VIP pass to even attempt THIS rescue.",
 		"[The Riddler] Talk to the ticket booth — they offer VIP upgrades.",
 	]
-	dialogue_box.show_dialogue(lines, self)
+	dialogue_box.show_dialogue("The Riddler", lines, self)
 
 
 func _present_puzzle() -> void:
@@ -158,7 +158,7 @@ func on_challenge_finished(success: bool) -> void:
 	if success:
 		var lines: Array = _mission_data.get("dialogue_success", ["[The Riddler] You passed! The cage is open!"])
 		if dialogue_box:
-			dialogue_box.show_dialogue(lines, self)
+			dialogue_box.show_dialogue("The Riddler", lines, self)
 		# Notify the AquariumManager the quiz was passed
 		var manager := get_tree().get_first_node_in_group("aquarium_manager")
 		if manager and manager.has_method("on_riddler_passed"):
@@ -166,7 +166,7 @@ func on_challenge_finished(success: bool) -> void:
 	else:
 		var lines: Array = _mission_data.get("dialogue_failure", ["[The Riddler] Not enough! Try again!"])
 		if dialogue_box:
-			dialogue_box.show_dialogue(lines, self)
+			dialogue_box.show_dialogue("The Riddler", lines, self)
 
 
 func _get_dialogue_box() -> Node:

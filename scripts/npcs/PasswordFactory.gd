@@ -114,7 +114,8 @@ func on_challenge_finished(success: bool) -> void:
 					),
 				], self)
 		else:
-			var rewards: Dictionary = _mission_data.get("rewards", {})
+			var rewards: Dictionary = _mission_data.get("rewards", {}).duplicate()
+			rewards["source_id"] = _mission_data.get("mission_id", MISSION_ID)
 			RewardManager.grant_reward(rewards)
 			MissionManager.complete_mission(MISSION_ID, rewards)
 			SaveManager.save_game()

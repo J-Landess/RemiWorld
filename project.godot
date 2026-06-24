@@ -40,6 +40,7 @@ AudioManager="*res://autoload/AudioManager.gd"
 SupabaseClient="*res://autoload/SupabaseClient.gd"
 AuthManager="*res://autoload/AuthManager.gd"
 CloudSaveManager="*res://autoload/CloudSaveManager.gd"
+DifficultyManager="*res://autoload/DifficultyManager.gd"
 
 [display]
 

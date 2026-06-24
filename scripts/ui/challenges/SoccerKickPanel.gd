@@ -69,8 +69,8 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 	_mission_data = mission_data
 	_caller = caller
 
-	var cfg: Dictionary = mission_data.get("challenge", {})
-	_shots = int(cfg.get("shots", 3))
+	var cfg := DifficultyManager.scale(mission_data.get("challenge", {}))
+	_shots          = int(cfg.get("shots",          3))
 	_required_goals = int(cfg.get("required_goals", 2))
 	_current_shot = 0
 	_goals = 0

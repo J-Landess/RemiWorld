@@ -6,6 +6,7 @@ import "./Layout.css";
 const navItems: { to: string; label: string; end?: boolean }[] = [
   { to: "/", label: "Home", end: true },
   { to: "/play", label: "Play" },
+  { to: "/leaderboard", label: "Leaderboard" },
   { to: "/about", label: "About" },
 ];
 

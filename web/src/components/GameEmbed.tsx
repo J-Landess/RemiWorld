@@ -1,19 +1,59 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { Session } from "@supabase/supabase-js";
 import "./GameEmbed.css";
 
 const GAME_URL = "/game/index.html";
 
-export function GameEmbed() {
+interface GameEmbedProps {
+  /** Pass the active Supabase session so the game can use cloud saves. */
+  session?: Session | null;
+}
+
+/** Sends the session to the Godot iframe via postMessage. */
+function sendSessionToGame(
+  iframe: HTMLIFrameElement,
+  session: Session | null,
+) {
+  const payload = session
+    ? {
+        type: "remiworld_session",
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+        expires_at: session.expires_at ?? 0,
+        token_type: session.token_type,
+        user: {
+          id: session.user.id,
+          email: session.user.email ?? "",
+        },
+      }
+    : { type: "remiworld_session_clear" };
+
+  iframe.contentWindow?.postMessage(JSON.stringify(payload), "*");
+}
+
+export function GameEmbed({ session }: GameEmbedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Re-send session whenever it changes (e.g. user logs in while game is open)
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe || loading) return;
+    sendSessionToGame(iframe, session ?? null);
+  }, [session, loading]);
+
   const handleLoad = useCallback(() => {
     setLoading(false);
     setError(false);
-  }, []);
+    // Send initial session immediately after the game frame finishes loading
+    if (iframeRef.current) {
+      sendSessionToGame(iframeRef.current, session ?? null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   const handleError = useCallback(() => {
     setLoading(false);

@@ -172,6 +172,17 @@ func spend_tokens(amount: int) -> Dictionary:
 	return result
 
 
+## Fetch the top-N leaderboard entries (no auth required).
+## Returns an Array of { rank, player_name, player_level, vibe_tokens }
+## dicts on success, or an empty Array on failure.
+func fetch_leaderboard(top_n: int = 20) -> Array:
+	var result := await SupabaseClient.call_rpc("get_leaderboard", {"top_n": top_n})
+	if result.get("ok", false) and result["data"] is Array:
+		return result["data"]
+	push_warning("[CloudSaveManager] fetch_leaderboard failed: " + result.get("error", "unknown"))
+	return []
+
+
 # ─────────────────────────────────────────────────────────────
 # APPLY HELPERS
 # ─────────────────────────────────────────────────────────────

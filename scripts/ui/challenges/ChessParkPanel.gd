@@ -294,7 +294,7 @@ func _add_pawn_moves(from: Vector2i, side: String, moves: Array[Vector2i]) -> vo
 
 
 func _add_knight_moves(from: Vector2i, side: String, moves: Array[Vector2i]) -> void:
-	var offsets := [
+	var offsets: Array[Vector2i] = [
 		Vector2i(-2, -1), Vector2i(-2, 1), Vector2i(2, -1), Vector2i(2, 1),
 		Vector2i(-1, -2), Vector2i(-1, 2), Vector2i(1, -2), Vector2i(1, 2),
 	]

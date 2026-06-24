@@ -265,7 +265,8 @@ func on_challenge_finished(success: bool) -> void:
 	var dialogue_box := _find_dialogue_box()
 
 	if success:
-		var rewards: Dictionary = mission.get("rewards", {})
+		var rewards: Dictionary = mission.get("rewards", {}).duplicate()
+		rewards["source_id"] = FETCH_MISSION_ID
 		RewardManager.grant_reward(rewards)
 		MissionManager.complete_mission(FETCH_MISSION_ID, rewards)
 		SaveManager.save_game()

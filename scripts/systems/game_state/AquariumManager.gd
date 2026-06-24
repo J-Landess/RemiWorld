@@ -80,12 +80,15 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	# Back door always lets the player leave, regardless of phase.
+	if _near_back_door and Input.is_action_just_pressed("interact") and _phase != "done":
+		_leave_aquarium()
+		return
+
 	match _phase:
 		"entry":
 			if _near_booth and Input.is_action_just_pressed("interact"):
 				_open_ticket_booth()
-			elif _near_back_door and Input.is_action_just_pressed("interact"):
-				_leave_aquarium()
 		"selection":
 			if _near_animal != "" and Input.is_action_just_pressed("interact"):
 				_choose_animal(_near_animal)
@@ -484,7 +487,12 @@ func _setup_exit_zone() -> void:
 	_exit_zone.body_entered.connect(func(b: Node) -> void:
 		if b.is_in_group("player"):
 			_near_exit = true
-			hint.visible = true
+			if _phase == "sneak" and _disguised:
+				hint.text = "[E] 🚪 EXIT"
+				hint.visible = true
+			elif _phase == "sneak":
+				hint.text = "Disguise the animal first!"
+				hint.visible = true
 	)
 	_exit_zone.body_exited.connect(func(b: Node) -> void:
 		if b.is_in_group("player"):
@@ -538,7 +546,8 @@ func _complete_rescue() -> void:
 
 	# Grant reward
 	var mission_data := MissionDatabase.get_mission(_chosen_mission_id)
-	var rewards: Dictionary = mission_data.get("rewards", {})
+	var rewards: Dictionary = mission_data.get("rewards", {}).duplicate()
+	rewards["source_id"] = _chosen_mission_id
 	RewardManager.grant_reward(rewards)
 	MissionManager.complete_mission(_chosen_mission_id)
 

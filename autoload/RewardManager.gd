@@ -58,19 +58,19 @@ func grant_reward(reward: Dictionary) -> Dictionary:
 	if AuthManager.is_logged_in() and reward.has("source_id"):
 		var result: Dictionary = await CloudSaveManager.grant_reward(reward["source_id"])
 		if result["ok"]:
-			var summary: Dictionary = result.get("data", {})
-			if summary.has("tokens"):
-				emit_signal("tokens_rewarded", int(summary["tokens"]))
-			if summary.has("xp"):
-				emit_signal("xp_rewarded", int(summary["xp"]))
-			if summary.has("nft"):
-				emit_signal("nft_rewarded", {"name": summary["nft"]})
-			if summary.has("item"):
-				emit_signal("item_rewarded", {"name": summary["item"]})
-			emit_signal("reward_granted", summary)
+			var server_summary: Dictionary = result.get("data", {})
+			if server_summary.has("tokens"):
+				emit_signal("tokens_rewarded", int(server_summary["tokens"]))
+			if server_summary.has("xp"):
+				emit_signal("xp_rewarded", int(server_summary["xp"]))
+			if server_summary.has("nft"):
+				emit_signal("nft_rewarded", {"name": server_summary["nft"]})
+			if server_summary.has("item"):
+				emit_signal("item_rewarded", {"name": server_summary["item"]})
+			emit_signal("reward_granted", server_summary)
 			AudioManager.play_sfx("reward")
-			print("[RewardManager] Server reward granted: ", summary)
-			return summary
+			print("[RewardManager] Server reward granted: ", server_summary)
+			return server_summary
 		else:
 			push_error("[RewardManager] Server grant failed: " + result.get("error", ""))
 			# Fall through to local grant so the player isn't left empty-handed.

@@ -201,6 +201,11 @@ func _on_request_completed(result: int, response_code: int, _headers: PackedStri
 
 
 func _finish_request(req: Dictionary, result: Dictionary) -> void:
+	if not result.get("ok", false):
+		var path: String = req.get("path", "")
+		var err: String  = result.get("error", "unknown")
+		emit_signal("request_failed", path, err)
+
 	var waiter: _RequestWaiter = req.get("waiter")
 	if waiter:
 		waiter.resolve(result)

@@ -77,10 +77,10 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 	_mission_data = mission_data
 	_caller = caller
 
-	var cfg: Dictionary = mission_data.get("challenge", {})
-	_rounds = int(cfg.get("rounds", 3))
-	_required_correct = int(cfg.get("required_correct", 2))
-	_tolerance = float(cfg.get("tolerance", 0.12))
+	var cfg := DifficultyManager.scale(mission_data.get("challenge", {}))
+	_rounds           = int(cfg.get("rounds",           3))
+	_required_correct = int(cfg.get("rounds_required",  2))
+	_tolerance        = float(cfg.get("tolerance",      0.12))
 	_current_round = 0
 	_correct_count = 0
 

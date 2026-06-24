@@ -3,7 +3,7 @@ import { GameEmbed } from "../components/GameEmbed";
 import { useAuth } from "../context/AuthContext";
 
 export function Play() {
-  const { user, loading } = useAuth();
+  const { user, session, loading } = useAuth();
 
   if (loading) {
     return (
@@ -51,7 +51,7 @@ export function Play() {
         then use your keyboard to explore. Have fun, {user.email}!
       </p>
 
-      <GameEmbed />
+      <GameEmbed session={session} />
 
       <section className="card glow-card" style={{ marginTop: "1.5rem" }}>
         <h2>Prefer the Godot editor?</h2>
