@@ -156,7 +156,7 @@ SoftViewParallaxLayer.gd::GDScript::3943275676349063396::1781478336::0::1::::<>N
 SoftViewProp.gd::GDScript::5331422802191530987::1781480968::0::1::::<>Node2D<><>0<>0<><>::
 ::res://scripts/npcs/::1781479094
 ArtistPip.gd::GDScript::926143822876193004::1782279937::0::1::::<>StaticBody2D<><>0<>0<><>::
-ChessTutor.gd::GDScript::3695593142418225404::1782280528::0::1::::<>StaticBody2D<><>0<>0<><>::
+ChessTutor.gd::GDScript::3695593142418225404::1782505233::0::1::::<>StaticBody2D<><>0<>0<><>::
 CoachKick.gd::GDScript::6380963138094120104::1782279937::0::1::::<>StaticBody2D<><>0<>0<><>::
 CourseCoach.gd::GDScript::3424765023798827470::1782279937::0::1::::<>StaticBody2D<><>0<>0<><>::
 DaisyDoodles.gd::GDScript::7313554400336346500::1782279937::0::1::::<>CharacterBody2D<><>0<>0<><>::
@@ -196,13 +196,13 @@ StartAreaManager.gd::GDScript::520390968055153895::1781478923::0::1::::<>Node2D<
 AvatarCloset.gd::GDScript::822594634955856106::1782405292::0::1::::<>Control<><>0<>0<><>::
 AvatarCreation.gd::GDScript::570747250551507953::1780762769::0::1::::<>Control<><>0<>0<><>::
 BackpackUI.gd::GDScript::3648021850973758852::1782405286::0::1::::<>Control<><>0<>0<><>::
-ChessPieceIcon.gd::GDScript::7485524388726120819::1782408194::0::1::::ChessPieceIcon<>Control<><>0<>0<><>::
+ChessPieceIcon.gd::GDScript::7485524388726120819::1782505227::0::1::::ChessPieceIcon<>Control<><>0<>0<><>::
 DialogueBox.gd::GDScript::8828956680707371562::1781703559::0::1::::<>Control<><>0<>0<><>::
 GameOverScreen.gd::GDScript::8651405996806780203::1780116627::0::1::::<>CanvasLayer<><>0<>0<><>::
 HUD.gd::GDScript::239803419868423033::1781483149::0::1::::<>CanvasLayer<><>0<>0<><>::
 IconLoader.gd::GDScript::5331212449910041852::1782405085::0::1::::IconLoader<>RefCounted<><>0<>0<><>::
 MainMenu.gd::GDScript::6676398905498928151::1779841541::0::1::::<>Control<><>0<>0<><>::
-PatternShapeIcon.gd::GDScript::9164132967275268214::1782404884::0::1::::PatternShapeIcon<>Control<><>0<>0<><>::
+PatternShapeIcon.gd::GDScript::9164132967275268214::1782505219::0::1::::PatternShapeIcon<>Control<><>0<>0<><>::
 PauseMenu.gd::GDScript::4854753135359873531::1779841889::0::1::::<>Control<><>0<>0<><>::
 PuzzlePanel.gd::GDScript::6335886869707608727::1782405006::0::1::::<>Control<><>0<>0<><>::
 RewardPopup.gd::GDScript::8614245116577535797::1782405301::0::1::::<>Control<><>0<>0<><>::

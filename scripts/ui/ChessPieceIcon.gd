@@ -19,11 +19,11 @@ func _draw() -> void:
 	if _code.length() < 2 or size.x < 4:
 		return
 
-	var kind := _code.substr(1, 1)
-	var white := _code.begins_with("w")
-	var cx := size.x * 0.5
-	var cy := size.y * 0.5
-	var s := min(size.x, size.y) * 0.38
+	var kind: String = _code.substr(1, 1)
+	var white: bool = _code.begins_with("w")
+	var cx: float = size.x * 0.5
+	var cy: float = size.y * 0.5
+	var s: float = minf(size.x, size.y) * 0.38
 
 	# Dark oval shadow under each piece — makes it pop off ANY square color
 	var shadow_col := Color(0.08, 0.05, 0.03, 0.60) if white else Color(0.06, 0.04, 0.02, 0.45)

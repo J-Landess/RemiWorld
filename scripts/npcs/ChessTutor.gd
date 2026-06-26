@@ -90,6 +90,11 @@ func on_challenge_finished(success: bool) -> void:
 
 
 func on_dialogue_finished() -> void:
+	# First-visit dialogue ends → open the chess board regardless of which choice was made.
+	# Post-win success dialogue ends → just release the player.
+	if not MissionManager.is_mission_complete(MISSION_ID):
+		_present_puzzle()
+		return
 	_is_talking = false
 	emit_signal("dialogue_ended")
 

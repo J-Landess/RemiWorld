@@ -20,9 +20,9 @@ func _draw() -> void:
 	if _key == "" or size.x < 4:
 		return
 
-	var cx := size.x * 0.5
-	var cy := size.y * 0.5
-	var r := min(size.x, size.y) * 0.42
+	var cx: float = size.x * 0.5
+	var cy: float = size.y * 0.5
+	var r: float = minf(size.x, size.y) * 0.42
 
 	match _key:
 		"red_circle":
