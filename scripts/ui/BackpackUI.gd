@@ -162,12 +162,10 @@ func _make_item_card(item: Dictionary) -> Control:
 	var vbox := VBoxContainer.new()
 	card.add_child(vbox)
 
-	# Item icon (placeholder colored box)
-	var icon_rect := ColorRect.new()
-	icon_rect.custom_minimum_size = Vector2(80, 80)
 	var rarity: String = item.get("rarity", "common")
-	icon_rect.color = RARITY_COLORS.get(rarity, Color.GRAY)
-	icon_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var icon_rect: Control = IconLoader.make_icon_rect(
+		item.get("icon_path", ""), Vector2(80, 80), rarity
+	)
 	vbox.add_child(icon_rect)
 
 	# Item name
@@ -204,12 +202,10 @@ func _make_nft_card(nft: Dictionary) -> Control:
 	var vbox := VBoxContainer.new()
 	card.add_child(vbox)
 
-	# NFT image placeholder
-	var img_rect := ColorRect.new()
-	img_rect.custom_minimum_size = Vector2(100, 100)
 	var rarity: String = nft.get("rarity", "common")
-	img_rect.color = RARITY_COLORS.get(rarity, Color.GRAY)
-	img_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var img_rect: Control = IconLoader.make_icon_rect(
+		nft.get("image_path", ""), Vector2(100, 100), rarity
+	)
 	vbox.add_child(img_rect)
 
 	# NFT name

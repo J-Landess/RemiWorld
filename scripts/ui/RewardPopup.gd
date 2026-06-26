@@ -33,21 +33,21 @@ func show_reward(reward_summary: Dictionary) -> void:
 	if not title_label or not reward_label:
 		return
 
-	title_label.text = "🎉 Reward Earned!"
+	title_label.text = "Reward Earned!"
 
 	# Build reward text
 	var lines: Array = []
 	if reward_summary.has("tokens"):
-		lines.append("⭐ +%d VIBE Tokens" % reward_summary["tokens"])
+		lines.append("+%d VIBE Tokens" % reward_summary["tokens"])
 	if reward_summary.has("xp"):
-		lines.append("✨ +%d XP" % reward_summary["xp"])
+		lines.append("+%d XP" % reward_summary["xp"])
 	if reward_summary.has("nft"):
-		lines.append("🌟 NFT: %s" % reward_summary["nft"])
+		lines.append("NFT: %s" % reward_summary["nft"])
 	if reward_summary.has("item"):
-		lines.append("🎁 Item: %s" % reward_summary["item"])
+		lines.append("Item: %s" % reward_summary["item"])
 	if reward_summary.has("items"):
 		for item_name in reward_summary["items"]:
-			lines.append("🎁 Item: %s" % item_name)
+			lines.append("Item: %s" % item_name)
 
 	reward_label.text = "\n".join(lines)
 

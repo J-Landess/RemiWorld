@@ -27,10 +27,13 @@ signal answer_selected(index: int, correct: bool)
 # ─────────────────────────────────────────────────────────────
 # INTERNAL STATE
 # ─────────────────────────────────────────────────────────────
+const _SHAPE_KEYS: Array[String] = ["red_circle", "blue_circle", "star", "moon", "question"]
+
 var _puzzle_data: Dictionary = {}
 var _caller: Node = null
 var _answered: bool = false
 var _choice_buttons: Array[Button] = []
+var _pattern_hbox: HBoxContainer = null
 
 
 # ─────────────────────────────────────────────────────────────
@@ -57,8 +60,17 @@ func show_puzzle(puzzle_data: Dictionary, caller: Node) -> void:
 
 	if pattern_label:
 		var pattern: Array = puzzle_data.get("display_pattern", [])
-		pattern_label.text = " → ".join(pattern) if not pattern.is_empty() else ""
-		pattern_label.visible = not pattern.is_empty()
+		pattern_label.visible = false
+		if _pattern_hbox:
+			_pattern_hbox.queue_free()
+			_pattern_hbox = null
+		if not pattern.is_empty():
+			var vbox := pattern_label.get_parent()
+			_pattern_hbox = HBoxContainer.new()
+			_pattern_hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+			vbox.add_child(_pattern_hbox)
+			vbox.move_child(_pattern_hbox, pattern_label.get_index() + 1)
+			_build_pattern_display(pattern, _pattern_hbox)
 
 	# Clear and rebuild choice buttons
 	if choices_container:
@@ -115,6 +127,30 @@ func _input(event: InputEvent) -> void:
 	elif event.keycode == KEY_ESCAPE or event.keycode == KEY_C:
 		get_viewport().set_input_as_handled()
 		_on_close_pressed()
+
+
+# ─────────────────────────────────────────────────────────────
+# PATTERN DISPLAY — shape icons or number labels
+# ─────────────────────────────────────────────────────────────
+func _build_pattern_display(pattern: Array, container: HBoxContainer) -> void:
+	for i in pattern.size():
+		if i > 0:
+			var sep := Label.new()
+			sep.text = "->"
+			sep.add_theme_font_size_override("font_size", 16)
+			sep.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			container.add_child(sep)
+		var key := str(pattern[i])
+		if key in _SHAPE_KEYS:
+			var icon := PatternShapeIcon.new()
+			icon.setup(key, 32.0)
+			container.add_child(icon)
+		else:
+			var lbl := Label.new()
+			lbl.text = key
+			lbl.add_theme_font_size_override("font_size", 22)
+			lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			container.add_child(lbl)
 
 
 # ─────────────────────────────────────────────────────────────

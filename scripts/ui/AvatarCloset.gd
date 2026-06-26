@@ -175,12 +175,10 @@ func _make_closet_card(item: Dictionary, slot: String) -> Control:
 	var vbox := VBoxContainer.new()
 	card.add_child(vbox)
 
-	# Color preview
-	var color_rect := ColorRect.new()
-	color_rect.custom_minimum_size = Vector2(80, 80)
-	color_rect.color = Color(randf_range(0.3, 0.9), randf_range(0.3, 0.9), randf_range(0.3, 0.9))
-	color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	vbox.add_child(color_rect)
+	var icon_rect: Control = IconLoader.make_icon_rect(
+		item.get("icon_path", ""), Vector2(80, 80), item.get("rarity", "common")
+	)
+	vbox.add_child(icon_rect)
 
 	# Name
 	var name_label := Label.new()

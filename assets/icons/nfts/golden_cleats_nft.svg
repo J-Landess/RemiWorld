@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#422006"/>
+  <!-- Cleat sole -->
+  <rect x="8" y="46" width="48" height="8" rx="4" fill="#D97706"/>
+  <!-- Cleat studs -->
+  <circle cx="16" cy="54" r="4" fill="#92400E"/>
+  <circle cx="28" cy="54" r="4" fill="#92400E"/>
+  <circle cx="40" cy="54" r="4" fill="#92400E"/>
+  <circle cx="52" cy="54" r="4" fill="#92400E"/>
+  <!-- Boot body -->
+  <path d="M10 46 L10 24 Q12 16 22 16 L46 18 Q54 20 54 30 L54 46 Z" fill="#B45309"/>
+  <!-- Boot shin padding -->
+  <rect x="14" y="16" width="20" height="22" rx="4" fill="#D97706"/>
+  <!-- Lace eyelets -->
+  <circle cx="20" cy="22" r="2" fill="#92400E"/>
+  <circle cx="20" cy="28" r="2" fill="#92400E"/>
+  <circle cx="28" cy="22" r="2" fill="#92400E"/>
+  <circle cx="28" cy="28" r="2" fill="#92400E"/>
+  <!-- Laces -->
+  <line x1="20" y1="22" x2="28" y2="22" stroke="#FEF3C7" stroke-width="1.5"/>
+  <line x1="20" y1="28" x2="28" y2="28" stroke="#FEF3C7" stroke-width="1.5"/>
+  <!-- Gold star badge -->
+  <polygon points="44,12 45.5,17 50.5,17 46.5,20 48,25 44,22 40,25 41.5,20 37.5,17 42.5,17" fill="#FBBF24"/>
+</svg>

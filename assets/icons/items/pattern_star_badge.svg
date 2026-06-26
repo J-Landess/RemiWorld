@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#0F172A"/>
+  <!-- Badge shield shape -->
+  <path d="M32 8 L54 18 L54 38 Q54 54 32 60 Q10 54 10 38 L10 18 Z" fill="#1E293B"/>
+  <!-- Shield border -->
+  <path d="M32 10 L52 19 L52 38 Q52 53 32 58 Q12 53 12 38 L12 19 Z" stroke="#6366F1" stroke-width="1.5" fill="none"/>
+  <!-- Central 8-point star -->
+  <polygon points="32,16 34.5,24 42,24 36.5,29 38.5,37 32,32.5 25.5,37 27.5,29 22,24 29.5,24" fill="#F59E0B" stroke="#D97706" stroke-width="1"/>
+  <!-- Dot accents -->
+  <circle cx="32" cy="46" r="3" fill="#6366F1"/>
+  <circle cx="24" cy="44" r="2" fill="#818CF8"/>
+  <circle cx="40" cy="44" r="2" fill="#818CF8"/>
+</svg>

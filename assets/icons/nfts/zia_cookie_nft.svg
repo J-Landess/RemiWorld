@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#1C0A00"/>
+  <!-- Cookie circle -->
+  <circle cx="32" cy="32" r="24" fill="#D97706"/>
+  <!-- Cookie texture - lighter base -->
+  <circle cx="32" cy="32" r="22" fill="#F59E0B"/>
+  <!-- Chocolate chips -->
+  <circle cx="22" cy="24" r="4" fill="#78350F"/>
+  <circle cx="38" cy="20" r="4" fill="#78350F"/>
+  <circle cx="44" cy="34" r="4" fill="#78350F"/>
+  <circle cx="26" cy="40" r="4" fill="#78350F"/>
+  <circle cx="36" cy="42" r="3" fill="#78350F"/>
+  <circle cx="18" cy="36" r="3" fill="#78350F"/>
+  <!-- Sparkle decoration (Zia's special cookie) -->
+  <polygon points="32,10 33,13 36,13 34,15 34.5,18 32,16.5 29.5,18 30,15 28,13 31,13" fill="#FDE68A"/>
+  <!-- Star bottom -->
+  <polygon points="32,54 33,58 36,58 34,60 34.5,63 32,61.5 29.5,63 30,60 28,58 31,58" fill="#FDE68A"/>
+</svg>

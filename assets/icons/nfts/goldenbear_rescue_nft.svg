@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#1C1003"/>
+  <!-- Golden glow ring -->
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#FBBF24" stroke-width="3" opacity="0.5"/>
+  <!-- Bear head -->
+  <circle cx="32" cy="33" r="18" fill="#D97706"/>
+  <!-- Round ears -->
+  <circle cx="18" cy="19" r="8" fill="#D97706"/>
+  <circle cx="46" cy="19" r="8" fill="#D97706"/>
+  <circle cx="18" cy="19" r="5" fill="#F59E0B"/>
+  <circle cx="46" cy="19" r="5" fill="#F59E0B"/>
+  <!-- Snout -->
+  <ellipse cx="32" cy="39" rx="9" ry="7" fill="#F59E0B"/>
+  <!-- Eyes (golden bear - sparkly) -->
+  <circle cx="26" cy="29" r="4" fill="#1C1917"/>
+  <circle cx="38" cy="29" r="4" fill="#1C1917"/>
+  <circle cx="27" cy="28" r="2" fill="#FDE68A"/>
+  <circle cx="39" cy="28" r="2" fill="#FDE68A"/>
+  <!-- Nose -->
+  <ellipse cx="32" cy="37" rx="3.5" ry="2.5" fill="#1C1917"/>
+  <!-- Golden star crown -->
+  <polygon points="32,8 33.5,13 38.5,13 34.5,16.5 36,21 32,18.5 28,21 29.5,16.5 25.5,13 30.5,13" fill="#FBBF24" stroke="#D97706" stroke-width="1"/>
+</svg>

@@ -122,10 +122,10 @@ func _make_store_card(item: Dictionary) -> Control:
 	var can_afford: bool = GameState.vibe_tokens >= price
 
 	if already_owned:
-		buy_btn.text = "✅ Owned"
+		buy_btn.text = "Owned"
 		buy_btn.disabled = true
 	elif not can_afford:
-		buy_btn.text = "🔒 Need %d VIBE" % price
+		buy_btn.text = "Need %d VIBE" % price
 		buy_btn.disabled = true
 		buy_btn.modulate = Color(0.6, 0.6, 0.6)
 	else:
@@ -155,12 +155,12 @@ func _on_buy_pressed(item: Dictionary, button: Button) -> void:
 		InventoryManager.add_item(owned_item)
 
 		# Update button to show it's owned
-		button.text = "✅ Owned"
+		button.text = "Owned"
 		button.disabled = true
 
 		# Show success message
 		if status_label:
-			status_label.text = "✅ Purchased: %s!" % item.get("name", "item")
+			status_label.text = "Purchased: %s!" % item.get("name", "item")
 			status_label.modulate = Color(0.2, 0.9, 0.2)
 
 		# Save progress
@@ -174,7 +174,7 @@ func _on_buy_pressed(item: Dictionary, button: Button) -> void:
 	else:
 		# Not enough tokens
 		if status_label:
-			status_label.text = "❌ Not enough VIBE tokens!"
+			status_label.text = "Not enough VIBE tokens!"
 			status_label.modulate = Color(0.9, 0.3, 0.3)
 
 

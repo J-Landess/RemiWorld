@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#6D28D9"/>
+  <!-- Shirt body -->
+  <path d="M16 20 L8 30 L16 32 L16 56 L48 56 L48 32 L56 30 L48 20 L40 26 Q32 30 24 26 Z" fill="#7C3AED"/>
+  <!-- Collar -->
+  <path d="M24 26 Q32 32 40 26" stroke="#A78BFA" stroke-width="2" fill="none"/>
+  <!-- Sparkle 1 -->
+  <polygon points="32,14 33.5,18 37.5,18 34.5,21 35.5,25 32,22.5 28.5,25 29.5,21 26.5,18 30.5,18" fill="#F9A8D4"/>
+  <!-- Sparkle 2 small -->
+  <polygon points="20,36 21,39 24,39 22,41 22.5,44 20,42.5 17.5,44 18,41 16,39 19,39" fill="#FDE68A" transform="scale(0.7) translate(9,14)"/>
+  <!-- Sparkle 3 small -->
+  <polygon points="44,36 45,39 48,39 46,41 46.5,44 44,42.5 41.5,44 42,41 40,39 43,39" fill="#A5F3FC" transform="scale(0.7) translate(-7,14)"/>
+</svg>

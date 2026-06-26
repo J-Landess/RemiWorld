@@ -5,11 +5,6 @@ const BOARD_SIZE := 8
 
 enum Mode { VS_HUSTLER_AI, TWO_PLAYERS_LOCAL }
 
-const PIECE_CHARS: Dictionary = {
-	"wK": "♔", "wQ": "♕", "wR": "♖", "wB": "♗", "wN": "♘", "wP": "♙",
-	"bK": "♚", "bQ": "♛", "bR": "♜", "bB": "♝", "bN": "♞", "bP": "♟",
-}
-
 @onready var title_label: Label = $Panel/VBox/Title
 @onready var subtitle_label: Label = $Panel/VBox/Subtitle
 @onready var mode_label: Label = $Panel/VBox/ModeLabel
@@ -27,6 +22,7 @@ var _turn_is_white: bool = true
 var _selected: Vector2i = Vector2i(-1, -1)
 var _legal_dests: Array[Vector2i] = []
 var _buttons: Array[Button] = []
+var _piece_icons: Array = []
 
 
 func _ready() -> void:
@@ -46,7 +42,7 @@ func show_challenge(_mission_data: Dictionary, caller: Node) -> void:
 	randomize()
 
 	if title_label:
-		title_label.text = "♟️  Chess Park"
+		title_label.text = "Chess Park"
 	if subtitle_label:
 		subtitle_label.text = "NYC/DC vibes — trash talk optional."
 
@@ -60,6 +56,7 @@ func _build_board_ui() -> void:
 	for child in grid.get_children():
 		child.queue_free()
 	_buttons.clear()
+	_piece_icons.clear()
 	grid.columns = BOARD_SIZE
 
 	for row in BOARD_SIZE:
@@ -67,7 +64,6 @@ func _build_board_ui() -> void:
 			var btn := Button.new()
 			btn.custom_minimum_size = Vector2(46, 46)
 			btn.focus_mode = Control.FOCUS_NONE
-			btn.add_theme_font_size_override("font_size", 22)
 
 			var is_dark := ((row + col) % 2) == 1
 			var style := StyleBoxFlat.new()
@@ -81,9 +77,14 @@ func _build_board_ui() -> void:
 			hover.bg_color = (style.bg_color as Color).lightened(0.10)
 			btn.add_theme_stylebox_override("hover", hover)
 
+			var icon := ChessPieceIcon.new()
+			icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			btn.add_child(icon)
+
 			btn.pressed.connect(_on_cell_pressed.bind(Vector2i(col, row)))
 			grid.add_child(btn)
 			_buttons.append(btn)
+			_piece_icons.append(icon)
 
 
 func _start_new_game() -> void:
@@ -136,19 +137,16 @@ func _render() -> void:
 		for x in BOARD_SIZE:
 			var idx := y * BOARD_SIZE + x
 			var btn: Button = _buttons[idx]
+			var icon: ChessPieceIcon = _piece_icons[idx]
 			var code: String = str(_board[y][x])
-			btn.text = PIECE_CHARS.get(code, "")
+			icon.setup(code)
 
-			# base tint for piece color
 			btn.modulate = Color(1, 1, 1, 1)
-			if code.begins_with("b"):
-				btn.modulate = Color(0.85, 0.85, 0.92)
-
 			var pos := Vector2i(x, y)
 			if pos == _selected:
-				btn.modulate = Color(0.65, 1.0, 0.75) # selected
+				btn.modulate = Color(0.65, 1.0, 0.75)
 			elif pos in _legal_dests:
-				btn.modulate = Color(0.60, 0.95, 0.65, 0.9) # legal move highlight
+				btn.modulate = Color(0.60, 0.95, 0.65, 0.9)
 
 
 func _on_cell_pressed(pos: Vector2i) -> void:

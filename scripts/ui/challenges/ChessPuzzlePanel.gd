@@ -32,6 +32,7 @@ var _hero: Vector2i = Vector2i.ZERO
 var _hero_type: String = "wK"
 var _safe_squares: Array = []
 var _buttons: Array = []
+var _piece_icons: Array = []
 
 
 func _ready() -> void:
@@ -52,7 +53,7 @@ func show_challenge(mission_data: Dictionary, caller: Node) -> void:
 	_correct_count = 0
 
 	if title_label:
-		title_label.text = "♞  %s" % mission_data.get("title", "Save the Piece")
+		title_label.text = mission_data.get("title", "Save the Piece")
 	if close_button:
 		close_button.text = "Give Up"
 
@@ -67,6 +68,7 @@ func _build_board() -> void:
 	for child in grid.get_children():
 		child.queue_free()
 	_buttons.clear()
+	_piece_icons.clear()
 	grid.columns = ChessPuzzleData.BOARD_SIZE
 
 	for row in ChessPuzzleData.BOARD_SIZE:
@@ -74,7 +76,6 @@ func _build_board() -> void:
 			var btn := Button.new()
 			btn.custom_minimum_size = Vector2(44, 44)
 			btn.focus_mode = Control.FOCUS_NONE
-			btn.add_theme_font_size_override("font_size", 22)
 			var is_dark := ((row + col) % 2) == 1
 			var style := StyleBoxFlat.new()
 			style.bg_color = Color(0.28, 0.18, 0.12) if is_dark else Color(0.93, 0.88, 0.78)
@@ -82,9 +83,15 @@ func _build_board() -> void:
 			var hover := style.duplicate()
 			hover.bg_color = (style.bg_color as Color).lightened(0.12)
 			btn.add_theme_stylebox_override("hover", hover)
+
+			var icon := ChessPieceIcon.new()
+			icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			btn.add_child(icon)
+
 			btn.pressed.connect(_on_cell_pressed.bind(Vector2i(col, row)))
 			grid.add_child(btn)
 			_buttons.append(btn)
+			_piece_icons.append(icon)
 
 
 func _start_round() -> void:
@@ -113,6 +120,7 @@ func _render_board() -> void:
 			var pos := Vector2i(col, row)
 			var idx := row * ChessPuzzleData.BOARD_SIZE + col
 			var btn: Button = _buttons[idx]
+			var icon: ChessPieceIcon = _piece_icons[idx]
 			btn.disabled = false
 			btn.modulate = Color(1, 1, 1, 1)
 
@@ -121,14 +129,12 @@ func _render_board() -> void:
 				piece_code = str(_board[row][col])
 
 			if pos == _hero:
-				btn.text = ChessPuzzleData.piece_char(_hero_type)
+				icon.setup(_hero_type)
 				btn.modulate = Color(1.0, 0.45, 0.45)
 			elif piece_code != "":
-				btn.text = ChessPuzzleData.piece_char(piece_code)
-				if piece_code.begins_with("b"):
-					btn.modulate = Color(0.75, 0.75, 0.82)
+				icon.setup(piece_code)
 			else:
-				btn.text = ""
+				icon.setup("")
 				if pos in _legal_moves(_hero, _hero_type):
 					btn.modulate = Color(0.55, 0.95, 0.65, 0.85)
 
@@ -193,8 +199,11 @@ func _on_cell_pressed(clicked: Vector2i) -> void:
 
 	var clicked_idx := clicked.y * ChessPuzzleData.BOARD_SIZE + clicked.x
 	if correct:
-		_buttons[clicked_idx].text = ChessPuzzleData.piece_char(_hero_type)
+		_piece_icons[clicked_idx].setup(_hero_type)
 		_buttons[clicked_idx].modulate = Color(0.35, 1.0, 0.45)
+		# Clear the hero's old cell
+		var hero_idx := _hero.y * ChessPuzzleData.BOARD_SIZE + _hero.x
+		_piece_icons[hero_idx].setup("")
 		_correct_count += 1
 		if feedback_label:
 			feedback_label.text = "✅  Piece saved!"

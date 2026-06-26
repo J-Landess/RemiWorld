@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#450A29"/>
+  <!-- Heart shape -->
+  <path d="M32 52 Q12 38 12 24 Q12 14 20 14 Q26 14 32 22 Q38 14 44 14 Q52 14 52 24 Q52 38 32 52 Z" fill="#EC4899"/>
+  <!-- Inner heart lighter -->
+  <path d="M32 46 Q17 34 17 24 Q17 18 22 18 Q27 18 32 25 Q37 18 42 18 Q47 18 47 24 Q47 34 32 46 Z" fill="#F9A8D4"/>
+  <!-- Paw print in center -->
+  <circle cx="32" cy="30" r="5" fill="#BE185D"/>
+  <circle cx="24" cy="24" r="3" fill="#BE185D"/>
+  <circle cx="32" cy="22" r="3" fill="#BE185D"/>
+  <circle cx="40" cy="24" r="3" fill="#BE185D"/>
+</svg>

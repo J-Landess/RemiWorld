@@ -23,16 +23,16 @@ static func tier_label(level: int) -> String:
 static func _pattern_puzzle(tier: int) -> Dictionary:
 	var puzzles: Array = [
 		{
-			"question": "What comes next?\n🔴 Red, 🔵 Blue, 🔴 Red, 🔵 Blue, ___?",
-			"display_pattern": ["🔴", "🔵", "🔴", "🔵", "❓"],
+			"question": "What comes next?\nRed, Blue, Red, Blue, ___?",
+			"display_pattern": ["red_circle", "blue_circle", "red_circle", "blue_circle", "question"],
 			"choices": ["Red", "Blue", "Green"],
 			"correct_index": 0,
 			"hint": "The colors alternate.",
 			"explanation": "Red, Blue, Red, Blue — next is Red!",
 		},
 		{
-			"question": "What comes next?\n⭐ Star, 🌙 Moon, ⭐ Star, 🌙 Moon, ___?",
-			"display_pattern": ["⭐", "🌙", "⭐", "🌙", "❓"],
+			"question": "What comes next?\nStar, Moon, Star, Moon, ___?",
+			"display_pattern": ["star", "moon", "star", "moon", "question"],
 			"choices": ["Star", "Moon", "Sun"],
 			"correct_index": 0,
 			"hint": "Star and Moon take turns.",
@@ -40,7 +40,7 @@ static func _pattern_puzzle(tier: int) -> Dictionary:
 		},
 		{
 			"question": "What comes next?\n1, 2, 3, 4, ___?",
-			"display_pattern": ["1", "2", "3", "4", "❓"],
+			"display_pattern": ["1", "2", "3", "4", "question"],
 			"choices": ["5", "4", "6"],
 			"correct_index": 0,
 			"hint": "Count up by one each time.",
